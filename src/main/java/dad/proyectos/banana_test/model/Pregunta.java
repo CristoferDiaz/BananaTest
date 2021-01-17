@@ -34,13 +34,25 @@ public abstract class Pregunta extends BorderPane implements Initializable {
 	 * Constructor por defecto de la clase. Limitado a protegido
 	 * para que nadie salvo las clases hijas puedan invocarlo y así evitar
 	 * que se construyan objetos Pregunta sin tener valores asignados.
+	 * 
+	 * Inicializa el identificador de pregunta a un valor por defecto (-1).
 	 */
 	protected Pregunta() {
-		super();
+		this(-1);
 	}
 	
 	/**
-	 * Método abstracto indicado de especificar si una pregunta se encuentra como
+	 * Constructor extendido de la clase. Limitado a protegido
+	 * para que nadie salvo las clases hijas puedan invocarlo y así evitar
+	 * que se construyan objetos Pregunta sin tener valores asignados.
+	 */
+	protected Pregunta(int id) {
+		super();
+		idPregunta.set(id);
+	}
+	
+	/**
+	 * Método abstracto encargado de especificar si una pregunta se encuentra como
 	 * correcta o no. Cada clase hija será la encargada de implementar cómo se
 	 * evaluará si se encuentra en estado correcto o no.
 	 * @return true si la pregunta es correcta.
