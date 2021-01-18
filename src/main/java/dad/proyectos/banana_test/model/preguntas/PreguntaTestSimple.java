@@ -58,6 +58,8 @@ public class PreguntaTestSimple extends Pregunta {
 	public PreguntaTestSimple(String textoPregunta, String[] respuestas) {
 		super();
 		
+		tipoPregunta = TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE;
+		
 		if (respuestas.length != TOTAL_RESPUESTAS)
 			throw new IllegalArgumentException("Se esperaban un total de " + TOTAL_RESPUESTAS + " respuestas.");
 		
@@ -86,6 +88,7 @@ public class PreguntaTestSimple extends Pregunta {
 			if (nv != null) {
 				RadioButton radioButton = (RadioButton) nv;
 				correcta.set(radioButton.getText().equals(respuestaValida.get()));
+				System.out.println(correcta);
 			}
 		});
 	}

@@ -57,6 +57,9 @@ public class PreguntaTestMultiple extends Pregunta {
 	 */
 	public PreguntaTestMultiple(String textoPregunta, String[] textosRespuestas, boolean[] correctas) {
 		super();
+		
+		tipoPregunta = TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE;
+		
 		if (textosRespuestas.length != TOTAL_RESPUESTAS || correctas.length != TOTAL_RESPUESTAS)
 			throw new IllegalArgumentException("Se esperaban un total de " + TOTAL_RESPUESTAS + " respuestas.");
 		

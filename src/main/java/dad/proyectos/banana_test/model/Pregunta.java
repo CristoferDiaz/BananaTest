@@ -23,6 +23,8 @@ public abstract class Pregunta extends BorderPane implements Initializable {
 		TEST_RESPUESTA_MULTIPLE
 	}
 	
+	protected TIPO_PREGUNTA tipoPregunta;
+	
 	// model
 	
 	protected IntegerProperty idPregunta = new SimpleIntegerProperty();
@@ -66,6 +68,10 @@ public abstract class Pregunta extends BorderPane implements Initializable {
 	 * @return array de String con los textos de cada una de las respuestas
 	 */
 	public abstract StringProperty[] obtenerRespuestas();
+	
+	public TIPO_PREGUNTA getTipoPregunta() {
+		return tipoPregunta;
+	}
 	
 	public final IntegerProperty idPreguntaProperty() {
 		return this.idPregunta;
