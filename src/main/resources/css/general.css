@@ -1,0 +1,7 @@
+.tab-pane {
+	-fx-background-image: url(../images/logo/bananatest_logo_background.png);
+	-fx-background-size: auto;
+	-fx-background-repeat: no-repeat;
+	-fx-background-color:transparent;
+	-fx-background-position: center;
+}

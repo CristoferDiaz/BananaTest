@@ -1,6 +1,8 @@
 package dad.proyectos.banana_test;
 
+import dad.proyectos.banana_test.controller.MainController;
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -10,13 +12,15 @@ import javafx.stage.Stage;
  * @author Crmprograming
  */
 public class App extends Application {
+	
+	private MainController mainController;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO: Especificar controlador principal
+		mainController = new MainController();
 						
-//		Scene escena = new Scene(pts.getView());
-//		primaryStage.setScene(escena);
+		Scene escena = new Scene(mainController.getView());
+		primaryStage.setScene(escena);
 		primaryStage.setTitle("BananaTest");
 		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
 		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
