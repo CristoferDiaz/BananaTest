@@ -65,8 +65,9 @@ public abstract class Intermedio {
 
 	// Funcion con la que poder visualizar todos los examenes de la tabla
 	// bt_examenes
-	public void visualizarExamenes() {
+	public boolean visualizarExamenes() {
 		Connection con = conectarmysql();
+		boolean resultado = false;
 		int id;
 		String nombre, descGeneral;
 		try {
@@ -80,11 +81,14 @@ public abstract class Intermedio {
 				descGeneral = rs.getString("descripcionGeneral");
 			}
 
+			resultado = true;
 			rs.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return resultado;
 	}
 	
 }
