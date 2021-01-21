@@ -8,6 +8,16 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public abstract class Intermedio {
+	
+	/**
+	 * Clase abstracta intermedia entre el proyecto y la base de datos donde
+	 * se haran operaciones basicas como crear, eliminar, modificar y visualizar
+	 * tanto la tabla bt_examenes como la tabla bt_preguntas
+	 * 
+	 * 
+	 * 
+	 * @author SamirElKharrat
+	 */
 
 	static Connection conexion = null;
 	static Scanner sc = new Scanner(System.in);
@@ -35,8 +45,10 @@ public abstract class Intermedio {
 		}
 	}
 
-	// Funcion con la que poder visualizar todas las preguntas de la tabla
-	// bt_preguntas
+	/** Funcion con la que poder visualizar todas las preguntas de la tabla
+	* bt_preguntas
+	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
+	*/
 	public boolean visualizarPreguntas() {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -63,8 +75,10 @@ public abstract class Intermedio {
 		return resultado;
 	}
 
-	// Funcion con la que poder visualizar todos los examenes de la tabla
-	// bt_examenes
+	/** Funcion con la que poder visualizar todos los examenes de la tabla
+	* bt_examenes
+	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
+	*/
 	public boolean visualizarExamenes() {
 		Connection con = conectarmysql();
 		boolean resultado = false;
