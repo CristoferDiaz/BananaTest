@@ -156,4 +156,24 @@ public abstract class Intermedio {
 		
 	}
 	
+	public static boolean modificarPregunta(Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("UPDATE bt_preguntas SET tipoPregunta=?, contenido=? " + "WHERE id = ?");
+			stmt.setObject(1, pregunta.getTipoPregunta());
+			stmt.setString(2, pregunta.getPregunta());
+			stmt.setInt(3, pregunta.getIdPregunta());
+			
+			stmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		
+		
+		return resultado;
+	}
+	
 }
