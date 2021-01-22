@@ -34,7 +34,7 @@ public abstract class Intermedio {
 			Class.forName(driver);
 			conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/bananatest", "root", "");
 		} catch (Exception e) {
-
+			
 		}
 		return conexion;
 
@@ -44,8 +44,8 @@ public abstract class Intermedio {
 	static void desconectarBD() {
 		try {
 			conexion.close();
-		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
+		} catch (SQLException e) {
+			
 		}
 	}
 
@@ -53,7 +53,7 @@ public abstract class Intermedio {
 	* bt_preguntas
 	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	*/
-	public static boolean visualizarPreguntas() {
+	public static boolean visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		int id;
@@ -74,7 +74,7 @@ public abstract class Intermedio {
 			rs.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			error[0] = e.getLocalizedMessage();
 		}
 		
 		return resultado;
@@ -84,7 +84,7 @@ public abstract class Intermedio {
 	* bt_examenes
 	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	*/
-	public static boolean visualizarExamenes() {
+	public static boolean visualizarExamenes(String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		int id;
@@ -106,14 +106,14 @@ public abstract class Intermedio {
 			
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			error[0] = e.getLocalizedMessage();
 		}
 		
 		return resultado;
 	}
 	
 	
-	public static boolean crearPregunta(Pregunta pregunta) {
+	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		try {
@@ -127,7 +127,7 @@ public abstract class Intermedio {
 			
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			error[0] = e.getLocalizedMessage();
 		}
 		
 		
@@ -135,7 +135,7 @@ public abstract class Intermedio {
 		
 	}
 	
-	public static boolean crearExamen(Examen examen) {
+	public static boolean crearExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		try {
@@ -149,7 +149,7 @@ public abstract class Intermedio {
 			
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
+			error[0] = e.getLocalizedMessage();
 		}
 		
 		return false;
