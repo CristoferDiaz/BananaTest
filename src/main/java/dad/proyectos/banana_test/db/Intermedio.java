@@ -2,10 +2,14 @@ package dad.proyectos.banana_test.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+
+import dad.proyectos.banana_test.model.Examen;
+import dad.proyectos.banana_test.model.Pregunta;
 
 public abstract class Intermedio {
 	
@@ -37,7 +41,7 @@ public abstract class Intermedio {
 	}
 
 	// Funcion para desconectarse de la base de datos
-	void desconectarBD() {
+	static void desconectarBD() {
 		try {
 			conexion.close();
 		} catch (SQLException ex) {
@@ -49,7 +53,7 @@ public abstract class Intermedio {
 	* bt_preguntas
 	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	*/
-	public boolean visualizarPreguntas() {
+	public static boolean visualizarPreguntas() {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		int id;
@@ -66,6 +70,7 @@ public abstract class Intermedio {
 			}
 
 			resultado = true;
+			desconectarBD();
 			rs.close();
 
 		} catch (SQLException e) {
@@ -79,7 +84,7 @@ public abstract class Intermedio {
 	* bt_examenes
 	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	*/
-	public boolean visualizarExamenes() {
+	public static boolean visualizarExamenes() {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		int id;
@@ -96,7 +101,9 @@ public abstract class Intermedio {
 			}
 
 			resultado = true;
+			desconectarBD();
 			rs.close();
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,5 +111,30 @@ public abstract class Intermedio {
 		
 		return resultado;
 	}
+	
+	
+	public static boolean crearPregunta(Pregunta pregunta) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+			stmt.setObject(1, pregunta.getTipoPregunta());
+			stmt.setString(2, pregunta.getPregunta());
+			
+			stmt.executeUpdate();
+			resultado = true;
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return false;
+		
+	}
+	
+
 	
 }
