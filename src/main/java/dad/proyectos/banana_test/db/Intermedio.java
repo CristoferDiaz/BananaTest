@@ -135,6 +135,25 @@ public abstract class Intermedio {
 		
 	}
 	
-
+	public static boolean crearExamen(Examen examen) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)");
+			stmt.setString(1, examen.getNombre());
+			stmt.setString(2, examen.getDescripcion());
+			
+			stmt.executeUpdate();
+			resultado = true;
+			
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+	}
 	
 }
