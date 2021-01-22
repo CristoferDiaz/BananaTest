@@ -12,11 +12,11 @@ import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 
 public abstract class Intermedio {
-	
+
 	/**
-	 * Clase abstracta intermedia entre el proyecto y la base de datos donde
-	 * se haran operaciones basicas como crear, eliminar, modificar y visualizar
-	 * tanto la tabla bt_examenes como la tabla bt_preguntas
+	 * Clase abstracta intermedia entre el proyecto y la base de datos donde se
+	 * haran operaciones basicas como crear, eliminar, modificar y visualizar tanto
+	 * la tabla bt_examenes como la tabla bt_preguntas
 	 * 
 	 * 
 	 * 
@@ -34,7 +34,7 @@ public abstract class Intermedio {
 			Class.forName(driver);
 			conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/bananatest", "root", "");
 		} catch (Exception e) {
-			
+
 		}
 		return conexion;
 
@@ -45,14 +45,16 @@ public abstract class Intermedio {
 		try {
 			conexion.close();
 		} catch (SQLException e) {
-			
+
 		}
 	}
 
-	/** Funcion con la que poder visualizar todas las preguntas de la tabla
-	* bt_preguntas
-	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
-	*/
+	/**
+	 * Funcion con la que poder visualizar todas las preguntas de la tabla
+	 * bt_preguntas
+	 * 
+	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
+	 */
 	public static boolean visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -76,14 +78,16 @@ public abstract class Intermedio {
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return resultado;
 	}
 
-	/** Funcion con la que poder visualizar todos los examenes de la tabla
-	* bt_examenes
-	* @param resultado Boolean para comprobar si se pudo hacer o no la operación
-	*/
+	/**
+	 * Funcion con la que poder visualizar todos los examenes de la tabla
+	 * bt_examenes
+	 * 
+	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
+	 */
 	public static boolean visualizarExamenes(String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -103,16 +107,14 @@ public abstract class Intermedio {
 			resultado = true;
 			desconectarBD();
 			rs.close();
-			
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return resultado;
 	}
-	
-	
+
 	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -121,20 +123,18 @@ public abstract class Intermedio {
 			stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
 			stmt.setObject(1, pregunta.getTipoPregunta());
 			stmt.setString(2, pregunta.getPregunta());
-			
+
 			stmt.executeUpdate();
 			resultado = true;
-			
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
-		
+
 		return false;
-		
+
 	}
-	
+
 	public static boolean crearExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -143,19 +143,18 @@ public abstract class Intermedio {
 			stmt = con.prepareStatement("INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)");
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
-			
+
 			stmt.executeUpdate();
 			resultado = true;
-			
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return false;
-		
+
 	}
-	
+
 	public static boolean modificarPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -165,15 +164,32 @@ public abstract class Intermedio {
 			stmt.setObject(1, pregunta.getTipoPregunta());
 			stmt.setString(2, pregunta.getPregunta());
 			stmt.setInt(3, pregunta.getIdPregunta());
-			
+
 			stmt.executeUpdate();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
-		
+
 		return resultado;
 	}
-	
+
+	public static boolean modificarExamen(Examen examen, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("UPDATE bt_examenes SET nombre=?, descripcionGeneral=? " + "WHERE id = ?");
+            stmt.setString(1, examen.getNombre());
+            stmt.setString(2, examen.getDescripcion());
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+	}
+
 }
