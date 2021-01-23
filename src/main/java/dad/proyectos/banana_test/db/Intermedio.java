@@ -86,7 +86,7 @@ public abstract class Intermedio {
 	
 	
 	/**
-	 * Funcion con la que poder crear Preguntas
+	 * Funcion con la que poder crear preguntas
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
 	 * @param error Array encargada de la gestion de los errores o excepciones 
@@ -113,7 +113,7 @@ public abstract class Intermedio {
 	}
 	
 	/**
-	 * Funcion con la que poder modificar Preugntas
+	 * Funcion con la que poder modificar preugntas
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
 	 * @param error Array encargada de la gestion de los errores o excepciones 
@@ -138,6 +138,13 @@ public abstract class Intermedio {
 		return resultado;
 	}
 	
+	/**
+	 * Funcion con la que poder eliminar preguntas
+	 * 
+	 * @param pregunta Objeto de la clase Preungtas
+	 * @param error Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 */
 	public static boolean eliminarPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -155,6 +162,8 @@ public abstract class Intermedio {
 		
 		return resultado;
 	}
+	
+	//Examenes
 
 	/**
 	 * Funcion con la que poder visualizar todos los examenes de la tabla
@@ -194,7 +203,7 @@ public abstract class Intermedio {
 	/**
 	 * Funcion con la que poder crear examenes
 	 * 
-	 * @param pregunta Objeto de la clase Pregunta
+	 * @param examen Objeto de la clase Examen
 	 * @param error Array encargada de la gestion de los errores o excepciones 
 	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
 	 */
@@ -222,7 +231,7 @@ public abstract class Intermedio {
     /**
      * Funcion con la que poder modificar examenes
      * 
-	 * @param pregunta Objeto de la clase Pregunta
+	 * @param examen Objeto de la clase Examen
 	 * @param error Array encargada de la gestion de los errores o excepciones 
 	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
      */
@@ -245,6 +254,13 @@ public abstract class Intermedio {
 		return resultado;
 	}
 	
+	/**
+	 * Funcion con la que poder eliminar Examenes
+	 * 
+	 * @param examen Objeto de la clase Examen
+	 * @param error  Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 */
 	public static boolean eliminarExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
