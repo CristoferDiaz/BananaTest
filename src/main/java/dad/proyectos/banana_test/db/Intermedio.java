@@ -48,6 +48,8 @@ public abstract class Intermedio {
 
 		}
 	}
+	
+	//Preguntas
 
 	/**
 	 * Funcion con la que poder visualizar todas las preguntas de la tabla
@@ -74,6 +76,60 @@ public abstract class Intermedio {
 			resultado = true;
 			desconectarBD();
 			rs.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+	}
+	
+	
+	/**
+	 * Funcion con la que poder crear Preguntas
+	 * 
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 */
+	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+			stmt.setObject(1, pregunta.getTipoPregunta());
+			stmt.setString(2, pregunta.getPregunta());
+
+			stmt.executeUpdate();
+			resultado = true;
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * Funcion con la que poder modificar Preugntas
+	 * 
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 */
+	public static boolean modificarPregunta(Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("UPDATE bt_preguntas SET tipoPregunta=?, contenido=? " + "WHERE id = ?");
+			stmt.setObject(1, pregunta.getTipoPregunta());
+			stmt.setString(2, pregunta.getPregunta());
+			stmt.setInt(3, pregunta.getIdPregunta());
+
+			stmt.executeUpdate();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -115,26 +171,15 @@ public abstract class Intermedio {
 		return resultado;
 	}
 
-	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
-		Connection con = conectarmysql();
-		boolean resultado = false;
-		try {
-			PreparedStatement stmt;
-			stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
-			stmt.setObject(1, pregunta.getTipoPregunta());
-			stmt.setString(2, pregunta.getPregunta());
 
-			stmt.executeUpdate();
-			resultado = true;
 
-		} catch (SQLException e) {
-			error[0] = e.getLocalizedMessage();
-		}
-
-		return false;
-
-	}
-
+	/**
+	 * Funcion con la que poder crear examenes
+	 * 
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 */
 	public static boolean crearExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
@@ -155,25 +200,14 @@ public abstract class Intermedio {
 
 	}
 
-	public static boolean modificarPregunta(Pregunta pregunta, String[] error) {
-		Connection con = conectarmysql();
-		boolean resultado = false;
-		try {
-			PreparedStatement stmt;
-			stmt = con.prepareStatement("UPDATE bt_preguntas SET tipoPregunta=?, contenido=? " + "WHERE id = ?");
-			stmt.setObject(1, pregunta.getTipoPregunta());
-			stmt.setString(2, pregunta.getPregunta());
-			stmt.setInt(3, pregunta.getIdPregunta());
 
-			stmt.executeUpdate();
-
-		} catch (SQLException e) {
-			error[0] = e.getLocalizedMessage();
-		}
-
-		return resultado;
-	}
-
+    /**
+     * Funcion con la que poder modificar examenes
+     * 
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones 
+	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+     */
 	public static boolean modificarExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
