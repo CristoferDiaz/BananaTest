@@ -143,7 +143,7 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM t_preguntas where id = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id = ?");
 			stmt.setInt(1, pregunta.getIdPregunta());
 			
 			stmt.executeUpdate();
@@ -236,11 +236,30 @@ public abstract class Intermedio {
             stmt.setString(2, examen.getDescripcion());
 
 			stmt.executeUpdate();
+			resultado = true;
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 
+		return resultado;
+	}
+	
+	public static boolean eliminarExamen(Examen examen, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("DELETE FROM bt_examenes where id = ?");
+			stmt.setInt(1, examen.getIdExamen());
+			
+			stmt.executeUpdate();
+			resultado = true;
+					
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		
 		return resultado;
 	}
 
