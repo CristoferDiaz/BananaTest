@@ -137,6 +137,24 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
+	
+	public static boolean eliminarPregunta(Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("DELETE FROM t_preguntas where id = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+			
+			stmt.executeUpdate();
+			resultado = true;
+					
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		
+		return resultado;
+	}
 
 	/**
 	 * Funcion con la que poder visualizar todos los examenes de la tabla
