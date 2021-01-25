@@ -92,6 +92,8 @@ public abstract class Intermedio {
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
 	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @param tipoSimple String que contiene el id de bt_tipopregunta para las PreguntasTestSimple
+	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las PreguntasTestMultiple
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
