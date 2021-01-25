@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
+import dad.proyectos.banana_test.model.Pregunta.TIPO_PREGUNTA;
+import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 
 public abstract class Intermedio {
 
@@ -48,8 +50,8 @@ public abstract class Intermedio {
 
 		}
 	}
-	
-	//Preguntas
+
+	// Preguntas
 
 	/**
 	 * Funcion con la que poder visualizar todas las preguntas de la tabla
@@ -74,6 +76,7 @@ public abstract class Intermedio {
 			}
 
 			resultado = true;
+			con.close();
 			desconectarBD();
 			rs.close();
 
@@ -83,41 +86,62 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
-	
-	
+
 	/**
 	 * Funcion con la que poder crear preguntas
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
-	 * @param error Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
 	 */
 	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
+		String tipoSimple = "SIMP";
+		String tipoMultiple = "MULT";
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
-			stmt.setObject(1, pregunta.getTipoPregunta());
-			stmt.setString(2, pregunta.getPregunta());
+			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
+				stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+				stmt.setString(1, tipoMultiple);
+				stmt.setString(2, pregunta.getPregunta());
 
+				stmt.executeUpdate();
+				
+			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
+				stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+				stmt.setString(1, tipoSimple);
+				stmt.setString(2, pregunta.getPregunta());
+
+				stmt.executeUpdate();
+			}
+			
+			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+			stmt.setString(1, pregunta.getPregunta());
+			stmt.setBoolean(2, pregunta.isCorrecta());
+			stmt.setInt(3, pregunta.getIdPregunta());
+			
 			stmt.executeUpdate();
+		
 			resultado = true;
+			con.close();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return false;
+		return resultado;
 
 	}
-	
+
 	/**
 	 * Funcion con la que poder modificar preugntas
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
-	 * @param error Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
 	 */
 	public static boolean modificarPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
@@ -130,6 +154,8 @@ public abstract class Intermedio {
 			stmt.setInt(3, pregunta.getIdPregunta());
 
 			stmt.executeUpdate();
+			resultado = true;
+			con.close();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -137,13 +163,14 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
-	
+
 	/**
 	 * Funcion con la que poder eliminar preguntas
 	 * 
 	 * @param pregunta Objeto de la clase Preungtas
-	 * @param error Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
 	 */
 	public static boolean eliminarPregunta(Pregunta pregunta, String[] error) {
 		Connection con = conectarmysql();
@@ -152,18 +179,19 @@ public abstract class Intermedio {
 			PreparedStatement stmt;
 			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id = ?");
 			stmt.setInt(1, pregunta.getIdPregunta());
-			
+
 			stmt.executeUpdate();
 			resultado = true;
-					
+			con.close();
+
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return resultado;
 	}
-	
-	//Examenes
+
+	// Examenes
 
 	/**
 	 * Funcion con la que poder visualizar todos los examenes de la tabla
@@ -188,6 +216,7 @@ public abstract class Intermedio {
 			}
 
 			resultado = true;
+			con.close();
 			desconectarBD();
 			rs.close();
 
@@ -198,26 +227,26 @@ public abstract class Intermedio {
 		return resultado;
 	}
 
-
-
 	/**
 	 * Funcion con la que poder crear examenes
 	 * 
 	 * @param examen Objeto de la clase Examen
-	 * @param error Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
 	 */
 	public static boolean crearExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
+		PreparedStatement stmt;
 		boolean resultado = false;
 		try {
-			PreparedStatement stmt;
 			stmt = con.prepareStatement("INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)");
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
 
 			stmt.executeUpdate();
 			resultado = true;
+			con.close();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -227,25 +256,26 @@ public abstract class Intermedio {
 
 	}
 
-
-    /**
-     * Funcion con la que poder modificar examenes
-     * 
+	/**
+	 * Funcion con la que poder modificar examenes
+	 * 
 	 * @param examen Objeto de la clase Examen
-	 * @param error Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
-     */
+	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
 	public static boolean modificarExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
 			stmt = con.prepareStatement("UPDATE bt_examenes SET nombre=?, descripcionGeneral=? " + "WHERE id = ?");
-            stmt.setString(1, examen.getNombre());
-            stmt.setString(2, examen.getDescripcion());
+			stmt.setString(1, examen.getNombre());
+			stmt.setString(2, examen.getDescripcion());
 
 			stmt.executeUpdate();
 			resultado = true;
+			con.close();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -253,13 +283,14 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
-	
+
 	/**
 	 * Funcion con la que poder eliminar Examenes
 	 * 
 	 * @param examen Objeto de la clase Examen
-	 * @param error  Array encargada de la gestion de los errores o excepciones 
-	 * @return resultado que retornara true si la operacion se hace y false si no se cumple
+	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
 	 */
 	public static boolean eliminarExamen(Examen examen, String[] error) {
 		Connection con = conectarmysql();
@@ -268,14 +299,15 @@ public abstract class Intermedio {
 			PreparedStatement stmt;
 			stmt = con.prepareStatement("DELETE FROM bt_examenes where id = ?");
 			stmt.setInt(1, examen.getIdExamen());
-			
+
 			stmt.executeUpdate();
 			resultado = true;
-					
+			con.close();
+
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return resultado;
 	}
 
