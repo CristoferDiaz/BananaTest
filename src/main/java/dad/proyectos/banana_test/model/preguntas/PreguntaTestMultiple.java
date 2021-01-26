@@ -6,15 +6,24 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.model.Pregunta;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
@@ -29,7 +38,7 @@ public class PreguntaTestMultiple extends Pregunta {
 	private final int TOTAL_RESPUESTAS = 4;
 	
 	// model
-	private ListProperty<Pair<CheckBox, Boolean>> respuestas = new SimpleListProperty<Pair<CheckBox, Boolean>>(FXCollections.observableArrayList());
+	private ListProperty<Pair<CheckBox, BooleanProperty>> respuestas = new SimpleListProperty<Pair<CheckBox, BooleanProperty>>(FXCollections.observableArrayList());
 	
 	// view
 	@FXML
@@ -66,7 +75,7 @@ public class PreguntaTestMultiple extends Pregunta {
 		pregunta.set(textoPregunta);
 		for (int i = 0; i < TOTAL_RESPUESTAS; i++) {
 			CheckBox checkbox = new CheckBox(textosRespuestas[i]);
-			Pair<CheckBox, Boolean> pair = new Pair<CheckBox, Boolean>(checkbox, correctas[i]);
+			Pair<CheckBox, BooleanProperty> pair = new Pair<CheckBox, BooleanProperty>(checkbox, new SimpleBooleanProperty(correctas[i]));
 			respuestas.get().add(pair);
 		}
 		Collections.shuffle(respuestas.get());
@@ -99,7 +108,7 @@ public class PreguntaTestMultiple extends Pregunta {
 	private void actualizarCorrecta() {
 		int i = 0;
 		
-		while (i < TOTAL_RESPUESTAS && respuestas.get(i).getKey().isSelected() == respuestas.get(i).getValue())
+		while (i < TOTAL_RESPUESTAS && respuestas.get(i).getKey().isSelected() == respuestas.get(i).getValue().getValue())
 			i++;
 		
 		correcta.set(i == TOTAL_RESPUESTAS);
@@ -120,6 +129,44 @@ public class PreguntaTestMultiple extends Pregunta {
 		return lista;
 	}
 	
+	@Override
+	public Node construirFormularioEditable() {
+		GridPane root = new GridPane();
+		Label lbPregunta = new Label("Pregunta:");
+		TextArea taPregunta = new TextArea(pregunta.get());
+		
+		root.add(lbPregunta, 0, 0);
+		root.add(taPregunta, 0, 1, 3, 1);
+		
+		int j = 2;		
+		for (int i = 0; i < TOTAL_RESPUESTAS; i++) {
+			Label label = new Label("Respuesta " + (i + 1) + ":");
+			CheckBox checkBox = new CheckBox();
+			TextArea textArea = new TextArea();
+			root.add(label, 0, j++);
+			root.add(checkBox, 0, j);
+			root.add(textArea, 1, j++, 2, 1);
+			checkBox.selectedProperty().bindBidirectional(respuestas.get(i).getValue());
+			GridPane.setHalignment(checkBox, HPos.CENTER);
+			textArea.textProperty().bindBidirectional(respuestas.get(i).getKey().textProperty());
+		}
+		
+		root.setMaxWidth(Double.MAX_VALUE);
+		root.setPadding(new Insets(5));
+		taPregunta.setPrefWidth(Double.MAX_VALUE);		
+		taPregunta.setPrefHeight(100);
+		
+		ColumnConstraints [] cols = {
+			new ColumnConstraints(),	
+			new ColumnConstraints(),
+			new ColumnConstraints(),
+		};
+		root.getColumnConstraints().setAll(cols);
+		cols[2].setHgrow(Priority.ALWAYS);
+		
+		return root;
+	}
+	
 	/**
 	 * Método encargado de obtener el mapeo de validez de las respuestas.
 	 * 
@@ -129,7 +176,7 @@ public class PreguntaTestMultiple extends Pregunta {
 		Boolean[] lista = new Boolean[TOTAL_RESPUESTAS];
 		
 		for (int i = 0; i < TOTAL_RESPUESTAS; i++)
-			lista[i] = respuestas.get(i).getValue();
+			lista[i] = respuestas.get(i).getValue().get();
 		
 		return lista;
 	}

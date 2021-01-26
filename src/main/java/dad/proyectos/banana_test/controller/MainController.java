@@ -29,7 +29,13 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// TODO Añadir paneles
+		try {
+			tbPregun.setContent(new TabPreguntasController().getView());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

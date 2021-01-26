@@ -13,10 +13,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -88,7 +92,6 @@ public class PreguntaTestSimple extends Pregunta {
 			if (nv != null) {
 				RadioButton radioButton = (RadioButton) nv;
 				correcta.set(radioButton.getText().equals(respuestaValida.get()));
-				System.out.println(correcta);
 			}
 		});
 	}
@@ -136,6 +139,43 @@ public class PreguntaTestSimple extends Pregunta {
 				respuesta3,
 				respuesta4
 		};
+	}
+
+	@Override
+	public Node construirFormularioEditable() {
+		Label lbPregunta = new Label("Pregunta:");
+		TextArea taPregunta = new TextArea(pregunta.get());
+		Label lbRespuestaValida = new Label("Respuesta válida:");
+		TextArea taRespuestaValida = new TextArea();
+		Label lbRespuesta2 = new Label("Respuesta 2:");
+		TextArea taRespuesta2 = new TextArea();
+		Label lbRespuesta3 = new Label("Respuesta 3:");
+		TextArea taRespuesta3 = new TextArea();
+		Label lbRespuesta4 = new Label("Respuesta 4:");
+		TextArea taRespuesta4 = new TextArea();
+		
+		taRespuestaValida.textProperty().bindBidirectional(respuestaValida);
+		taRespuesta2.textProperty().bindBidirectional(respuesta2);
+		taRespuesta3.textProperty().bindBidirectional(respuesta3);
+		taRespuesta4.textProperty().bindBidirectional(respuesta4);
+				
+		GridPane root = new GridPane();
+		root.add(lbPregunta, 0, 0);
+		root.add(taPregunta, 0, 1, 2, 1);
+		root.add(lbRespuestaValida, 0, 2);
+		root.add(taRespuestaValida, 0, 3, 2, 1);
+		root.add(lbRespuesta2, 0, 4);
+		root.add(taRespuesta2, 0, 5, 2, 1);
+		root.add(lbRespuesta3, 0, 6);
+		root.add(taRespuesta3, 0, 7, 2, 1);
+		root.add(lbRespuesta4, 0, 8);
+		root.add(taRespuesta4, 0, 9, 2, 1);
+		
+		root.setMaxWidth(Double.MAX_VALUE);
+		root.setPadding(new Insets(5));
+		taPregunta.setPrefWidth(Double.MAX_VALUE);		
+		taPregunta.setPrefHeight(100);
+		return root;
 	}
 
 	public BorderPane getView() {
