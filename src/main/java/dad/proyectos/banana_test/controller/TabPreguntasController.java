@@ -2,11 +2,13 @@ package dad.proyectos.banana_test.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.DialogoConfirmar;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -22,8 +24,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,6 +47,9 @@ public class TabPreguntasController implements Initializable {
 
 	@FXML
 	private Button btBorrar;
+	
+	@FXML
+	private Button btAplicarCambios;
 
 	@FXML
 	private TextField tfBuscador;
@@ -134,7 +139,8 @@ public class TabPreguntasController implements Initializable {
 		});
 		preguntaSeleccionada.bind(lvPreguntas.getSelectionModel().selectedItemProperty());
 		preguntaSeleccionada.addListener((o, ov, nv) -> onSeleccionadaChanged(o, ov, nv));
-		
+		btBorrar.disableProperty().bind(preguntaSeleccionada.isNull());
+		btAplicarCambios.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
 
 	private void crearFiltroBuscador() {
@@ -185,18 +191,17 @@ public class TabPreguntasController implements Initializable {
 	
 	@FXML
     void onBorrarAction(ActionEvent event) {
-		// TODO: Implementar operación completa de borrado
-		Pregunta p = new PreguntaTestMultiple(
-				"Soy el texto de la pregunta", 
-				new String[] {
-						"Respuesta 1",
-						"Respuesta 2",
-						"Respuesta 3",
-						"Respuesta 4"
-				},
-				new boolean[] {true, true, false, true}
+		DialogoConfirmar dialog = new DialogoConfirmar(
+				"Borrar Pregunta",
+				"Borrar una pregunta es una operación irreversible.\n¿Está seguro de querer continuar?",
+				"Borrar",
+				"Cancelar"
 		);
-		preguntaSeleccionada.set(p);
+		Optional<Boolean> result = dialog.showAndWait();
+		
+		if (result.isPresent()) {
+			// TODO: Borrar pregunta de la BD y rescatar de nuevo el listado
+		}
     }
 	
 	@FXML

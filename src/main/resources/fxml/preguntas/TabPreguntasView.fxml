@@ -38,7 +38,7 @@
                      <content>
                         <BorderPane fx:id="bpEditarPregunta" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <top>
-                              <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAplicarCambios" text="Aplicar Cambios" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btAplicarCambios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAplicarCambios" text="Aplicar Cambios" BorderPane.alignment="CENTER" />
                            </top>
                         </BorderPane>
                      </content>
