@@ -5,6 +5,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class DialogoConfirmar extends Dialogo<Boolean> {
@@ -18,8 +19,8 @@ public class DialogoConfirmar extends Dialogo<Boolean> {
 		
 		Label lbContenido = new Label(contenido);
 		lbContenido.setStyle("-fx-font-weight:bold;");
-		// TODO: Cambiar color de icono
 		Text warningIcon = GlyphsDude.createIcon(FontAwesomeIcon.WARNING, "120px");
+		warningIcon.setFill(Color.rgb(232, 178, 36));
 		
 		root.getChildren().addAll(lbContenido, warningIcon);
 		
