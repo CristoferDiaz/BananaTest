@@ -9,6 +9,7 @@ import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.DialogoConfirmar;
+import dad.proyectos.banana_test.utils.DialogoPregunta;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -178,15 +179,13 @@ public class TabPreguntasController implements Initializable {
 	
 	@FXML
     void onCrearNuevaAction(ActionEvent event) {
-		// TODO: Implementar panel para crear nueva pregunta
-		Pregunta p = new PreguntaTestSimple("Soy el texto", new String[] {
-				"Respuesta válida",
-				"Respuesta falsa 1",
-				"Respuesta falsa 2",
-				"Respuesta falsa 3",
-		});
-		listadoPreguntas.clear();
-		listadoPreguntas.add(p);
+		DialogoPregunta dialog = new DialogoPregunta();
+		Optional<Pregunta> result = dialog.showAndWait();
+		
+		if (result.isPresent()) {
+			// TODO: Añadir pregunta a la BD y rescatar de nuevo el listado
+			listadoPreguntas.add(result.get());
+		}
     }
 	
 	@FXML
