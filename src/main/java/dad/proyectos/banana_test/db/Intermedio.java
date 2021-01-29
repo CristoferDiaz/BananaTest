@@ -73,6 +73,7 @@ public abstract class Intermedio {
 				id = rs.getInt("id");
 				tipoPregunta = rs.getString("tipoPregunta");
 				contenido = rs.getString("contenido");
+
 			}
 
 			resultado = true;
@@ -90,10 +91,13 @@ public abstract class Intermedio {
 	/**
 	 * Funcion con la que poder crear preguntas
 	 * 
-	 * @param pregunta Objeto de la clase Pregunta
-	 * @param error    Array encargada de la gestion de los errores o excepciones
-	 * @param tipoSimple String que contiene el id de bt_tipopregunta para las PreguntasTestSimple
-	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las PreguntasTestMultiple
+	 * @param pregunta     Objeto de la clase Pregunta
+	 * @param error        Array encargada de la gestion de los errores o
+	 *                     excepciones
+	 * @param tipoSimple   String que contiene el id de bt_tipopregunta para las
+	 *                     PreguntasTestSimple
+	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las
+	 *                     PreguntasTestMultiple
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -110,7 +114,7 @@ public abstract class Intermedio {
 				stmt.setString(2, pregunta.getPregunta());
 
 				stmt.executeUpdate();
-				
+
 			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
 				stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
 				stmt.setString(1, tipoSimple);
@@ -118,14 +122,14 @@ public abstract class Intermedio {
 
 				stmt.executeUpdate();
 			}
-			
+
 			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
 			stmt.setString(1, pregunta.getPregunta());
 			stmt.setBoolean(2, pregunta.isCorrecta());
 			stmt.setInt(3, pregunta.getIdPregunta());
-			
+
 			stmt.executeUpdate();
-		
+
 			resultado = true;
 			con.close();
 
@@ -179,10 +183,12 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id=?");
+			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta=?");
 			stmt.setInt(1, pregunta.getIdPregunta());
 
 			stmt.executeUpdate();
+
 			resultado = true;
 			con.close();
 
