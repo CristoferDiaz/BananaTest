@@ -305,7 +305,8 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM bt_examenes where id = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_examenes where id=?");
+			stmt = con.prepareStatement("DELETE FROM bt_contiene where idExamen=?");
 			stmt.setInt(1, examen.getIdExamen());
 
 			stmt.executeUpdate();
