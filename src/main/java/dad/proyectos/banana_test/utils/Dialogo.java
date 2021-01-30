@@ -14,6 +14,9 @@ public abstract class Dialogo<T> extends Dialog<T> {
 	public Dialogo(String titulo, String aceptar, String cancelar) {
 		setTitle(titulo);
 		
+		// TODO: Cambiar al estilo actual del usuario
+//		getDialogPane().getStylesheets().add(getClass().getResource("/css/dark_mode.css").toExternalForm());
+		
 		Stage stage = (Stage) getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
