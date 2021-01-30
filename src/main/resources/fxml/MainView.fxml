@@ -13,9 +13,12 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="_Archivo">
+          <Menu text="_Archivo">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Exportar a PDF..." />
+                  <MenuItem mnemonicParsing="false" text="Exportar a PDF...">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem mnemonicParsing="false" onAction="#onSalirAction" text="Cerrar">
                      <accelerator>
@@ -23,12 +26,12 @@
                      </accelerator></MenuItem>
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Editar">
+          <Menu text="_Editar">
             <items>
               <MenuItem mnemonicParsing="false" text="Preferencias" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Ayuda">
+          <Menu text="Ay_uda">
             <items>
               <MenuItem mnemonicParsing="false" text="Acerca de" />
             </items>
