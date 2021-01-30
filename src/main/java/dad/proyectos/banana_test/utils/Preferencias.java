@@ -81,8 +81,12 @@ public abstract class Preferencias {
 		
 		if (tema.toUpperCase().equals(TEMAS.DARK.toString()))
 			return TEMAS.DARK;
-		else
+		else {
+			// Si se ha manipulado la preferencia de tema a uno no válido
+			// se cambiará al tema por defecto
+			properties.setProperty("tema", TEMAS.DEFAULT.toString());
 			return TEMAS.DEFAULT;
+		}
 	}
 	
 	public static void setTema(TEMAS tema) {
