@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -28,6 +29,7 @@
                     <columnConstraints>
                       <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -47,6 +49,7 @@
                         </Label>
                         <ComboBox fx:id="cbIdioma" maxWidth="-Infinity" prefWidth="200.0" promptText="Seleccione un idioma" GridPane.columnIndex="1" />
                         <ComboBox fx:id="cbTema" prefHeight="27.0" prefWidth="200.0" promptText="Seleccione un tema" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fx:id="ivTema" fitHeight="50.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Label styleClass="lb-aviso" text="Estos cambios tendrán lugar luego de reiniciar la aplicación." textFill="#fc0000">
@@ -61,7 +64,7 @@
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="5.0">
          <children>
             <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar" />
-            <Button defaultButton="true" mnemonicParsing="false" styleClass="bt-aceptar" text="Guardar Cambios" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onGuardarAction" styleClass="bt-aceptar" text="Guardar Cambios" />
          </children>
       </HBox>
    </children>

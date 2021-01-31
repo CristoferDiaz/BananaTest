@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -19,7 +19,9 @@ public abstract class Preferencias {
 	
 	public static enum TEMAS {
 		DEFAULT ("DEFAULT"),
-		DARK ("DARK");
+		DARK ("DARK"),
+		BANANA("BANANA"),
+		PASTEL("PASTEL");
 		
 		private final String name;
 		
@@ -33,7 +35,10 @@ public abstract class Preferencias {
 		}
 		
 		public static List<String> getAll() {
-			return Arrays.asList(DEFAULT.name, DARK.name);
+			List<String> listado = new ArrayList<String>();
+			for (TEMAS tema : TEMAS.values())
+				listado.add(tema.name);
+			return listado;
 		}
 		
 	}
@@ -79,10 +84,15 @@ public abstract class Preferencias {
 	}
 	
 	public static TEMAS getTema() {
-		String tema = properties.getProperty("tema");
+		String tema = properties.getProperty("tema").toUpperCase();
+		TEMAS[] listado = TEMAS.values();
+		int i = 0;
 		
-		if (tema.toUpperCase().equals(TEMAS.DARK.toString()))
-			return TEMAS.DARK;
+		while (i < listado.length && !tema.equals(listado[i].name))
+			i++;
+		
+		if (i < listado.length)
+			return listado[i];
 		else {
 			// Si se ha manipulado la preferencia de tema a uno no válido
 			// se cambiará al tema por defecto
@@ -92,14 +102,7 @@ public abstract class Preferencias {
 	}
 	
 	public static void setTema(TEMAS tema) {
-		switch (tema) {
-			case DEFAULT:
-				properties.setProperty("tema", "default");
-				break;
-			case DARK:
-				properties.setProperty("tema", "dark");
-				break;
-		}
+		properties.setProperty("tema", tema.name.toLowerCase());
 	}
 	
 	public static String cargarTema() {

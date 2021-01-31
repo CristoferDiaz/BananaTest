@@ -1,0 +1,160 @@
+/* COLORES PALETA  */
+* {
+	-fx-seleccionable: #e8c23a;
+	-fx-texto: #191919;
+	-fx-fondo-1: #FF785A;
+	-fx-fondo-2: #7F5A83;
+	-fx-fondo-3: #119DA4;
+	-fx-fondo-4: #59C9A5;
+}
+
+.root {
+	-fx-background-color: -fx-fondo-1;
+}
+
+/* CSS BARRA DE MENÚ */
+
+.menu-bar, .context-menu {
+    -fx-background-color: -fx-seleccionable;
+}
+
+.menu-bar .label {    
+    -fx-text-fill: -fx-texto;
+}
+
+.menu-button:hover, .menu-button:focused, .menu-button:showing,
+.menu-bar .label:focused, .menu-bar .label:hover,
+.menu-item:hover, .menu-item:focused, 
+.menu-item .label:hover {
+	-fx-background-color: -fx-fondo-3;
+}
+
+/* CSS TAB-PANE */
+
+.tab-pane {
+	-fx-background-color: -fx-fondo-1;
+}
+
+.tab-header-background {
+	-fx-background-color: -fx-fondo-2;
+}
+
+.tab-label {	
+	-fx-text-fill: -fx-texto;
+}
+
+.tab {
+	-fx-background-color: -fx-seleccionable;
+}
+
+.tab:selected {
+	-fx-background-color: -fx-fondo-4;
+	-fx-focus-color: transparent;
+}
+
+/* CSS SPLIT PANE */
+
+.split-pane {
+	-fx-background-color: -fx-fondo-1;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+   -fx-background-color: -fx-seleccionable;
+}
+.split-pane:vertical > .split-pane-divider {
+   -fx-background-color: -fx-seleccionable;
+}
+
+.split-pane:horizontal > .split-pane-divider:hover {
+   -fx-background-color: -fx-fondo-3;
+}
+.split-pane:vertical > .split-pane-divider:hover {
+   -fx-background-color: -fx-fondo-3;
+}
+
+/* CSS BOTONES GENERALES */
+.button {
+	-fx-background-color: -fx-seleccionable;
+	-fx-text-fill: -fx-texto;
+}
+
+.button:hover {
+	-fx-background-color: -fx-fondo-3;
+}
+
+/* CSS LISTAS */
+
+.list-cell {
+	-fx-background-color: -fx-seleccionable;
+	-fx-text-fill: -fx-texto;
+}
+
+.list-cell:selected {
+	-fx-background-color: -fx-fondo-2;
+	-fx-text-fill: -fx-texto;
+}
+
+/* CSS TEXTFIELDS */
+.text-field, .text-area {
+	-fx-background-color: -fx-seleccionable;
+	-fx-text-fill: -fx-texto;
+}
+
+.text-area > .scroll-pane .content {
+	-fx-background-color: -fx-seleccionable;
+}
+
+/* CSS TITLED-PANE */
+
+.title {
+	-fx-background-color: -fx-seleccionable;
+}
+
+.titled-pane {
+	-fx-text-fill: -fx-texto;
+}
+
+.titled-pane > *.content {
+	-fx-background-color: -fx-fondo-2;
+	-fx-border-color: -fx-fondo-3;
+}
+
+/* CSS LABEL */
+.label {
+	-fx-text-fill: -fx-texto;
+}
+
+/* CSS FORMS */
+.check-box, .radio-button {
+	-fx-text-fill: -fx-texto;
+}
+
+.scroll-pane {
+	-fx-border-color: -fx-fondo-3;
+}
+
+.scroll-pane > .viewport {
+	-fx-background-color: -fx-fondo-2;
+}
+
+.scroll-pane > .scroll-bar:vertical, .scroll-pane > .scroll-bar:horizontal {
+	-fx-background-color: -fx-fondo-4;
+}
+
+.scroll-bar:horizontal .thumb, .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-fondo-3;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: -fx-fondo-3;
+}
+
+/* CSS GENERAL PARA TODOS LOS ESTILOS */
+
+.lb-aviso {
+	-fx-text-fill: red;
+}
+
+.bt-aceptar {
+	-fx-background-color: #0093ff;
+}
