@@ -200,12 +200,13 @@ public class TabPreguntasController implements Initializable {
 		
 		if (result.isPresent()) {
 			// TODO: Borrar pregunta de la BD y rescatar de nuevo el listado
+			listadoPreguntas.remove(preguntaSeleccionada.get());
 		}
     }
 	
 	@FXML
     void onAplicarCambios(ActionEvent event) {
-		// TODO: Actualizar BD con los cambios
+		// TODO: Actualizar la pregunta en la BD y rescatar de nuevo el listado
     }
 
 	public HBox getView() {

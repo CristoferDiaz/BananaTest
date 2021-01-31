@@ -154,6 +154,7 @@ public class PreguntaTestSimple extends Pregunta {
 		Label lbRespuesta4 = new Label("Respuesta 4:");
 		TextArea taRespuesta4 = new TextArea();
 		
+		taPregunta.textProperty().bindBidirectional(pregunta);
 		taRespuestaValida.textProperty().bindBidirectional(respuestaValida);
 		taRespuesta2.textProperty().bindBidirectional(respuesta2);
 		taRespuesta3.textProperty().bindBidirectional(respuesta3);
