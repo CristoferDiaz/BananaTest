@@ -1,9 +1,11 @@
 package dad.proyectos.banana_test.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -14,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -43,6 +47,20 @@ public class MainController implements Initializable {
 		}
 
 	}
+	
+	@FXML
+    void onExportarPDFAction(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Guardar examen en un pdf");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+    	fileChooser.getExtensionFilters().add(new ExtensionFilter("Todos los archivos (*.*)", "*.*"));
+    	File file = fileChooser.showSaveDialog(App.primaryStage);
+    	
+    	if (file != null) {
+    		// TODO: Mandar el fichero al exportador de PDF
+    	}
+    	
+    }
 
 	@FXML
 	void onEditarPreferenciasAction(ActionEvent event) {		
