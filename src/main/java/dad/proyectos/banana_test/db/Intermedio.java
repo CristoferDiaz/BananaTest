@@ -259,12 +259,20 @@ public abstract class Intermedio {
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		boolean resultado = false;
+		String query ="INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)";
 		try {
-			stmt = con.prepareStatement("INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)");
+			stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
 
 			stmt.executeUpdate();
+			
+			ResultSet rs = stmt.getGeneratedKeys();
+			int id;
+			if(rs.next()) {
+				id = rs.getInt(1);
+				examen.setIdExamen(id);
+			}
 			resultado = true;
 			con.close();
 
