@@ -42,15 +42,6 @@ public abstract class Intermedio {
 
 	}
 
-	// Funcion para desconectarse de la base de datos
-	static void desconectarBD() {
-		try {
-			conexion.close();
-		} catch (SQLException e) {
-
-		}
-	}
-
 	// Preguntas
 
 	/**
@@ -78,7 +69,6 @@ public abstract class Intermedio {
 
 			resultado = true;
 			con.close();
-			desconectarBD();
 			rs.close();
 
 		} catch (SQLException e) {
@@ -123,6 +113,7 @@ public abstract class Intermedio {
 				stmt.executeUpdate();
 			}
 
+            //TODO Arreglar Error
 			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
 			stmt.setString(1, pregunta.getPregunta());
 			stmt.setBoolean(2, pregunta.isCorrecta());
