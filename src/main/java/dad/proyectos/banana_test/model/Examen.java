@@ -57,6 +57,7 @@ public class Examen {
 		idExamen.set(identificador);
 		nombre.set(tituloExamen);
 		descripcion.set(textoDescripcion);
+		if(listaPreguntas!=null)
 		preguntas.get().addAll(listaPreguntas);
 	}
 
