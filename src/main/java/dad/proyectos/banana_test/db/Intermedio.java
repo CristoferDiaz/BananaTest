@@ -90,6 +90,7 @@ public abstract class Intermedio {
 	 *                     PreguntasTestSimple
 	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las
 	 *                     PreguntasTestMultiple
+	 * @param id Int donde se guardara la id de la pregunta creada para poder crear las respuestas adecuadas
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -252,6 +253,7 @@ public abstract class Intermedio {
 	 * 
 	 * @param examen Objeto de la clase Examen
 	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @param id Int donde se guardara la id del examen creado
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
