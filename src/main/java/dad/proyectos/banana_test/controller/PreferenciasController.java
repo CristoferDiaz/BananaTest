@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -65,6 +66,9 @@ public class PreferenciasController implements Initializable {
     void onGuardarAction(ActionEvent event) {
 		Preferencias.setTema(temaNuevo);
 		stage.close();
+		App.primaryStage.getScene().getStylesheets().clear();
+		if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
+			App.primaryStage.getScene().getStylesheets().add(Preferencias.cargarTema());
     }
 
 	public VBox getView() {

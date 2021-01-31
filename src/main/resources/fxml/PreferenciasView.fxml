@@ -52,11 +52,6 @@
                         <ImageView fx:id="ivTema" fitHeight="50.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
-                  <Label styleClass="lb-aviso" text="Estos cambios tendrán lugar luego de reiniciar la aplicación." textFill="#fc0000">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
                </children>
             </VBox>
          </content>

@@ -43,6 +43,7 @@ public class App extends Application {
 		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
 		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
 		primaryStage.show();
+		App.primaryStage = primaryStage;
 	}
 
 	public static void main(String[] args) {
