@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dad.proyectos.banana_test.model.Examen;
@@ -52,6 +53,7 @@ public abstract class Intermedio {
 	 */
 	public static boolean visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
+		ArrayList<Pregunta> pregunta = new ArrayList<Pregunta>();
 		boolean resultado = false;
 		int id;
 		String tipoPregunta, contenido;
@@ -92,28 +94,47 @@ public abstract class Intermedio {
 	 *         cumple
 	 */
 	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
+
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
+		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)";
+
 		try {
 			PreparedStatement stmt;
+
 			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
-				stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoMultiple);
 				stmt.setString(2, pregunta.getPregunta());
 
 				stmt.executeUpdate();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				int id;
+				if(rs.next()) {
+					id = rs.getInt(1);
+					pregunta.setIdPregunta(id);
+				}
 
 			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
-				stmt = con.prepareStatement("INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)");
+				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoSimple);
 				stmt.setString(2, pregunta.getPregunta());
 
 				stmt.executeUpdate();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				int id;
+				if(rs.next()) {
+					id = rs.getInt(1);
+					pregunta.setIdPregunta(id);
+				}
+				
+				
 			}
 
-            //TODO Arreglar Error
 			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
 			stmt.setString(1, pregunta.getPregunta());
 			stmt.setBoolean(2, pregunta.isCorrecta());
@@ -176,7 +197,7 @@ public abstract class Intermedio {
 			stmt = con.prepareStatement("DELETE FROM bt_contiene where idPregunta=?");
 			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta=?");
 			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id=?");
-			
+
 			stmt.setInt(1, pregunta.getIdPregunta());
 
 			stmt.executeUpdate();
