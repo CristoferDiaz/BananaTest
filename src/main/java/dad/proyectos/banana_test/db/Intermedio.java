@@ -145,10 +145,9 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("UPDATE bt_preguntas SET tipoPregunta=?, contenido=? " + "WHERE id = ?");
-			stmt.setObject(1, pregunta.getTipoPregunta());
-			stmt.setString(2, pregunta.getPregunta());
-			stmt.setInt(3, pregunta.getIdPregunta());
+			stmt = con.prepareStatement("UPDATE bt_preguntas SET contenido=? " + "WHERE id = ?");
+			stmt.setString(1, pregunta.getPregunta());
+			stmt.setInt(2, pregunta.getIdPregunta());
 
 			stmt.executeUpdate();
 			resultado = true;
