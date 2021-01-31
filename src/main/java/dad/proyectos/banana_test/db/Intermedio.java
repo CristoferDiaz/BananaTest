@@ -218,7 +218,6 @@ public abstract class Intermedio {
 
 			resultado = true;
 			con.close();
-			desconectarBD();
 			rs.close();
 
 		} catch (SQLException e) {
@@ -298,8 +297,9 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM bt_examenes where id=?");
 			stmt = con.prepareStatement("DELETE FROM bt_contiene where idExamen=?");
+			stmt = con.prepareStatement("DELETE FROM bt_examenes where id=?");
+
 			stmt.setInt(1, examen.getIdExamen());
 
 			stmt.executeUpdate();
