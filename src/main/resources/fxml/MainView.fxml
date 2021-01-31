@@ -42,7 +42,7 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tbExam" text="Exámenes" />
+          <Tab fx:id="tbExamen"  text="Exámenes" />
           <Tab fx:id="tbPregun" text="Preguntas" />
         </tabs>
       </TabPane>

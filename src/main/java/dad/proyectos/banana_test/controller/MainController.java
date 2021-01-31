@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.utils.Preferencias;
+import com.sun.javafx.fxml.FXMLLoaderHelper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,13 +23,17 @@ import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 	
+	//model
+	private PestanaExamController examController = new PestanaExamController();
 	// view
 	@FXML
 	private BorderPane view;
 
 	@FXML
 	private Tab tbExamen, tbPregun;
-
+	
+	
+	
 	public MainController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
 		loader.setController(this);
@@ -38,14 +42,13 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Añadir paneles
 		try {
+			tbExamen.setContent(examController.getView());
 			tbPregun.setContent(new TabPreguntasController().getView());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 	
 	@FXML
@@ -61,6 +64,7 @@ public class MainController implements Initializable {
     	}
     	
     }
+	
 
 	@FXML
 	void onEditarPreferenciasAction(ActionEvent event) {		
@@ -97,5 +101,7 @@ public class MainController implements Initializable {
 	public void setView(BorderPane view) {
 		this.view = view;
 	}
+	
+	
 
 }
