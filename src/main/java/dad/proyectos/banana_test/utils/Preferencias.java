@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public abstract class Preferencias {
@@ -30,13 +32,13 @@ public abstract class Preferencias {
 			return this.name;
 		}
 		
+		public static List<String> getAll() {
+			return Arrays.asList(DEFAULT.name, DARK.name);
+		}
+		
 	}
 	
-	public static Properties properties;
-		
-	static {
-		properties = new Properties();
-	}
+	public static Properties properties = new Properties();
 	
 	public static void cargarPreferencias() throws IOException, FileNotFoundException {
 		String rutaPerfil = System.getProperty("user.home");
@@ -68,7 +70,7 @@ public abstract class Preferencias {
 		File file = new File(rutaPerfil + "\\.BananaTest\\config.properties");
 	
 		if (!file.getParentFile().exists() && !file.getParentFile().mkdirs())
-			throw new IllegalStateException("No se pudo crear la carpeta .VentanaConMemoria");
+			throw new IllegalStateException("No se pudo crear la carpeta .BananaTest");
 		
 		// Creamos el fichero en caso de no existir
 		file.createNewFile();

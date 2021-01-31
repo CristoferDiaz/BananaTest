@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 	
 	private MainController mainController;
+	public static Stage primaryStage;
 	
 	@Override
 	public void init() throws Exception {

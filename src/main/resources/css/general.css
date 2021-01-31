@@ -5,3 +5,7 @@
 	-fx-background-color:transparent;
 	-fx-background-position: center;
 }
+
+.lb-aviso {
+	-fx-text-fill: red;
+}

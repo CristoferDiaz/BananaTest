@@ -4,20 +4,25 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 	
 	// view
 	@FXML
 	private BorderPane view;
-	
+
 	@FXML
 	private Tab tbExamen, tbPregun;
 
@@ -36,13 +41,36 @@ public class MainController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@FXML
-    void onSalirAction(ActionEvent event) {
-    	Platform.exit();
-    }
+	void onEditarPreferenciasAction(ActionEvent event) {		
+		try {
+			Stage stage = new Stage();
+			PreferenciasController preferenciasController = new PreferenciasController(stage);
+			Scene escena = new Scene(preferenciasController.getView());
+			stage.setScene(escena);
+			stage.setTitle("Editar Preferencias - BananaTest");
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+			stage.initModality(Modality.APPLICATION_MODAL);
+			
+			if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
+				escena.getStylesheets().add(Preferencias.cargarTema());
+			
+			stage.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	@FXML
+	void onSalirAction(ActionEvent event) {
+		Platform.exit();
+	}
 
 	public BorderPane getView() {
 		return view;

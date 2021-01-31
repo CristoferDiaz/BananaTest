@@ -148,3 +148,13 @@
 .increment-button, .decrement-button {
     -fx-background-color: -fx-fondo-3;
 }
+
+/* CSS GENERAL PARA TODOS LOS ESTILOS */
+
+.lb-aviso {
+	-fx-text-fill: red;
+}
+
+.bt-aceptar {
+	-fx-background-color: #0093ff;
+}

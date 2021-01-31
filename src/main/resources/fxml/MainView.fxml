@@ -28,7 +28,7 @@
           </Menu>
           <Menu text="_Editar">
             <items>
-              <MenuItem mnemonicParsing="false" text="Preferencias" />
+              <MenuItem mnemonicParsing="false" onAction="#onEditarPreferenciasAction" text="Preferencias" />
             </items>
           </Menu>
           <Menu text="Ay_uda">
