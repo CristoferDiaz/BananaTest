@@ -343,6 +343,15 @@ public abstract class Intermedio {
 		return resultado;
 	}
 	
+	/**
+	 * 
+	 * @param idExamen id de la tabla bt_examenes
+	 * @param idPregunta id de la tabla bt_preguntas
+	 * @param peso atributo de la tabla bt_contiene
+	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
 	public static boolean actualizarPesoPregunta(int idExamen, int idPregunta, int peso, String[] error) {
 		Connection con = conectarmysql();
 	    boolean resultado = false;
