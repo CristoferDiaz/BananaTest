@@ -1,4 +1,4 @@
-package dad.proyectos.banana_test.utilities;
+package dad.proyectos.banana_test.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
