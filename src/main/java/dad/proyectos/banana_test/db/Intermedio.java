@@ -342,5 +342,28 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
+	
+	public static boolean actualizarPesoPregunta(int idExamen, int idPregunta, int peso, String[] error) {
+		Connection con = conectarmysql();
+	    boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("UPDATE bt_contiene SET peso=? " + "WHERE idExamen = ? and idPregunta = ?");
+			stmt.setInt(1, peso);
+			stmt.setInt(2, idExamen);
+			stmt.setInt(3, idPregunta);
+
+			stmt.executeUpdate();
+			resultado = true;
+			con.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+			
+		}
+	    
+	    
+	    return resultado;
+	}
 
 }
