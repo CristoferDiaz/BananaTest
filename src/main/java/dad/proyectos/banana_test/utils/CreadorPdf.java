@@ -22,16 +22,20 @@ public abstract class CreadorPdf {
 			PdfWriter.getInstance(document, new FileOutputStream(fichero));
 
 			document.open();
+			
+			document.newPage();
+	        
+	        Paragraph paragraph = new Paragraph();
 
 			// examen.descripcion
 			Paragraph encabezado = new Paragraph(examen.getDescripcion());
-			document.add(encabezado);
+			paragraph.add(encabezado);
 
 			// Espacios, fecha y puntuacion
 			Paragraph Fecha = new Paragraph("Fecha de realizacion");
 			Paragraph Puntuacion = new Paragraph("Puntuacion conseguida");
-			document.add(Fecha);
-			document.add(Puntuacion);
+			paragraph.add(Fecha);
+			paragraph.add(Puntuacion);
 
 			for (Pregunta pregunta : examen.getPreguntas()) {
 
@@ -39,12 +43,12 @@ public abstract class CreadorPdf {
 					// Imprimir pregunta de tipo simple
 
 					Paragraph Simple = new Paragraph(pregunta.getPregunta());
-					document.add(Simple);
+					paragraph.add(Simple);
 
 					for (StringProperty respuesta : pregunta.obtenerRespuestas()) {
 
 						Paragraph opciones = new Paragraph(respuesta.get());
-						document.add(opciones);
+						paragraph.add(opciones);
 					}
 				}
 
@@ -56,24 +60,25 @@ public abstract class CreadorPdf {
 						// Imprimir pregunta de tipo simple
 
 						Paragraph Simple = new Paragraph(pregunta.getPregunta());
-						document.add(Simple);
+						paragraph.add(Simple);
 
 						for (StringProperty respuesta : pregunta.obtenerRespuestas()) {
 
 							Paragraph opciones = new Paragraph(respuesta.get());
-							document.add(opciones);
+							paragraph.add(opciones);
 
 						}
 					}
 
 				}
 
-				document.close();
-
 				// Cosas
 
 				// Toy chiquito, hay un error
 			}
+			
+			document.add(paragraph);
+			document.close();
 
 		} catch (Exception e) {
 			error[0] = e.getLocalizedMessage();

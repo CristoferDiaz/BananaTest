@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import dad.proyectos.banana_test.App;
+import dad.proyectos.banana_test.model.Examen;
+import dad.proyectos.banana_test.utils.CreadorPdf;
 import dad.proyectos.banana_test.utils.Preferencias;
-import com.sun.javafx.fxml.FXMLLoaderHelper;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,16 +25,12 @@ import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 	
-	//model
-	private PestanaExamController examController = new PestanaExamController();
 	// view
 	@FXML
 	private BorderPane view;
 
 	@FXML
 	private Tab tbExamen, tbPregun;
-	
-	
 	
 	public MainController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
@@ -43,7 +41,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			tbExamen.setContent(examController.getView());
+			tbExamen.setContent(new TabExamenesController().getView());
 			tbPregun.setContent(new TabPreguntasController().getView());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -61,13 +59,17 @@ public class MainController implements Initializable {
     	
     	if (file != null) {
     		// TODO: Mandar el fichero al exportador de PDF
+    		Examen examen = new Examen("Título del examen", "Descripción del examen");
+    		String[] error = new String[] {""};
+    		CreadorPdf.generarPDF(examen, file, error);
+    		// TODO: Mostrar diálogo de confirmación
+    		System.out.println(error[0]);
     	}
     	
     }
-	
 
 	@FXML
-	void onEditarPreferenciasAction(ActionEvent event) {		
+	void onEditarPreferenciasAction(ActionEvent event) {
 		try {
 			Stage stage = new Stage();
 			PreferenciasController preferenciasController = new PreferenciasController(stage);
