@@ -51,21 +51,20 @@ public abstract class Intermedio {
 	 * 
 	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	 */
-	public static boolean visualizarPreguntas(String[] error) {
+	public static ArrayList<Pregunta> visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
-		ArrayList<Pregunta> pregunta = new ArrayList<Pregunta>();
+		ArrayList<Pregunta> p = new ArrayList<Pregunta>();
+		String tipoSimple = "SIMP";
+		String tipoMultiple = "MULT";
 		boolean resultado = false;
-		int id;
-		String tipoPregunta, contenido;
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT id, tipoPregunta, contenido FROM bt_preguntas");
 
 			while (rs.next()) {
 
-				id = rs.getInt("id");
-				tipoPregunta = rs.getString("tipoPregunta");
-				contenido = rs.getString("contenido");
+
+					
 
 			}
 
@@ -77,7 +76,7 @@ public abstract class Intermedio {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return resultado;
+		return p;
 	}
 
 	/**
@@ -90,7 +89,8 @@ public abstract class Intermedio {
 	 *                     PreguntasTestSimple
 	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las
 	 *                     PreguntasTestMultiple
-	 * @param id Int donde se guardara la id de la pregunta creada para poder crear las respuestas adecuadas
+	 * @param id           Int donde se guardara la id de la pregunta creada para
+	 *                     poder crear las respuestas adecuadas
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -111,10 +111,10 @@ public abstract class Intermedio {
 				stmt.setString(2, pregunta.getPregunta());
 
 				stmt.executeUpdate();
-				
+
 				ResultSet rs = stmt.getGeneratedKeys();
 				int id;
-				if(rs.next()) {
+				if (rs.next()) {
 					id = rs.getInt(1);
 					pregunta.setIdPregunta(id);
 				}
@@ -125,15 +125,14 @@ public abstract class Intermedio {
 				stmt.setString(2, pregunta.getPregunta());
 
 				stmt.executeUpdate();
-				
+
 				ResultSet rs = stmt.getGeneratedKeys();
 				int id;
-				if(rs.next()) {
+				if (rs.next()) {
 					id = rs.getInt(1);
 					pregunta.setIdPregunta(id);
 				}
-				
-				
+
 			}
 
 			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
@@ -221,20 +220,21 @@ public abstract class Intermedio {
 	 * 
 	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	 */
-	public static boolean visualizarExamenes(String[] error) {
+	public static ArrayList<Examen> visualizarExamenes(String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
-		int id;
-		String nombre, descGeneral;
+		ArrayList<Examen> ex = new ArrayList<Examen>();
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT id, nombre, descripcionGeneral FROM bt_examenes");
 
 			while (rs.next()) {
 
-				id = rs.getInt("id");
-				nombre = rs.getString("nombre");
-				descGeneral = rs.getString("descripcionGeneral");
+				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"));
+
+				ex.add(examen);
+			
+
 			}
 
 			resultado = true;
@@ -245,7 +245,7 @@ public abstract class Intermedio {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return resultado;
+		return ex;
 	}
 
 	/**
@@ -253,7 +253,7 @@ public abstract class Intermedio {
 	 * 
 	 * @param examen Objeto de la clase Examen
 	 * @param error  Array encargada de la gestion de los errores o excepciones
-	 * @param id Int donde se guardara la id del examen creado
+	 * @param id     Int donde se guardara la id del examen creado
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -261,17 +261,17 @@ public abstract class Intermedio {
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		boolean resultado = false;
-		String query ="INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)";
+		String query = "INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)";
 		try {
 			stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
 
 			stmt.executeUpdate();
-			
+
 			ResultSet rs = stmt.getGeneratedKeys();
 			int id;
-			if(rs.next()) {
+			if (rs.next()) {
 				id = rs.getInt(1);
 				examen.setIdExamen(id);
 			}
@@ -342,19 +342,19 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
-	
+
 	/**
 	 * 
-	 * @param idExamen id de la tabla bt_examenes
+	 * @param idExamen   id de la tabla bt_examenes
 	 * @param idPregunta id de la tabla bt_preguntas
-	 * @param peso atributo de la tabla bt_contiene
-	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @param peso       atributo de la tabla bt_contiene
+	 * @param error      Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
 	public static boolean actualizarPesoPregunta(int idExamen, int idPregunta, int peso, String[] error) {
 		Connection con = conectarmysql();
-	    boolean resultado = false;
+		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
 			stmt = con.prepareStatement("UPDATE bt_contiene SET peso=? " + "WHERE idExamen = ? and idPregunta = ?");
@@ -368,11 +368,10 @@ public abstract class Intermedio {
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
-			
+
 		}
-	    
-	    
-	    return resultado;
+
+		return resultado;
 	}
 
 }
