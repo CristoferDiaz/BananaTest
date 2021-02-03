@@ -91,7 +91,7 @@ public abstract class Preferencias {
 	 */
 	public static void cargarPreferencias() throws IOException, FileNotFoundException {
 		String rutaPerfil = System.getProperty("user.home");
-		File file = new File(rutaPerfil + "\\.BananaTest\\config.properties");
+		File file = new File(rutaPerfil + File.pathSeparatorChar + ".BananaTest" + File.pathSeparatorChar + "config.properties");
 		
 		if (!file.getParentFile().exists() && !file.getParentFile().mkdirs())
 			throw new IllegalStateException("No se pudo crear la carpeta .BananaTest");
