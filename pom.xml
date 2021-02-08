@@ -42,6 +42,10 @@
 			<artifactId>itextdoc</artifactId>
 			<version>2.0.0</version>
 			<type>pom</type>
+  		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.18</version>
 		</dependency>
 	</dependencies>
 
