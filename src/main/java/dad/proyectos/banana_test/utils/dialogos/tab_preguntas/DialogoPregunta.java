@@ -1,8 +1,9 @@
-package dad.proyectos.banana_test.utils;
+package dad.proyectos.banana_test.utils.dialogos.tab_preguntas;
 
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.dialogos.Dialogo;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;

@@ -1,8 +1,9 @@
-package dad.proyectos.banana_test.utils;
+package dad.proyectos.banana_test.utils.dialogos;
 
+import dad.proyectos.banana_test.utils.Preferencias;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 

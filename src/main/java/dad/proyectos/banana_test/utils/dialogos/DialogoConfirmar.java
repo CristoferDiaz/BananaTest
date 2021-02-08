@@ -1,4 +1,4 @@
-package dad.proyectos.banana_test.utils;
+package dad.proyectos.banana_test.utils.dialogos;
 
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;

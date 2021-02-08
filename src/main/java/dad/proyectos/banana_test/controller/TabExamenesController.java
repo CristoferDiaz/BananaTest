@@ -10,9 +10,9 @@ import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
-import dad.proyectos.banana_test.utils.DialogoAgregarPregunta;
-import dad.proyectos.banana_test.utils.DialogoCrear;
-import dad.proyectos.banana_test.utils.DialogoModificar;
+import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoAgregarPregunta;
+import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoCrearExamen;
+import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoModificarExamen;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -278,7 +278,7 @@ public class TabExamenesController implements Initializable {
 
 	@FXML
 	void onCrearAction(ActionEvent event) {
-		DialogoCrear diag_crear = new DialogoCrear("Crear nuevo examen", "Aceptar", "Cancelar");
+		DialogoCrearExamen diag_crear = new DialogoCrearExamen("Crear nuevo examen", "Aceptar", "Cancelar");
 		Optional<Pair<String, String>> result = diag_crear.showAndWait();
 		if (result.isPresent()) {
 			Pair<String, String> pair;
@@ -293,7 +293,7 @@ public class TabExamenesController implements Initializable {
 	@FXML
 	void onModificarAction(ActionEvent event) {
 		// Creamos un objectproperty donde metemos el examen a modificar seleccionado
-		DialogoModificar diag_mod = new DialogoModificar(
+		DialogoModificarExamen diag_mod = new DialogoModificarExamen(
 				"Modificar examen", "Aceptar", "Cancelar",
 				examenSeleccionado.get()
 		);
