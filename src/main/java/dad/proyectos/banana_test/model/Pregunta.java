@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -68,6 +69,8 @@ public abstract class Pregunta extends BorderPane implements Initializable {
 	 * @return array de String con los textos de cada una de las respuestas
 	 */
 	public abstract StringProperty[] obtenerRespuestas();
+	
+	public abstract Node construirFormularioEditable();
 	
 	public TIPO_PREGUNTA getTipoPregunta() {
 		return tipoPregunta;
