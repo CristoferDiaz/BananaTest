@@ -12,6 +12,7 @@ import java.util.Scanner;
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.Pregunta.TIPO_PREGUNTA;
+import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 
 public abstract class Intermedio {
@@ -53,19 +54,50 @@ public abstract class Intermedio {
 	 */
 	public static ArrayList<Pregunta> visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
-		ArrayList<Pregunta> p = new ArrayList<Pregunta>();
+		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
+		
+		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
-		boolean resultado = false;
+		String tipo, contenido, descripcion;
+		boolean valida;
+		int id;
 		try {
 			Statement stmt = con.createStatement();
+			PreparedStatement stmt2;
 			ResultSet rs = stmt.executeQuery("SELECT id, tipoPregunta, contenido FROM bt_preguntas");
 
-			while (rs.next()) {
 
+			while (rs.next()) {	
+				id = rs.getInt("id");
+				tipo = rs.getString("tipoPregunta");
+				contenido = rs.getString("contenido");
+				
+				stmt2 = con.prepareStatement("SELECT id, descripcion, valida, idPregunta FROM"
+						+ "bt_respuestas WHERE idPregunta = ?");
+				stmt2.setInt(1, id);
+				rs.getInt("id");
+				descripcion = rs.getString("descripcion");
+				valida = rs.getBoolean("valida");
+				String[] respuestas = new String[4];
+				if(valida == true) {
+					respuestas[0] = descripcion;
+				}else {
+				respuestas[1] = descripcion;
+				respuestas[2] = descripcion;
+				respuestas[3] = descripcion;
+				}
+				
+				
+				if(tipo == tipoSimple) {
+				PreguntaTestSimple preguntaSimple = new PreguntaTestSimple(
+							contenido, 
+							respuestas);
+				preguntaSimple.setIdPregunta(id);
+				pre.add(preguntaSimple);
+				}
 
-					
-
+				
 			}
 
 			resultado = true;
@@ -76,7 +108,7 @@ public abstract class Intermedio {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return p;
+		return pre;
 	}
 
 	/**
@@ -135,12 +167,18 @@ public abstract class Intermedio {
 
 			}
 
+
 			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+			ResultSet rs;
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
 			stmt.setString(1, pregunta.getPregunta());
 			stmt.setBoolean(2, pregunta.isCorrecta());
 			stmt.setInt(3, pregunta.getIdPregunta());
-
+			
 			stmt.executeUpdate();
+			}
 
 			resultado = true;
 			con.close();
@@ -233,7 +271,6 @@ public abstract class Intermedio {
 				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"));
 
 				ex.add(examen);
-			
 
 			}
 
