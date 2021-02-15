@@ -10,6 +10,7 @@ import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoAgregarPregunta;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoCrearExamen;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoModificarExamen;
@@ -24,10 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -311,14 +309,17 @@ public class TabExamenesController implements Initializable {
 
 	@FXML
 	void onBorrarAction(ActionEvent event) {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Borrar examen.");
-		alert.setContentText(
-				"Está a punto de borrar " + examenSeleccionado.get().getNombre());
-
-		// CONTROLAMOS LA DECISION DEL USUARIO
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.isPresent() && result.get() == ButtonType.OK) {
+		DialogoConfirmar dialog = new DialogoConfirmar(
+				"Borrar Examen",
+				"Borrar un examen es una operación irreversible.\n¿Está seguro de querer continuar?",
+				"Borrar",
+				"Cancelar"
+		);
+		
+		Optional<Boolean> result = dialog.showAndWait();
+		
+		if (result.isPresent()) {
+			// TODO: Borrar examen de la BD y rescatar de nuevo el listado
 			listadoExamenes.remove(examenSeleccionado.get()); // ELIMINAMOS EL EXAMEN SELECCIONADO
 		}
 	}
