@@ -10,42 +10,38 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class DialogoCrearExamen extends Dialogo<Pair<String, String>>{
-	
+public class DialogoCrearExamen extends Dialogo<Pair<String, String>> {
+
 	public DialogoCrearExamen(String titulo, String aceptar, String cancelar) {
 		super(titulo, aceptar, cancelar);
-		
-		//campos
+
+		// campos
 		Label lbNombre = new Label("Nombre del examen: ");
 		Label lbDescripcion = new Label("Descripcion: ");
 		TextField tfNombre = new TextField();
 		TextField tfDescripcion = new TextField();
-		
-		//root
+
+		// root
 		VBox root = new VBox();
-		
-		//contenedor
+
+		// contenedor
 		GridPane grid = new GridPane();
-		grid.add(lbNombre,0,0);
-		grid.add(tfNombre,1,0);
-		grid.add(lbDescripcion,0,1);
-		grid.add(tfDescripcion,1,1);
+		grid.add(lbNombre, 0, 0);
+		grid.add(tfNombre, 1, 0);
+		grid.add(lbDescripcion, 0, 1);
+		grid.add(tfDescripcion, 1, 1);
 		grid.setVgap(8);
 		grid.setHgap(10);
-		
-		
-		root.setPadding(new Insets(10,10,10,10));
+
+		root.setPadding(new Insets(10, 10, 10, 10));
 		root.setSpacing(5);
 		root.setAlignment(Pos.CENTER);
-		
-		grid.getChildren().addAll(lbNombre, tfNombre, lbDescripcion, tfDescripcion);
 		root.getChildren().addAll(grid);
 		getDialogPane().setContent(root);
-		
-		//Focus en el nombre del examen
+
+		// Focus en el nombre del examen
 		Platform.runLater(() -> tfNombre.requestFocus());
-		
-		
+
 		setResultConverter(dialogButton -> {
 			if (dialogButton == btAceptar) {
 				Pair<String, String> pair = new Pair<String, String>(tfNombre.getText(), tfDescripcion.getText());
@@ -53,9 +49,7 @@ public class DialogoCrearExamen extends Dialogo<Pair<String, String>>{
 			}
 			return null;
 		});
-		
-		
-		
+
 	}
 
 }
