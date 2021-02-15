@@ -230,7 +230,7 @@ public abstract class Intermedio {
 
 			while (rs.next()) {
 
-				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"));
+				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"), rs.getInt("creador"));
 
 				ex.add(examen);
 			

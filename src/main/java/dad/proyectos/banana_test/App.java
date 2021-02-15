@@ -1,5 +1,8 @@
 package dad.proyectos.banana_test;
 
+import java.io.IOException;
+
+import dad.proyectos.banana_test.controller.LoginController;
 import dad.proyectos.banana_test.controller.MainController;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Application;
@@ -29,21 +32,38 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		mainController = new MainController();
-				
-		Scene escena = new Scene(mainController.getView());
+		if (gestionarLogin()) {
+			mainController = new MainController();
+					
+			Scene escena = new Scene(mainController.getView());
+			
+			// Cargamos el tema css escogido por el usuario
+			if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
+				escena.getStylesheets().add(Preferencias.cargarTema());
+			
+			primaryStage.setScene(escena);
+			primaryStage.setTitle("BananaTest");
+			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+			primaryStage.show();
+			App.primaryStage = primaryStage;
+		}
+	}
+	
+	private static boolean gestionarLogin() throws IOException {
+		Stage stage = new Stage();
+		LoginController loginController = new LoginController(stage);
+		Scene escena = new Scene(loginController.getView());
 		
-		// Cargamos el tema css escogido por el usuario
-		if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
-			escena.getStylesheets().add(Preferencias.cargarTema());
+		stage.setScene(escena);
+		stage.setTitle("BananaTest");
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+		stage.showAndWait();
 		
-		primaryStage.setScene(escena);
-		primaryStage.setTitle("BananaTest");
-		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
-		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
-		primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
-		primaryStage.show();
-		App.primaryStage = primaryStage;
+		return (loginController.isValidado());
 	}
 
 	public static void main(String[] args) {

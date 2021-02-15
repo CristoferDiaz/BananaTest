@@ -10,16 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Clase gestora de un examen con sus correspondientes preguntas y demás
- * datos relevantes según el diagrama correspondiente.
+ * Clase gestora de un examen con sus correspondientes preguntas y demás datos
+ * relevantes según el diagrama correspondiente.
  * 
  * Se contempla que un Examen pueda tener 0 o más preguntas.
  * 
  * Todo examen debe tener un id asociado que puede ser:
  * 
  * <ul>
- * 	<li>-1 Si es un nuevo examen que no existe todavía en la BD</li>
- * <li> Un número entero asociado a su identificador en la BD</li>
+ * <li>-1 Si es un nuevo examen que no existe todavía en la BD</li>
+ * <li>Un número entero asociado a su identificador en la BD</li>
  * </ul>
  *
  * @author Crmprograming
@@ -31,32 +31,38 @@ public class Examen {
 	private StringProperty nombre = new SimpleStringProperty();
 	private StringProperty descripcion = new SimpleStringProperty();
 	private ListProperty<Pregunta> preguntas = new SimpleListProperty<Pregunta>(FXCollections.observableArrayList());
-	
+	protected IntegerProperty creador = new SimpleIntegerProperty();
+
 	/**
-	 * Constructor por defecto de la clase. Delega la instanciación correcta al constructor extendido,
-	 * inicializándolo con un identificador de -1.
+	 * Constructor por defecto de la clase. Delega la instanciación correcta al
+	 * constructor extendido, inicializándolo con un identificador de -1.
 	 * 
-	 * @param tituloExamen String con el título del examen
+	 * @param tituloExamen     String con el título del examen
 	 * @param textoDescripcion String con el texto cabecera del examen
-	 * @param listaPreguntas Conjunto de instancias de la clase Pregunta (puede ser vacío)
+	 * @param listaPreguntas   Conjunto de instancias de la clase Pregunta (puede
+	 *                         ser vacío)
 	 */
-	public Examen(String tituloExamen, String textoDescripcion, Pregunta ... listaPreguntas) {
-		this(-1, tituloExamen, textoDescripcion, listaPreguntas);
+	public Examen(String tituloExamen, String textoDescripcion, Pregunta... listaPreguntas) {
+		this(-1, tituloExamen, textoDescripcion, -1, listaPreguntas);
 	}
-	
+
 	/**
-	 * Constructor extendido de la clase. Instancia un objeto de tipo Examen especificando los
-	 * valores indicados por parámetro.
+	 * Constructor extendido de la clase. Instancia un objeto de tipo Examen
+	 * especificando los valores indicados por parámetro.
 	 * 
-	 * @param identificador Integer con el identificador asignado a dicho examen
-	 * @param tituloExamen String con el título del examen
+	 * @param identificador    Integer con el identificador asignado a dicho examen
+	 * @param tituloExamen     String con el título del examen
 	 * @param textoDescripcion String con el texto cabecera del examen
-	 * @param listaPreguntas Conjunto de instancias de la clase Pregunta (puede ser vacío)
+	 * @param idUsuario        Integer con el identificador del usuario creador de
+	 *                         dicho examen
+	 * @param listaPreguntas   Conjunto de instancias de la clase Pregunta (puede
+	 *                         ser vacío)
 	 */
-	public Examen(int identificador, String tituloExamen, String textoDescripcion, Pregunta ... listaPreguntas) {
+	public Examen(int identificador, String tituloExamen, String textoDescripcion, int idUsuario, Pregunta... listaPreguntas) {
 		idExamen.set(identificador);
 		nombre.set(tituloExamen);
 		descripcion.set(textoDescripcion);
+		creador.set(idUsuario);
 		if (listaPreguntas != null)
 			preguntas.get().addAll(listaPreguntas);
 	}
@@ -95,6 +101,18 @@ public class Examen {
 
 	public final void setDescripcion(final String descripcion) {
 		this.descripcionProperty().set(descripcion);
+	}
+
+	public final IntegerProperty creadorProperty() {
+		return this.creador;
+	}
+
+	public final int getCreador() {
+		return this.creadorProperty().get();
+	}
+
+	public final void setCreador(final int creador) {
+		this.creadorProperty().set(creador);
 	}
 
 	public final ListProperty<Pregunta> preguntasProperty() {
