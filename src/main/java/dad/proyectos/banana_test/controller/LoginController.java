@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.db.Intermedio;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,6 +36,7 @@ public class LoginController implements Initializable {
 	private StringProperty usuarioPassword = new SimpleStringProperty();
 	private BooleanProperty validado = new SimpleBooleanProperty(false);
 	private StringProperty mensajeWarning = new SimpleStringProperty();
+	private BooleanProperty funcional = new SimpleBooleanProperty(true);
 	
 	// view
 	
@@ -103,12 +103,16 @@ public class LoginController implements Initializable {
 
 			@Override
 			protected Void call() throws Exception {
-				Connection conexion = Intermedio.conectarmysql(); 
-				if (conexion == null) {					
-					mensajeWarning.set("El servidor indicado no está disponible.");
-				} else {
-					setValidado(true);
-				}
+				// TODO: Cambiar esto para que haga la conexión verdadera
+				setValidado(true); // Quitar esta línea cuando ya no haga falta
+				funcional.set(false);
+//				Connection conexion = Intermedio.conectarmysql();
+//				if (conexion == null) {					
+//					mensajeWarning.set("El servidor indicado no está disponible.");
+//				} else {
+//					setValidado(true);
+//					conexion.close();
+//				}
 				return null;
 			}
 			
@@ -119,6 +123,8 @@ public class LoginController implements Initializable {
 			hbBotonesControl.setDisable(false);
 			progressIndicator.setVisible(false);
 			lbMensajeWarning.setText(mensajeWarning.get());
+			if (!funcional.get())
+				stage.close();
 		});
 		
 		new Thread(task).start();

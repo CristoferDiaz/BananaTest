@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-
-<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1">
+<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
          <image>
@@ -29,8 +29,14 @@
    <bottom>
       <HBox fx:id="hbBotonesControl" alignment="CENTER" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onConectarseAction" text="Conectarse" />
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onConectarseAction" text="Conectarse">
+               <graphic>
+                  <FontIcon iconColor="#159423" iconLiteral="mdi-login" iconSize="20" />
+               </graphic></Button>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Salir">
+               <graphic>
+                  <FontIcon iconColor="#ab0909" iconLiteral="mdi-logout" iconSize="20" />
+               </graphic></Button>
          </children>
          <BorderPane.margin>
             <Insets top="5.0" />
@@ -46,7 +52,7 @@
             <VBox fx:id="vbContent" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" StackPane.alignment="CENTER">
                <children>
                   <Label fx:id="lbMensajeWarning" textFill="RED" />
-                  <TitledPane collapsible="false" prefHeight="200.0" prefWidth="200.0" text="Datos del Servidor">
+                  <TitledPane collapsible="false" prefWidth="200.0" text="Datos del Servidor">
                      <content>
                         <GridPane vgap="20.0">
                           <columnConstraints>
@@ -71,8 +77,11 @@
                            </padding>
                         </GridPane>
                      </content>
+                     <graphic>
+                        <FontIcon iconLiteral="mdi-dns" iconSize="20" />
+                     </graphic>
                   </TitledPane>
-                  <TitledPane collapsible="false" prefHeight="200.0" prefWidth="200.0" text="Datos del Usuario">
+                  <TitledPane collapsible="false" prefWidth="200.0" text="Datos del Usuario">
                      <content>
                         <GridPane vgap="20.0">
                            <columnConstraints>
@@ -94,6 +103,9 @@
                            </padding>
                         </GridPane>
                      </content>
+                     <graphic>
+                        <FontIcon iconLiteral="mdi-account" iconSize="20" />
+                     </graphic>
                   </TitledPane>
                </children>
                <padding>
