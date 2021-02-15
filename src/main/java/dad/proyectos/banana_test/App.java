@@ -46,6 +46,8 @@ public class App extends Application {
 			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
 			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
 			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+			primaryStage.setMinHeight(550);
+			primaryStage.setMinWidth(900);
 			primaryStage.show();
 			App.primaryStage = primaryStage;
 		}
@@ -61,6 +63,7 @@ public class App extends Application {
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+		stage.setResizable(false);
 		stage.showAndWait();
 		
 		return (loginController.isValidado());

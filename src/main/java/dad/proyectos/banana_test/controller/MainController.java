@@ -24,14 +24,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainController implements Initializable {
-	
+
 	// view
 	@FXML
 	private BorderPane view;
 
 	@FXML
 	private Tab tbExamen, tbPregun;
-	
+
 	public MainController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
 		loader.setController(this);
@@ -48,25 +48,25 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
-    void onExportarPDFAction(ActionEvent event) {
+	void onExportarPDFAction(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Guardar examen en un pdf");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF (*.pdf)", "*.pdf"));
-    	fileChooser.getExtensionFilters().add(new ExtensionFilter("Todos los archivos (*.*)", "*.*"));
-    	File file = fileChooser.showSaveDialog(App.primaryStage);
-    	
-    	if (file != null) {
-    		// TODO: Mandar el fichero al exportador de PDF
-    		Examen examen = new Examen("Título del examen", "Descripción del examen");
-    		String[] error = new String[] {""};
-    		CreadorPdf.generarPDF(examen, file, error);
-    		// TODO: Mostrar diálogo de confirmación
-    		System.out.println(error[0]);
-    	}
-    	
-    }
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Todos los archivos (*.*)", "*.*"));
+		File file = fileChooser.showSaveDialog(App.primaryStage);
+
+		if (file != null) {
+			// TODO: Mandar el fichero al exportador de PDF
+			Examen examen = new Examen("Título del examen", "Descripción del examen");
+			String[] error = new String[] { "" };
+			CreadorPdf.generarPDF(examen, file, error);
+			// TODO: Mostrar diálogo de confirmación
+			System.out.println(error[0]);
+		}
+
+	}
 
 	@FXML
 	void onEditarPreferenciasAction(ActionEvent event) {
@@ -80,15 +80,15 @@ public class MainController implements Initializable {
 			stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
 			stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
 			stage.initModality(Modality.APPLICATION_MODAL);
-			
+
 			if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
 				escena.getStylesheets().add(Preferencias.cargarTema());
-			
+
 			stage.showAndWait();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@FXML
@@ -103,7 +103,5 @@ public class MainController implements Initializable {
 	public void setView(BorderPane view) {
 		this.view = view;
 	}
-	
-	
 
 }
