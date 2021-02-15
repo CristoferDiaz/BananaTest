@@ -1,11 +1,11 @@
 package dad.proyectos.banana_test.controller;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
-import java.sql.Connection;
+import java.security.MessageDigest;
 import java.util.ResourceBundle;
 
-import dad.proyectos.banana_test.db.Intermedio;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -128,6 +128,13 @@ public class LoginController implements Initializable {
 		});
 		
 		new Thread(task).start();
+	}
+	
+	private String generarSha1(String cadena) throws Exception {
+		MessageDigest digest = MessageDigest.getInstance("SHA-1");
+		digest.reset();
+		digest.update(cadena.getBytes("utf8"));
+		return String.format("%040x", new BigInteger(1, digest.digest()));
 	}
 
 	public BorderPane getView() {

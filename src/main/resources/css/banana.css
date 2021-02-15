@@ -8,6 +8,10 @@
 	-fx-fondo-4: #59C9A5;
 }
 
+.icon-menu {
+	-fx-icon-color: -fx-fondo-2;
+}
+
 .root {
 	-fx-background-color: -fx-fondo-1;
 }

@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox fx:id="view" prefHeight="500.0" prefWidth="500.0" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <padding>
@@ -41,11 +42,17 @@
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
+                           <graphic>
+                              <FontIcon iconColor="#00b7ff" iconLiteral="fa-language" iconSize="20" />
+                           </graphic>
                         </Label>
                         <Label text="Tema:" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
+                           <graphic>
+                              <FontIcon iconColor="#4da6ff" iconLiteral="fa-paint-brush" iconSize="20" />
+                           </graphic>
                         </Label>
                         <ComboBox fx:id="cbIdioma" maxWidth="-Infinity" prefWidth="200.0" promptText="Seleccione un idioma" GridPane.columnIndex="1" />
                         <ComboBox fx:id="cbTema" prefHeight="27.0" prefWidth="200.0" promptText="Seleccione un tema" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -58,8 +65,14 @@
       </TitledPane>
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="5.0">
          <children>
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar" />
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onGuardarAction" styleClass="bt-aceptar" text="Guardar Cambios" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar">
+               <graphic>
+                  <FontIcon iconColor="RED" iconLiteral="fa-times" iconSize="20" />
+               </graphic></Button>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onGuardarAction" styleClass="bt-aceptar" text="Guardar Cambios">
+               <graphic>
+                  <FontIcon iconColor="#05c629" iconLiteral="fa-check" iconSize="20" />
+               </graphic></Button>
          </children>
       </HBox>
    </children>

@@ -35,18 +35,18 @@
                      </graphic></MenuItem>
             </items>
                <graphic>
-                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-file" iconSize="20" />
+                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-file" iconSize="20" styleClass="icon-menu" />
                </graphic>
           </Menu>
           <Menu text="_Editar">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#onEditarPreferenciasAction" text="Preferencias">
                      <graphic>
-                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-cogs" iconSize="20" />
+                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-cogs" iconSize="20" styleClass="icon-menu" />
                      </graphic></MenuItem>
             </items>
                <graphic>
-                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-edit" iconSize="20" />
+                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-edit" iconSize="20" styleClass="icon-menu" />
                </graphic>
           </Menu>
           <Menu text="Ay_uda">
@@ -61,7 +61,7 @@
                      </graphic></MenuItem>
             </items>
                <graphic>
-                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-info" iconSize="20" />
+                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-info" iconSize="20" styleClass="icon-menu" />
                </graphic>
           </Menu>
         </menus>
@@ -76,7 +76,7 @@
                </graphic></Tab>
           <Tab fx:id="tbPregun" text="Preguntas">
                <graphic>
-                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-list" iconSize="20" />
+                  <FontIcon iconColor="#e8c23a" iconLiteral="fa-list" iconSize="20" styleClass="icon-menu" />
                </graphic></Tab>
         </tabs>
       </TabPane>

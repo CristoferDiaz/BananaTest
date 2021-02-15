@@ -222,6 +222,9 @@ public class TabExamenesController implements Initializable {
 				)
 		);
 		
+		btBorrarExamen.disableProperty().bind(examenSeleccionado.isNull());
+		btModExamen.disableProperty().bind(examenSeleccionado.isNull());
+		
 		txPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 		btActPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
