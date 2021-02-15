@@ -45,7 +45,13 @@
                      <content>
                         <BorderPane fx:id="bpEditarPregunta" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <top>
-                              <Button fx:id="btAplicarCambios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAplicarCambios" text="Aplicar Cambios" BorderPane.alignment="CENTER" />
+                              <Button fx:id="btAplicarCambios" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAplicarCambios" text="Aplicar Cambios" BorderPane.alignment="CENTER">
+                                 <graphic>
+                                    <FontIcon iconColor="#00a6ff" iconLiteral="fa-paint-brush" iconSize="20" />
+                                 </graphic>
+                                 <BorderPane.margin>
+                                    <Insets bottom="5.0" />
+                                 </BorderPane.margin></Button>
                            </top>
                         </BorderPane>
                      </content>
