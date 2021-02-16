@@ -55,7 +55,7 @@ public abstract class Intermedio {
 	public static ArrayList<Pregunta> visualizarPreguntas(String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
-		
+
 		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
@@ -67,37 +67,32 @@ public abstract class Intermedio {
 			PreparedStatement stmt2;
 			ResultSet rs = stmt.executeQuery("SELECT id, tipoPregunta, contenido FROM bt_preguntas");
 
-
-			while (rs.next()) {	
+			while (rs.next()) {
 				id = rs.getInt("id");
 				tipo = rs.getString("tipoPregunta");
 				contenido = rs.getString("contenido");
-				
-				stmt2 = con.prepareStatement("SELECT id, descripcion, valida, idPregunta FROM"
-						+ "bt_respuestas WHERE idPregunta = ?");
+
+				stmt2 = con.prepareStatement(
+						"SELECT id, descripcion, valida, idPregunta FROM" + "bt_respuestas WHERE idPregunta = ?");
 				stmt2.setInt(1, id);
 				rs.getInt("id");
 				descripcion = rs.getString("descripcion");
 				valida = rs.getBoolean("valida");
 				String[] respuestas = new String[4];
-				if(valida == true) {
+				if (valida == true) {
 					respuestas[0] = descripcion;
-				}else {
-				respuestas[1] = descripcion;
-				respuestas[2] = descripcion;
-				respuestas[3] = descripcion;
-				}
-				
-				
-				if(tipo == tipoSimple) {
-				PreguntaTestSimple preguntaSimple = new PreguntaTestSimple(
-							contenido, 
-							respuestas);
-				preguntaSimple.setIdPregunta(id);
-				pre.add(preguntaSimple);
+				} else {
+					respuestas[1] = descripcion;
+					respuestas[2] = descripcion;
+					respuestas[3] = descripcion;
 				}
 
-				
+				if (tipo == tipoSimple) {
+					PreguntaTestSimple preguntaSimple = new PreguntaTestSimple(contenido, respuestas);
+					preguntaSimple.setIdPregunta(id);
+					pre.add(preguntaSimple);
+				}
+
 			}
 
 			resultado = true;
@@ -123,6 +118,8 @@ public abstract class Intermedio {
 	 *                     PreguntasTestMultiple
 	 * @param id           Int donde se guardara la id de la pregunta creada para
 	 *                     poder crear las respuestas adecuadas
+	 * @param row          Numero total de respuestas que hay
+	 * 
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -145,10 +142,20 @@ public abstract class Intermedio {
 				stmt.executeUpdate();
 
 				ResultSet rs = stmt.getGeneratedKeys();
+
 				int id;
 				if (rs.next()) {
 					id = rs.getInt(1);
 					pregunta.setIdPregunta(id);
+				}
+
+				while (rs.next()) {
+					stmt = con.prepareStatement(
+							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+					stmt.setString(1, pregunta.getPregunta());
+					stmt.setBoolean(2, pregunta.isCorrecta());
+					stmt.setInt(3, pregunta.getIdPregunta());
+					stmt.executeUpdate();
 				}
 
 			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
@@ -165,19 +172,19 @@ public abstract class Intermedio {
 					pregunta.setIdPregunta(id);
 				}
 
-			}
+				stmt = con
+						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+				int row = 4;
+				pregunta.setCorrecta(true);
+				for (int i = 0; i < row; i++) {
+					stmt.setString(1, pregunta.getPregunta());
+					stmt.setBoolean(2, pregunta.isCorrecta());
+					stmt.setInt(3, pregunta.getIdPregunta());
+					pregunta.setCorrecta(false);
+					stmt.addBatch();
+				}
+				stmt.executeBatch();
 
-
-			stmt = con.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
-			ResultSet rs;
-			rs = stmt.executeQuery();
-			
-			while(rs.next()) {
-			stmt.setString(1, pregunta.getPregunta());
-			stmt.setBoolean(2, pregunta.isCorrecta());
-			stmt.setInt(3, pregunta.getIdPregunta());
-			
-			stmt.executeUpdate();
 			}
 
 			resultado = true;
