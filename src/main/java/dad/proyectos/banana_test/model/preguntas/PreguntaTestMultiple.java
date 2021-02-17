@@ -72,22 +72,22 @@ public class PreguntaTestMultiple extends Pregunta {
 		if (textosRespuestas.length != TOTAL_RESPUESTAS || correctas.length != TOTAL_RESPUESTAS)
 			throw new IllegalArgumentException("Se esperaban un total de " + TOTAL_RESPUESTAS + " respuestas.");
 		
-		pregunta.set(textoPregunta);
+		/*pregunta.set(textoPregunta);
 		for (int i = 0; i < TOTAL_RESPUESTAS; i++) {
 			CheckBox checkbox = new CheckBox(textosRespuestas[i]);
 			Pair<CheckBox, BooleanProperty> pair = new Pair<CheckBox, BooleanProperty>(checkbox, new SimpleBooleanProperty(correctas[i]));
 			respuestas.get().add(pair);
 		}
-		Collections.shuffle(respuestas.get());
+		Collections.shuffle(respuestas.get());*/
 		
-		try {
+		/*try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/componentes/PlantillaPreguntaTipoTest.fxml"));
 			loader.setController(this);
 			loader.setRoot(this);
 			loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 

@@ -67,14 +67,14 @@ public class PreguntaTestSimple extends Pregunta {
 		if (respuestas.length != TOTAL_RESPUESTAS)
 			throw new IllegalArgumentException("Se esperaban un total de " + TOTAL_RESPUESTAS + " respuestas.");
 		
-		try {
+		/*try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/componentes/PlantillaPreguntaTipoTest.fxml"));
 			loader.setController(this);
 			loader.setRoot(this);
 			loader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		pregunta.set(textoPregunta);
 		respuestaValida.set(respuestas[0]);

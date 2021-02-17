@@ -14,6 +14,7 @@ import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.Pregunta.TIPO_PREGUNTA;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import javafx.beans.property.StringProperty;
 
 public abstract class Intermedio {
 
@@ -149,14 +150,16 @@ public abstract class Intermedio {
 					pregunta.setIdPregunta(id);
 				}
 
-				while (rs.next()) {
-					stmt = con.prepareStatement(
-							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+				stmt = con
+						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
+				int row = 4;
+				for (int i = 0; i < row; i++) {
 					stmt.setString(1, pregunta.getPregunta());
-					stmt.setBoolean(2, pregunta.isCorrecta());
+					stmt.setBoolean(2, pregunta.esCorrecta());
 					stmt.setInt(3, pregunta.getIdPregunta());
-					stmt.executeUpdate();
+					stmt.addBatch();
 				}
+				stmt.executeBatch();
 
 			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -178,7 +181,7 @@ public abstract class Intermedio {
 				pregunta.setCorrecta(true);
 				for (int i = 0; i < row; i++) {
 					stmt.setString(1, pregunta.getPregunta());
-					stmt.setBoolean(2, pregunta.isCorrecta());
+					stmt.setBoolean(2, pregunta.esCorrecta());
 					stmt.setInt(3, pregunta.getIdPregunta());
 					pregunta.setCorrecta(false);
 					stmt.addBatch();
