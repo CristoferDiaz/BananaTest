@@ -424,6 +424,14 @@ public abstract class Intermedio {
 	
 	//Usuario
 	
+	/**
+	 * 
+	 * @param connection Parametro que realiza la conexion
+	 * @param usuario    String del codUsuario
+	 * @param passwd     String de la contraseña de dicho usuario
+	 * @param error      String[] donde se gaurdaran los errores
+	 * @return login     int que retornara -1 si el login falló y el id del usuario en caso de login válido          
+	 */
 	public static int comprobarLogin(Connection connection, String usuario, String passwd, String[] error) {
 		int login = 0;
 		connection = conectarmysql();
@@ -442,6 +450,7 @@ public abstract class Intermedio {
 				login = -1;
 			}else if(usuario == rs.getString("usuario") && passwd != rs.getString("passwd")) {
 				error[0] = "La contraseña no es válida";
+				login = -1;
 			}
 			
 			stmt.execute();
