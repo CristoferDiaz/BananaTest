@@ -491,6 +491,15 @@ public abstract class Intermedio {
 	}
 	
 	//Categorias
+	
+	/**
+	 * 
+	 * @param nombre  String nombre de la categoria
+	 * @param creador Int id del usuario
+	 * @param error      Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
 	public static boolean crearCategoria(String nombre, int creador, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
