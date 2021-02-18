@@ -464,5 +464,52 @@ public abstract class Intermedio {
 		
 		return login;
 	}
+	
+	
+	//Respuestas
+	//TODO debe crear nuevas respuestas en base a 
+	//las que están en el objeto pregunta asignándoles el id de pregunta como su pregunta "padre"
+	public static boolean actualizarRespuestas(Pregunta pregunta, String[] error) {
+		boolean resultado = false;
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		try {
+	    stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
+		ResultSet rs = stmt.executeQuery();
+		stmt.setInt(1, pregunta.getIdPregunta());
+		
+		stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+		stmt.setInt(1, pregunta.getIdPregunta());
+		
+		stmt.executeUpdate();
+		
+		}catch(SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		
+		return resultado;
+	}
+	
+	//Categorias
+	public static boolean crearCategoria(String nombre, int creador, String[] error) {
+		boolean resultado = false;
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("INSERT INTO bt_categorias (nombre, creador) VALUES (?,?)");
+			stmt.setString(1, nombre);
+			stmt.setInt(2, creador);
+			
+			stmt.executeUpdate();
+			resultado = true;
+			con.close();
+			
+		}catch(SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		return resultado;
+	}
+	
+	
 
 }
