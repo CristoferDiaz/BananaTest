@@ -420,5 +420,40 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
+	
+	
+	//Usuario
+	
+	public static int comprobarLogin(Connection connection, String usuario, String passwd, String[] error) {
+		int login = 0;
+		connection = conectarmysql();
+		
+		try {
+			PreparedStatement stmt;
+			stmt = connection.prepareStatement("SELECT id, codUsuario, passwd FROM bt_usuarios where codUsuario = ? and passwd = ?");
+			stmt.setString(1, usuario);
+			stmt.setString(2, passwd);
+			
+			ResultSet rs = stmt.executeQuery();
+			login = rs.getInt("id");
+			
+			if(usuario != rs.getString("usuario")) {
+				error[0] = "El usuario indicado no  existe";
+				login = -1;
+			}else if(usuario == rs.getString("usuario") && passwd != rs.getString("passwd")) {
+				error[0] = "La contraseña no es válida";
+			}
+			
+			stmt.execute();
+			rs.close();
+			connection.close();
+			
+					
+		}catch(SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		
+		return login;
+	}
 
 }
