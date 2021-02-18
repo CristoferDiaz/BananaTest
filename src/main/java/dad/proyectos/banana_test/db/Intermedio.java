@@ -420,83 +420,83 @@ public abstract class Intermedio {
 
 		return resultado;
 	}
-	
-	
-	//Usuario
-	
+
+	// Usuario
+
 	/**
 	 * 
 	 * @param connection Parametro que realiza la conexion
 	 * @param usuario    String del codUsuario
 	 * @param passwd     String de la contraseña de dicho usuario
 	 * @param error      String[] donde se gaurdaran los errores
-	 * @return login     int que retornara -1 si el login falló y el id del usuario en caso de login válido          
+	 * @return login int que retornara -1 si el login falló y el id del usuario en
+	 *         caso de login válido
 	 */
 	public static int comprobarLogin(Connection connection, String usuario, String passwd, String[] error) {
 		int login = 0;
 		connection = conectarmysql();
-		
+
 		try {
 			PreparedStatement stmt;
-			stmt = connection.prepareStatement("SELECT id, codUsuario, passwd FROM bt_usuarios where codUsuario = ? and passwd = ?");
+			stmt = connection.prepareStatement(
+					"SELECT id, codUsuario, passwd FROM bt_usuarios where codUsuario = ? and passwd = ?");
 			stmt.setString(1, usuario);
 			stmt.setString(2, passwd);
-			
+
 			ResultSet rs = stmt.executeQuery();
 			login = rs.getInt("id");
-			
-			if(usuario != rs.getString("usuario")) {
+
+			if (usuario != rs.getString("usuario")) {
 				error[0] = "El usuario indicado no  existe";
 				login = -1;
-			}else if(usuario == rs.getString("usuario") && passwd != rs.getString("passwd")) {
+			} else if (usuario == rs.getString("usuario") && passwd != rs.getString("passwd")) {
 				error[0] = "La contraseña no es válida";
 				login = -1;
 			}
-			
+
 			stmt.execute();
 			rs.close();
 			connection.close();
-			
-					
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return login;
 	}
-	
-	
-	//Respuestas
-	//TODO debe crear nuevas respuestas en base a 
-	//las que están en el objeto pregunta asignándoles el id de pregunta como su pregunta "padre"
+
+	// Respuestas
+	// TODO debe crear nuevas respuestas en base a
+	// las que están en el objeto pregunta asignándoles el id de pregunta como su
+	// pregunta "padre"
 	public static boolean actualizarRespuestas(Pregunta pregunta, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		try {
-	    stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
-		ResultSet rs = stmt.executeQuery();
-		stmt.setInt(1, pregunta.getIdPregunta());
-		
-		stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
-		stmt.setInt(1, pregunta.getIdPregunta());
-		
-		stmt.executeUpdate();
-		
-		}catch(SQLException e) {
+			stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
+			ResultSet rs = stmt.executeQuery();
+			stmt.setInt(1, pregunta.getIdPregunta());
+
+			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
-		
+
 		return resultado;
 	}
-	
-	//Categorias
-	
+
+	// Categorias
+
 	/**
 	 * 
 	 * @param nombre  String nombre de la categoria
 	 * @param creador Int id del usuario
-	 * @param error      Array encargada de la gestion de los errores o excepciones
+	 * @param error   Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -508,17 +508,43 @@ public abstract class Intermedio {
 			stmt = con.prepareStatement("INSERT INTO bt_categorias (nombre, creador) VALUES (?,?)");
 			stmt.setString(1, nombre);
 			stmt.setInt(2, creador);
-			
+
 			stmt.executeUpdate();
 			resultado = true;
 			con.close();
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 		return resultado;
 	}
-	
-	
+
+	/**
+	 * 
+	 * @param id    Int id de la categoría
+	 * @param error   Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
+	public static boolean borrarCategoria(int id, String[] error) {
+		boolean resultado = false;
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("DELETE FROM bt_categorias WHERE id = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_pertenece WHERE idCategoria = ?");
+			stmt.setInt(1, id);
+
+			stmt.executeUpdate();
+			resultado = true;
+			con.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+
+	}
 
 }
