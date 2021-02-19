@@ -245,9 +245,10 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM bt_contiene where idPregunta=?");
-			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta=?");
-			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id=?");
+			stmt = con.prepareStatement("DELETE FROM bt_contiene where idPregunta = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_pertenece where idPregunta = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id = ?");
 
 			stmt.setInt(1, pregunta.getIdPregunta());
 
