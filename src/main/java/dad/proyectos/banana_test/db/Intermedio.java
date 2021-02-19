@@ -546,5 +546,33 @@ public abstract class Intermedio {
 		return resultado;
 
 	}
+	
+	
+	/**
+	 * 
+	 * @param id Int id de la Categoría
+	 * @param nombre String nombre de la Categoría
+	 * @param error   Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
+	public static boolean modificarCategoria(int id, String nombre, String[] error) {
+		boolean resultado = false;
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		try {
+			stmt = con.prepareStatement("UPDATE bt_categorias SET nombre=?" + "WHERE id = ?");
+			stmt.setString(1, nombre);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+			resultado = true;
+			con.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+		}
 
 }
