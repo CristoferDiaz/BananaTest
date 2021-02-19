@@ -272,17 +272,18 @@ public abstract class Intermedio {
 	 * 
 	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	 */
-	public static ArrayList<Examen> visualizarExamenes(String[] error) {
+	public static ArrayList<Examen> visualizarExamenes(int creador, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		ArrayList<Examen> ex = new ArrayList<Examen>();
 		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, nombre, descripcionGeneral FROM bt_examenes");
+			PreparedStatement stmt = con.prepareStatement("SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE cerador = ?");
+			ResultSet rs = stmt.executeQuery();
+			stmt.setInt(1, creador);
 
 			while (rs.next()) {
 
-				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"));
+				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"), rs.getInt("creador"));
 
 				ex.add(examen);
 
@@ -312,11 +313,12 @@ public abstract class Intermedio {
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		boolean resultado = false;
-		String query = "INSERT INTO bt_examenes (nombre, descripcionGeneral) VALUES (?,?)";
+		String query = "INSERT INTO bt_examenes (nombre, descripcionGeneral, creador) VALUES (?,?,?)";
 		try {
 			stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
+			stmt.setInt(3, examen.getCreador());
 
 			stmt.executeUpdate();
 
