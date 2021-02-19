@@ -131,7 +131,7 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
-		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido) VALUES (?,?)";
+		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
 
 		try {
 			PreparedStatement stmt;
@@ -140,6 +140,7 @@ public abstract class Intermedio {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoMultiple);
 				stmt.setString(2, pregunta.getPregunta());
+				stmt.setInt(3, pregunta.setCreador());
 
 				stmt.executeUpdate();
 
@@ -166,6 +167,7 @@ public abstract class Intermedio {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoSimple);
 				stmt.setString(2, pregunta.getPregunta());
+				stmt.setInt(3, pregunta.setCreador());
 
 				stmt.executeUpdate();
 
