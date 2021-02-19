@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dad.proyectos.banana_test.model.Categoria;
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.Pregunta.TIPO_PREGUNTA;
@@ -574,5 +575,54 @@ public abstract class Intermedio {
 
 		return resultado;
 		}
+	
+	
+	public static boolean asignarCategorias(int[] categorias, int id, String[] error) {
+		boolean resultado = false;
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		try {
+			if(categorias == null) {
+				stmt = con.prepareStatement("DELETE FROM bt_pertenece WHERE idPregunta = ?");
+				stmt.setInt(1, id);
+				stmt.executeUpdate();
+				resultado = true;
+			}
+			
+			
+			con.close();
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+		}
+	
+	/**
+	 * 
+	 * @param creador Int id del usuario
+	 * @param error   Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
+	public static ArrayList<Categoria> obtenerCategorias(int creador, String[] error){
+		Connection con = conectarmysql();
+		ArrayList<Categoria> ct = new ArrayList<Categoria>();
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT id, nombre, creador FROM bt_categoria WHERE creador = ?");
+			stmt.setInt(1, creador);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				
+				Categoria categoria = new Categoria(rs.getInt("id"), rs.getString("nombre"), rs.getInt("creador"));
+				
+				ct.add(categoria);
+				
+			}
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+		return ct;
+	}
 
 }
