@@ -600,12 +600,29 @@ public abstract class Intermedio {
 		return resultado;
 	}
 
+	
+	/**
+	 * Funcion para asignar categorias
+	 * 
+	 * @param id     Int id de la Categoría
+	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
 	public static boolean asignarCategorias(int[] categorias, int id, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		try {
-			if (categorias == null) {
+			stmt = con.prepareStatement("INSERT INTO bt_pertenece (idPregunta, idCategoria) VALUES (?,?)");
+			for (int i = 0; i < categorias.length; i++) {
+				stmt.setInt(1, id);
+				stmt.setInt(2, categorias[i]);
+				stmt.addBatch();
+				
+			}
+			stmt.executeBatch();
+			if (categorias.length == 0) {
 				stmt = con.prepareStatement("DELETE FROM bt_pertenece WHERE idPregunta = ?");
 				stmt.setInt(1, id);
 				stmt.executeUpdate();
