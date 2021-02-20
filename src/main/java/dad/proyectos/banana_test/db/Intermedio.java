@@ -58,7 +58,6 @@ public abstract class Intermedio {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
 
-		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
 		String tipo, contenido, descripcion;
@@ -97,7 +96,6 @@ public abstract class Intermedio {
 
 			}
 
-			resultado = true;
 			con.close();
 			rs.close();
 
@@ -277,13 +275,15 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		ArrayList<Examen> ex = new ArrayList<Examen>();
 		try {
-			PreparedStatement stmt = con.prepareStatement("SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE cerador = ?");
+			PreparedStatement stmt = con.prepareStatement(
+					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE cerador = ?");
 			ResultSet rs = stmt.executeQuery();
 			stmt.setInt(1, creador);
 
 			while (rs.next()) {
 
-				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"), rs.getInt("creador"));
+				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"),
+						rs.getInt("creador"));
 
 				ex.add(examen);
 
@@ -472,22 +472,39 @@ public abstract class Intermedio {
 	}
 
 	// Respuestas
-	// TODO debe crear nuevas respuestas en base a
-	// las que están en el objeto pregunta asignándoles el id de pregunta como su
-	// pregunta "padre"
+	
+	/**
+	 * Funcion para actualizar las respuestas
+	 * 
+	 * @param pregunta Objeto de la clase Preungtas
+	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
 	public static boolean actualizarRespuestas(Pregunta pregunta, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
+		int id;
 		try {
 			stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
 			ResultSet rs = stmt.executeQuery();
 			stmt.setInt(1, pregunta.getIdPregunta());
+			while (rs.next()) {
+				id = rs.getInt("id");
 
-			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
-			stmt.setInt(1, pregunta.getIdPregunta());
+				stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+				stmt.setInt(1, pregunta.getIdPregunta());
+				stmt.executeUpdate();
 
-			stmt.executeUpdate();
+				stmt = con.prepareStatement("INSERT INTO bt_respuestas (id, descripcion, valida, idPregunta) VALUES (?,?,?,?)");
+				stmt.setInt(1, id);
+				stmt.setString(2, pregunta.getPregunta());
+				stmt.setBoolean(3, pregunta.esCorrecta());
+				stmt.setInt(4, pregunta.getIdPregunta());
+				stmt.executeUpdate();
+
+			}
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -499,6 +516,7 @@ public abstract class Intermedio {
 	// Categorias
 
 	/**
+	 * Funcion para crear Categorias
 	 * 
 	 * @param nombre  String nombre de la categoria
 	 * @param creador Int id del usuario
@@ -526,9 +544,10 @@ public abstract class Intermedio {
 	}
 
 	/**
+	 * Funcion para borrar Categorias
 	 * 
 	 * @param id    Int id de la categoría
-	 * @param error   Array encargada de la gestion de los errores o excepciones
+	 * @param error Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -552,13 +571,13 @@ public abstract class Intermedio {
 		return resultado;
 
 	}
-	
-	
+
 	/**
+	 * Funcion para modificar Categorias
 	 * 
-	 * @param id Int id de la Categoría
+	 * @param id     Int id de la Categoría
 	 * @param nombre String nombre de la Categoría
-	 * @param error   Array encargada de la gestion de los errores o excepciones
+	 * @param error  Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -579,50 +598,50 @@ public abstract class Intermedio {
 		}
 
 		return resultado;
-		}
-	
-	
+	}
+
 	public static boolean asignarCategorias(int[] categorias, int id, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		try {
-			if(categorias == null) {
+			if (categorias == null) {
 				stmt = con.prepareStatement("DELETE FROM bt_pertenece WHERE idPregunta = ?");
 				stmt.setInt(1, id);
 				stmt.executeUpdate();
 				resultado = true;
 			}
-			
-			
+
 			con.close();
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 
 		return resultado;
-		}
-	
+	}
+
 	/**
+	 * Funcion para obtener categorias
 	 * 
 	 * @param creador Int id del usuario
 	 * @param error   Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
-	public static ArrayList<Categoria> obtenerCategorias(int creador, String[] error){
+	public static ArrayList<Categoria> obtenerCategorias(int creador, String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Categoria> ct = new ArrayList<Categoria>();
 		try {
-			PreparedStatement stmt = con.prepareStatement("SELECT id, nombre, creador FROM bt_categoria WHERE creador = ?");
+			PreparedStatement stmt = con
+					.prepareStatement("SELECT id, nombre, creador FROM bt_categoria WHERE creador = ?");
 			stmt.setInt(1, creador);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				
+			while (rs.next()) {
+
 				Categoria categoria = new Categoria(rs.getInt("id"), rs.getString("nombre"), rs.getInt("creador"));
-				
+
 				ct.add(categoria);
-				
+
 			}
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
