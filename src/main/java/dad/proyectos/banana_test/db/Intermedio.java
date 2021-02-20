@@ -48,16 +48,16 @@ public abstract class Intermedio {
 
 	// Preguntas
 
-    /**
-     * Funcion con la que poder visualizar todas las preguntas de la tabla
+	/**
+	 * Funcion con la que poder visualizar todas las preguntas de la tabla
 	 * bt_preguntas
-     * 
-     * @param creador INT id del usuario
-     * @param categorias array donde estan las id de las categorias
-	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * 
+	 * @param creador    INT id del usuario
+	 * @param categorias array donde estan las id de las categorias
+	 * @param error      Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
-     */
+	 */
 	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
@@ -161,6 +161,8 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
+		StringProperty[] respuestas = pregunta.obtenerRespuestas();
+        Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
 		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
 
 		try {
@@ -186,8 +188,12 @@ public abstract class Intermedio {
 						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
 				int row = 4;
 				for (int i = 0; i < row; i++) {
-					stmt.setString(1, pregunta.getPregunta());
-					stmt.setBoolean(2, pregunta.esCorrecta());
+					for (int a = 0; a < respuestas.length; a++) {
+						stmt.setString(1, respuestas[a].toString());
+					}
+					for (int e = 0; e < valido.length; e++) {
+						stmt.setBoolean(2, valido[e]);
+					}
 					stmt.setInt(3, pregunta.getIdPregunta());
 					stmt.addBatch();
 				}
@@ -213,7 +219,9 @@ public abstract class Intermedio {
 				int row = 4;
 				pregunta.setCorrecta(true);
 				for (int i = 0; i < row; i++) {
-					stmt.setString(1, pregunta.getPregunta());
+					for (int a = 0; a < respuestas.length; a++) {
+						stmt.setString(1, respuestas[a].toString());
+					}
 					stmt.setBoolean(2, pregunta.esCorrecta());
 					stmt.setInt(3, pregunta.getIdPregunta());
 					pregunta.setCorrecta(false);
@@ -517,25 +525,51 @@ public abstract class Intermedio {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
-		int id;
+		StringProperty[] respuestas;
+		Boolean[] valido;
 		try {
+			pregunta.setCorrecta(true);
 			stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
 			ResultSet rs = stmt.executeQuery();
 			stmt.setInt(1, pregunta.getIdPregunta());
+
+			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+			stmt.executeUpdate();
+
 			while (rs.next()) {
-				id = rs.getInt("id");
+				respuestas = pregunta.obtenerRespuestas();
+				if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
 
-				stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
-				stmt.setInt(1, pregunta.getIdPregunta());
-				stmt.executeUpdate();
+					stmt = con.prepareStatement(
+							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)");
+					for (int i = 0; i < respuestas.length; i++) {
+						stmt.setString(1, respuestas[i].toString());
+					}
+					stmt.setBoolean(2, pregunta.esCorrecta());
+					stmt.setInt(3, pregunta.getIdPregunta());
+					pregunta.setCorrecta(false);
+					stmt.addBatch();
 
-				stmt = con.prepareStatement(
-						"INSERT INTO bt_respuestas (id, descripcion, valida, idPregunta) VALUES (?,?,?,?)");
-				stmt.setInt(1, id);
-				stmt.setString(2, pregunta.getPregunta());
-				stmt.setBoolean(3, pregunta.esCorrecta());
-				stmt.setInt(4, pregunta.getIdPregunta());
-				stmt.executeUpdate();
+				} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
+					valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
+					stmt = con.prepareStatement(
+							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)");
+					for (int i = 0; i < respuestas.length; i++) {
+						stmt.setString(1, respuestas[i].toString());
+					}
+					for (int i = 0; i < valido.length; i++) {
+						stmt.setBoolean(2, valido[i]);
+					}
+					stmt.setInt(3, pregunta.getIdPregunta());
+					stmt.addBatch();
+
+					stmt.executeBatch();
+
+				}
+
+				resultado = true;
+				stmt.close();
 
 			}
 
@@ -636,9 +670,9 @@ public abstract class Intermedio {
 	/**
 	 * Funcion para asignar categorias
 	 * 
-	 * @param id    Int id de la Categoría
+	 * @param id         Int id de la Categoría
 	 * @param categorias Array donde se guardan las id de categorias
-	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @param error      Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
