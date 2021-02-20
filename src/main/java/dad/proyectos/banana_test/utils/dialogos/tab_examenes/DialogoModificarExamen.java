@@ -12,7 +12,16 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 public class DialogoModificarExamen extends Dialogo<Pair<String, String>> {
-
+	
+	/**
+	 * Constructor principal de la clase.
+	 * Crea un diálogo al que se le pasa el nombre y descripción del examen seleccionado en ese
+	 * momento, para que puedan ser modificados por el usuario.
+	 * 
+	 * @param titulo String que contiene el título de la ventana del diálogo
+	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
+	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
+	 */
 	public DialogoModificarExamen(String titulo, String aceptar, String cancelar, Examen examen) {
 		super(titulo, aceptar, cancelar);
 		// Objeto examen

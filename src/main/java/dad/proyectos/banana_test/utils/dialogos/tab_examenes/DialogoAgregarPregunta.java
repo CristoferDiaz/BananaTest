@@ -26,7 +26,16 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 	// listaview de preguntas
 	private ListView<Pregunta> lista = new ListView<Pregunta>();
 	private ListProperty<Pregunta> listaProperty = new SimpleListProperty<Pregunta>(FXCollections.observableArrayList());
-
+	
+	/**
+	 * Constructor principal de la clase.
+	 * Crea un diálogo que contiene una lista con todas las preguntas disponibles de la base de datos,
+	 * de las cuales podemos elegir una para añadir al examen seleccionado
+	 * 
+	 * @param titulo String que contiene el título de la ventana del diálogo
+	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
+	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
+	 */
 	public DialogoAgregarPregunta(String titulo, String aceptar, String cancelar) {
 		super(titulo, aceptar, cancelar);
 
@@ -90,7 +99,9 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 
 	}
 
-	// FILTRADOR DE TEXTFIELD A UN LISTVIEW
+	/**
+	 * Método encargado de la creación de un filtro de texto para los buscadores de la aplicación.
+	 */
 	private void crearFiltroBuscador() {
 		FilteredList<Pregunta> filteredData = new FilteredList<Pregunta>(listaProperty, s -> true);
 		txBuscador.textProperty().addListener((o, ov, nv) -> {
