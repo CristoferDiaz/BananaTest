@@ -76,22 +76,41 @@ public abstract class Intermedio {
 				stmt2 = con.prepareStatement(
 						"SELECT id, descripcion, valida, idPregunta FROM" + "bt_respuestas WHERE idPregunta = ?");
 				stmt2.setInt(1, id);
-				rs.getInt("id");
-				descripcion = rs.getString("descripcion");
-				valida = rs.getBoolean("valida");
+				ResultSet rs2 = stmt2.executeQuery();
 				String[] respuestas = new String[4];
-				if (valida == true) {
-					respuestas[0] = descripcion;
-				} else {
-					respuestas[1] = descripcion;
-					respuestas[2] = descripcion;
-					respuestas[3] = descripcion;
+				String[] textosRespuestas = new String[4];
+				boolean[] correctas = new boolean[4];
+				while (rs2.next()) {
+					rs2.getInt("id");
+					descripcion = rs2.getString("descripcion");
+					valida = rs2.getBoolean("valida");
+					if (valida == true) {
+						respuestas[0] = descripcion;
+					} else {
+						respuestas[1] = descripcion;
+						respuestas[2] = descripcion;
+						respuestas[3] = descripcion;
+					}
+
+					for (int i = 0; i < correctas.length; i++) {
+						correctas[i] = valida;
+					}
+
+					for (int i = 0; i < textosRespuestas.length; i++) {
+						textosRespuestas[i] = descripcion;
+					}
+
 				}
 
 				if (tipo == tipoSimple) {
 					PreguntaTestSimple preguntaSimple = new PreguntaTestSimple(contenido, respuestas);
 					preguntaSimple.setIdPregunta(id);
 					pre.add(preguntaSimple);
+				} else if (tipo == tipoMultiple) {
+					PreguntaTestMultiple preguntaMultiple = new PreguntaTestMultiple(contenido, textosRespuestas,
+							correctas);
+					preguntaMultiple.setIdPregunta(id);
+					pre.add(preguntaMultiple);
 				}
 
 			}
@@ -472,7 +491,7 @@ public abstract class Intermedio {
 	}
 
 	// Respuestas
-	
+
 	/**
 	 * Funcion para actualizar las respuestas
 	 * 
@@ -497,7 +516,8 @@ public abstract class Intermedio {
 				stmt.setInt(1, pregunta.getIdPregunta());
 				stmt.executeUpdate();
 
-				stmt = con.prepareStatement("INSERT INTO bt_respuestas (id, descripcion, valida, idPregunta) VALUES (?,?,?,?)");
+				stmt = con.prepareStatement(
+						"INSERT INTO bt_respuestas (id, descripcion, valida, idPregunta) VALUES (?,?,?,?)");
 				stmt.setInt(1, id);
 				stmt.setString(2, pregunta.getPregunta());
 				stmt.setBoolean(3, pregunta.esCorrecta());
@@ -600,12 +620,11 @@ public abstract class Intermedio {
 		return resultado;
 	}
 
-	
 	/**
 	 * Funcion para asignar categorias
 	 * 
-	 * @param id     Int id de la Categoría
-	 * @param error  Array encargada de la gestion de los errores o excepciones
+	 * @param id    Int id de la Categoría
+	 * @param error Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -619,7 +638,7 @@ public abstract class Intermedio {
 				stmt.setInt(1, id);
 				stmt.setInt(2, categorias[i]);
 				stmt.addBatch();
-				
+
 			}
 			stmt.executeBatch();
 			if (categorias.length == 0) {
