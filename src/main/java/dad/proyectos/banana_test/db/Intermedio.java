@@ -54,7 +54,7 @@ public abstract class Intermedio {
 	 * 
 	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
 	 */
-	public static ArrayList<Pregunta> visualizarPreguntas(String[] error) {
+	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
 
@@ -64,26 +64,35 @@ public abstract class Intermedio {
 		boolean valida;
 		int id;
 		try {
-			Statement stmt = con.createStatement();
-			PreparedStatement stmt2;
-			ResultSet rs = stmt.executeQuery("SELECT id, tipoPregunta, contenido FROM bt_preguntas");
-
+			PreparedStatement stmt = con.prepareStatement(
+					"SELECT id, tipoPregunta, contenido, creador FROM bt_preguntas WHERE creador = ?");
+			stmt.setInt(1, creador);
+			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				id = rs.getInt("id");
+				if (categorias.length != 0) {
+					stmt = con.prepareStatement("SELECT idPregunta FROM bt_pertenece WHERE idCategoria = ?");
+					ResultSet rs2 = stmt.executeQuery();
+					for (int i = 0; i < categorias.length; i++) {
+						stmt.setInt(1, categorias[i]);
+					}
+					id = rs2.getInt("idPregunta");
+				} else {
+					id = rs.getInt("id");
+				}
 				tipo = rs.getString("tipoPregunta");
 				contenido = rs.getString("contenido");
 
-				stmt2 = con.prepareStatement(
+				stmt = con.prepareStatement(
 						"SELECT id, descripcion, valida, idPregunta FROM" + "bt_respuestas WHERE idPregunta = ?");
-				stmt2.setInt(1, id);
-				ResultSet rs2 = stmt2.executeQuery();
+				stmt.setInt(1, id);
+				ResultSet rs3 = stmt.executeQuery();
 				String[] respuestas = new String[4];
 				String[] textosRespuestas = new String[4];
 				boolean[] correctas = new boolean[4];
-				while (rs2.next()) {
-					rs2.getInt("id");
-					descripcion = rs2.getString("descripcion");
-					valida = rs2.getBoolean("valida");
+				while (rs3.next()) {
+					rs3.getInt("id");
+					descripcion = rs3.getString("descripcion");
+					valida = rs3.getBoolean("valida");
 					if (valida == true) {
 						respuestas[0] = descripcion;
 					} else {
