@@ -48,12 +48,16 @@ public abstract class Intermedio {
 
 	// Preguntas
 
-	/**
-	 * Funcion con la que poder visualizar todas las preguntas de la tabla
+    /**
+     * Funcion con la que poder visualizar todas las preguntas de la tabla
 	 * bt_preguntas
-	 * 
-	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
-	 */
+     * 
+     * @param creador INT id del usuario
+     * @param categorias array donde estan las id de las categorias
+	 * @param error    Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+     */
 	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
@@ -633,6 +637,7 @@ public abstract class Intermedio {
 	 * Funcion para asignar categorias
 	 * 
 	 * @param id    Int id de la Categoría
+	 * @param categorias Array donde se guardan las id de categorias
 	 * @param error Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
