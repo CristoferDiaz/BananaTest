@@ -38,6 +38,14 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import javafx.util.converter.NumberStringConverter;
 
+/**
+ * 
+ * @author Daniel Perez Pimienta
+ * 
+ * La clase TabExamenesController se encarga de controlar todas las funcionalidades 
+ * de la pestaña Examenes, además de cargar la vista de la misma.
+ *
+ */
 public class TabExamenesController implements Initializable {
 
 	@FXML

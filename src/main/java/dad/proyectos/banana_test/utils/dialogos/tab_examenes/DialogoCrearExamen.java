@@ -10,12 +10,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
+/**
+ * 
+ * @author Daniel Pérez Pimienta
+ * 
+ * Crea un diálogo que permite crear un examen, añadiendo su nombre y descripción
+ * y luego añadiendolo a la lista de examenes.
+ *
+ */
 public class DialogoCrearExamen extends Dialogo<Pair<String, String>>{
 	
 	/**
 	 * Constructor principal de la clase.
-	 * Crea un diálogo que permite crear un examen, añadiendo su nombre y descripción
-	 * y luego añadiendolo a la lista de examenes.
 	 * 
 	 * @param titulo String que contiene el título de la ventana del diálogo
 	 * @param aceptar String que contiene el título del botón de tipo OK_DONE

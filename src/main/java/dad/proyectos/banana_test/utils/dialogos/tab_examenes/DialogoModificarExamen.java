@@ -11,12 +11,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
+/**
+ * 
+ * @author Daniel Pérez Pimienta
+ * 
+ * Crea un diálogo al que se le pasa el nombre y descripción del examen seleccionado en ese
+ * momento, para que puedan ser modificados por el usuario.
+ *
+ */
 public class DialogoModificarExamen extends Dialogo<Pair<String, String>> {
 	
 	/**
 	 * Constructor principal de la clase.
-	 * Crea un diálogo al que se le pasa el nombre y descripción del examen seleccionado en ese
-	 * momento, para que puedan ser modificados por el usuario.
+	 * 
 	 * 
 	 * @param titulo String que contiene el título de la ventana del diálogo
 	 * @param aceptar String que contiene el título del botón de tipo OK_DONE

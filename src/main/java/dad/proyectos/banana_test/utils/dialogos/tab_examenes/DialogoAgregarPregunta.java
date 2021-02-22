@@ -16,6 +16,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author Daniel Pérez Pimienta
+ * 
+ * La clase DialogoAgregarPregunta se encarga de crear un diálogo que contiene una lista con todas las preguntas disponibles de la base de datos,
+ * de las cuales podemos elegir una para añadir al examen seleccionado
+ *
+ */
 public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 	// Filtro Buscador
 	private TextField txBuscador = new TextField();
@@ -29,9 +37,8 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 	
 	/**
 	 * Constructor principal de la clase.
-	 * Crea un diálogo que contiene una lista con todas las preguntas disponibles de la base de datos,
-	 * de las cuales podemos elegir una para añadir al examen seleccionado
-	 * 
+	 *
+	 *
 	 * @param titulo String que contiene el título de la ventana del diálogo
 	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
 	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
