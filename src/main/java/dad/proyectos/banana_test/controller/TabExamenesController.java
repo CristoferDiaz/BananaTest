@@ -204,6 +204,8 @@ public class TabExamenesController implements Initializable {
 		});
 
 		// BINDEOS DISPONIBILIDAD BOTONES
+		btBorrarExamen.disableProperty().bind(examenSeleccionado.isNull()); //boton crear
+		btModExamen.disableProperty().bind(examenSeleccionado.isNull()); //boton modificar
 		
 		btAgregarPregunta.disableProperty().bind(examenSeleccionado.isNull());
 		
