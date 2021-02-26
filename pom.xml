@@ -64,5 +64,33 @@
 			<version>8.0.18</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>io.github.fvarrui</groupId>
+				<artifactId>javapackager</artifactId>
+				<version>1.5.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>package</goal>
+						</goals>
+						<configuration>
+							<mainClass>dad.proyectos.banana_test.Main</mainClass>
+							<bundleJre>true</bundleJre>
+							<name>BananaTest</name>
+							<organizationName>BananaTest</organizationName>
+							<organizationUrl>https://github.com/dam-dad/BananaTest</organizationUrl>
+							<winConfig>
+								<icoFile>assets/logo/bananatest.ico</icoFile>
+							</winConfig>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

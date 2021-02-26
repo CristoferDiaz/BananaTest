@@ -54,7 +54,6 @@ public abstract class CreadorPdf {
 
 				else {
 					// Imprimir pregunta tipo multiple
-					// TODO formato de posibles respuestas: añadir checkbox
 
 					if (pregunta.getTipoPregunta() == Pregunta.TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
 						// Imprimir pregunta de tipo simple

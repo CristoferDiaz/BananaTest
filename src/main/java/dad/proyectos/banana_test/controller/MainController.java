@@ -44,7 +44,6 @@ public class MainController implements Initializable {
 			tbExamen.setContent(new TabExamenesController().getView());
 			tbPregun.setContent(new TabPreguntasController().getView());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -86,7 +85,6 @@ public class MainController implements Initializable {
 
 			stage.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
