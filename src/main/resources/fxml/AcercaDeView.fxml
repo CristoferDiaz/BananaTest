@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox fx:id="view" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ImageView fitHeight="250.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/logo/bananatest_logo_general.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="CENTER">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label text="La aplicación " />
+                        <Label text="BananaTest ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="ha sido desarrollada por:" />
+                     </children>
+                  </HBox>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="5.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="95.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-circle" iconSize="8" styleClass="icon-menu" />
+                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-circle" iconSize="8" styleClass="icon-menu" GridPane.rowIndex="1" />
+                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-circle" iconSize="8" styleClass="icon-menu" GridPane.rowIndex="2" />
+                        <FontIcon iconColor="#e8c23a" iconLiteral="fa-circle" iconSize="8" styleClass="icon-menu" GridPane.rowIndex="3" />
+                        <Label text="César Ravelo Martínez" GridPane.columnIndex="1" />
+                        <Label text="Jefferson Rodríguez Gómez" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Samir El-Kharrat Martín" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Daniel Pérez Pimienta" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label text="Versión actual: " />
+            <Label text="1.0.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

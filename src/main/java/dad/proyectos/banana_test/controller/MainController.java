@@ -93,6 +93,37 @@ public class MainController implements Initializable {
 	void onSalirAction(ActionEvent event) {
 		Platform.exit();
 	}
+	
+	@FXML
+    void onAcercaDeAction(ActionEvent event) {
+		try {
+			Stage stage = new Stage();
+			Scene escena = new Scene(new AcercaDeController().getView());
+			stage.setScene(escena);
+			stage.setTitle("Acerca de - BananaTest");
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+			stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+			stage.initModality(Modality.APPLICATION_MODAL);
+
+			if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
+				escena.getStylesheets().add(Preferencias.cargarTema());
+
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+	
+	@FXML
+    void onVisitarWebAction(ActionEvent event) {
+		App.hostServices.showDocument("https://github.com/dam-dad/BananaTest");
+    }
+	
+	@FXML
+    void onVerAyudaAction(ActionEvent event) {
+		App.hostServices.showDocument("https://github.com/dam-dad/BananaTest/wiki");
+    }
 
 	public BorderPane getView() {
 		return view;

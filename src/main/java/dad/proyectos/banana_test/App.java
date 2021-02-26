@@ -6,6 +6,7 @@ import dad.proyectos.banana_test.controller.LoginController;
 import dad.proyectos.banana_test.controller.MainController;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class App extends Application {
 	
 	private MainController mainController;
 	public static Stage primaryStage;
+	public static HostServices hostServices;
 	
 	@Override
 	public void init() throws Exception {
@@ -50,6 +52,7 @@ public class App extends Application {
 			primaryStage.setMinWidth(900);
 			primaryStage.show();
 			App.primaryStage = primaryStage;
+			App.hostServices = getHostServices();
 		}
 	}
 	
