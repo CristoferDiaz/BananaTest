@@ -19,17 +19,17 @@
                <children>
                   <HBox alignment="CENTER" maxHeight="-Infinity" prefWidth="200.0" spacing="5.0">
                      <children>
-                        <Button fx:id="btCrear" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onCrearNuevaAction" text="Crear nueva pregunta">
+                        <Button fx:id="btCrear" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onCrearNuevaAction" text="%tab.preguntas.collistado.btn.crear">
                            <graphic>
                               <FontIcon iconColor="#05e41f" iconLiteral="fa-plus" iconSize="20" />
                            </graphic></Button>
-                        <Button fx:id="btBorrar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBorrarAction" text="Borrar pregunta seleccionada">
+                        <Button fx:id="btBorrar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBorrarAction" text="%tab.preguntas.collistado.btn.borrar">
                            <graphic>
                               <FontIcon iconColor="RED" iconLiteral="fa-trash-o" iconSize="20" />
                            </graphic></Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="tfBuscador" maxWidth="1.7976931348623157E308" promptText="Buscar pregunta existente" />
+                  <TextField fx:id="tfBuscador" maxWidth="1.7976931348623157E308" promptText="%tab.preguntas.collistado.buscador" />
                   <ListView fx:id="lvPreguntas" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                </children>
                <padding>
@@ -38,14 +38,14 @@
             </VBox>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
               <items>
-                  <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="Editar pregunta">
+                  <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="%tab.preguntas.coleditar.title.editar">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <content>
                         <BorderPane fx:id="bpEditarPregunta" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <top>
-                              <Button fx:id="btAplicarCambios" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAplicarCambios" text="Aplicar Cambios" BorderPane.alignment="CENTER">
+                              <Button fx:id="btAplicarCambios" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAplicarCambios" text="%tab.preguntas.coleditar.btn.cambiar" BorderPane.alignment="CENTER">
                                  <graphic>
                                     <FontIcon iconColor="#00a6ff" iconLiteral="fa-paint-brush" iconSize="20" />
                                  </graphic>
@@ -56,7 +56,7 @@
                         </BorderPane>
                      </content>
                   </TitledPane>
-                  <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="Vista previa de la pregunta">
+                  <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="%tab.preguntas.coleditar.title.vistaprevia">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>

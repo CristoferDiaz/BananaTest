@@ -16,9 +16,9 @@
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu text="_Archivo">
+          <Menu text="%main.menu.archivo">
             <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onExportarPDFAction" text="Exportar a PDF...">
+                  <MenuItem mnemonicParsing="false" onAction="#onExportarPDFAction" text="%main.menu.archivo.pdf">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>
@@ -26,7 +26,7 @@
                         <FontIcon iconColor="RED" iconLiteral="fa-file-pdf-o" iconSize="20" />
                      </graphic></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem mnemonicParsing="false" onAction="#onSalirAction" text="Cerrar">
+              <MenuItem mnemonicParsing="false" onAction="#onSalirAction" text="%main.menu.archivo.exit">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -38,9 +38,9 @@
                   <FontIcon iconColor="#e8c23a" iconLiteral="fa-file" iconSize="20" styleClass="icon-menu" />
                </graphic>
           </Menu>
-          <Menu text="_Editar">
+          <Menu text="%main.menu.editar">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#onEditarPreferenciasAction" text="Preferencias">
+              <MenuItem mnemonicParsing="false" onAction="#onEditarPreferenciasAction" text="%main.menu.editar.preferencias">
                      <graphic>
                         <FontIcon iconColor="#e8c23a" iconLiteral="fa-cogs" iconSize="20" styleClass="icon-menu" />
                      </graphic></MenuItem>
@@ -49,9 +49,9 @@
                   <FontIcon iconColor="#e8c23a" iconLiteral="fa-edit" iconSize="20" styleClass="icon-menu" />
                </graphic>
           </Menu>
-          <Menu text="Ay_uda">
+          <Menu text="%main.menu.ayuda">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#onAcercaDeAction" text="Acerca de">
+              <MenuItem mnemonicParsing="false" onAction="#onAcercaDeAction" text="%main.menu.ayuda.acercade">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -59,12 +59,12 @@
                            </image>
                         </ImageView>
                      </graphic></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#onVisitarWebAction" text="Visitar sitio web...">
+                  <MenuItem mnemonicParsing="false" onAction="#onVisitarWebAction" text="%main.menu.ayuda.web">
                      <graphic>
                         <FontIcon iconColor="#e8c23a" iconLiteral="fa-globe" iconSize="20" styleClass="icon-menu" />
                      </graphic>
                   </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#onVerAyudaAction" text="Ver ayuda...">
+                  <MenuItem mnemonicParsing="false" onAction="#onVerAyudaAction" text="%main.menu.ayuda.manual">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F11" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator>
@@ -83,11 +83,11 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tbExamen" text="Exámenes">
+          <Tab fx:id="tbExamen" text="%main.tab.examenes">
                <graphic>
                   <FontIcon iconColor="#e8c23a" iconLiteral="fa-graduation-cap" iconSize="20" />
                </graphic></Tab>
-          <Tab fx:id="tbPregun" text="Preguntas">
+          <Tab fx:id="tbPregun" text="%main.tab.preguntas">
                <graphic>
                   <FontIcon iconColor="#e8c23a" iconLiteral="fa-list" iconSize="20" styleClass="icon-menu" />
                </graphic></Tab>

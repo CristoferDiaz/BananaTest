@@ -33,7 +33,7 @@ public class MainController implements Initializable {
 	private Tab tbExamen, tbPregun;
 
 	public MainController() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 	}

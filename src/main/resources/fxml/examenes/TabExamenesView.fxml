@@ -21,7 +21,7 @@
          <children>
             <HBox alignment="CENTER" fillHeight="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity">
                <children>
-                  <Button fx:id="btCrearExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onCrearAction" text="Crear" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btCrearExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onCrearAction" text="%tab.examenes.collistado.btn.crear" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -29,7 +29,7 @@
                         <FontIcon iconColor="#0dbc0a" iconLiteral="fa-plus" iconSize="20" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btBorrarExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBorrarAction" text="Borrar" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btBorrarExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBorrarAction" text="%tab.examenes.collistado.btn.borrar" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -37,7 +37,7 @@
                         <FontIcon iconColor="RED" iconLiteral="fa-trash-o" iconSize="20" />
                      </graphic>
                   </Button>
-                  <Button fx:id="btModExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onModificarAction" text="Modificar" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btModExamen" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onModificarAction" text="%tab.examenes.collistado.btn.modificar" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -49,7 +49,7 @@
             </HBox>
             <HBox prefHeight="10.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="tfBuscador" prefHeight="25.0" prefWidth="222.0" promptText="Buscador de Examenes..." HBox.hgrow="ALWAYS">
+                  <TextField fx:id="tfBuscador" prefHeight="25.0" prefWidth="222.0" promptText="%tab.examenes.collistado.buscador" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -85,7 +85,7 @@
             </ScrollPane>
             <HBox prefHeight="50.0" prefWidth="186.0">
                <children>
-                  <Button fx:id="btAgregarPregunta" layoutX="50.0" layoutY="50.0" mnemonicParsing="false" onAction="#onAgregarAction" text="Añadir Pregunta" translateX="60.0">
+                  <Button fx:id="btAgregarPregunta" layoutX="50.0" layoutY="50.0" mnemonicParsing="false" onAction="#onAgregarAction" text="%tab.examenes.colpreguntas.btn.add" translateX="60.0">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -159,7 +159,7 @@
          <children>
             <HBox maxWidth="1.7976931348623157E308" prefWidth="200.0">
                <children>
-                  <Label text="Puntuación de la pregunta: ">
+                  <Label text="%tab.examenes.colvistaprevia.puntuacion">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                      </HBox.margin></Label>
@@ -185,7 +185,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </HBox>
-            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Vista previa de pregunta" VBox.vgrow="ALWAYS">
+            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%tab.examenes.colvistaprevia.title" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>

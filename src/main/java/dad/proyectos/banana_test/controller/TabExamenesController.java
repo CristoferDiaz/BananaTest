@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
@@ -101,7 +102,7 @@ public class TabExamenesController implements Initializable {
 
 	// CONSTRUCTOR
 	public TabExamenesController() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/examenes/TabExamenesView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/examenes/TabExamenesView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 	}

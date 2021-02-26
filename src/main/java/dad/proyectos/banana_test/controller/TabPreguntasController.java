@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
@@ -65,7 +66,7 @@ public class TabPreguntasController implements Initializable {
     private VBox vbVistaPrevia;
 
 	public TabPreguntasController() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/preguntas/TabPreguntasView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/preguntas/TabPreguntasView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 	}

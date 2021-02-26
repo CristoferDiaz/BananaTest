@@ -29,11 +29,11 @@
    <bottom>
       <HBox fx:id="hbBotonesControl" alignment="CENTER" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onConectarseAction" text="Conectarse">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onConectarseAction" text="%login.tab.btn.login">
                <graphic>
                   <FontIcon iconColor="#159423" iconLiteral="mdi-login" iconSize="20" />
                </graphic></Button>
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Salir">
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="%login.tab.btn.cancel">
                <graphic>
                   <FontIcon iconColor="#ab0909" iconLiteral="mdi-logout" iconSize="20" />
                </graphic></Button>
@@ -52,7 +52,7 @@
             <VBox fx:id="vbContent" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" StackPane.alignment="CENTER">
                <children>
                   <Label fx:id="lbMensajeWarning" textFill="RED" />
-                  <TitledPane collapsible="false" prefWidth="200.0" text="Datos del Servidor">
+                  <TitledPane collapsible="false" prefWidth="200.0" text="%login.tab.datos.server.title">
                      <content>
                         <GridPane vgap="20.0">
                           <columnConstraints>
@@ -65,9 +65,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Dirección del servidor:" />
-                              <Label text="Usuario del servidor:" GridPane.rowIndex="1" />
-                              <Label text="Contraseña del servidor:" GridPane.rowIndex="2" />
+                              <Label text="%login.tab.datos.server.dir_server" />
+                              <Label text="%login.tab.datos.server.user" GridPane.rowIndex="1" />
+                              <Label text="%login.tab.datos.server.pass" GridPane.rowIndex="2" />
                               <TextField fx:id="tfIPServer" promptText="127.0.0.1" GridPane.columnIndex="1" />
                               <TextField fx:id="tfUsuServer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <PasswordField fx:id="tfPasswordServer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -81,7 +81,7 @@
                         <FontIcon iconLiteral="mdi-dns" iconSize="20" />
                      </graphic>
                   </TitledPane>
-                  <TitledPane collapsible="false" prefWidth="200.0" text="Datos del Usuario">
+                  <TitledPane collapsible="false" prefWidth="200.0" text="%login.tab.datos.user.title">
                      <content>
                         <GridPane vgap="20.0">
                            <columnConstraints>
@@ -93,8 +93,8 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="Usuario del servidor:" />
-                              <Label text="Contraseña del servidor:" GridPane.rowIndex="1" />
+                              <Label text="%login.tab.datos.user.profesor" />
+                              <Label text="%login.tab.datos.user.pass" GridPane.rowIndex="1" />
                               <TextField fx:id="tfUsuarioApp" GridPane.columnIndex="1" />
                               <PasswordField fx:id="tfPasswordApp" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.App;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -72,7 +73,7 @@ public class LoginController implements Initializable {
 
 	public LoginController(Stage stage) throws IOException {
 		this.stage = stage;
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 	}

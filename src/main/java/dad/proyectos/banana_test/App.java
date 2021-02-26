@@ -1,6 +1,7 @@
 package dad.proyectos.banana_test;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.controller.LoginController;
 import dad.proyectos.banana_test.controller.MainController;
@@ -21,6 +22,7 @@ public class App extends Application {
 	private MainController mainController;
 	public static Stage primaryStage;
 	public static HostServices hostServices;
+	public static ResourceBundle resourceBundle;
 	
 	@Override
 	public void init() throws Exception {
@@ -34,6 +36,7 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		App.resourceBundle = ResourceBundle.getBundle("i18n/traduccion");
 		if (gestionarLogin()) {
 			mainController = new MainController();
 					

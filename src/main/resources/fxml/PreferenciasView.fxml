@@ -19,7 +19,7 @@
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
    <children>
-      <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="Apariencia" VBox.vgrow="ALWAYS">
+      <TitledPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" text="%preferencias.apariencia.title" VBox.vgrow="ALWAYS">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -38,7 +38,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Idioma:">
+                        <Label text="%preferencias.apariencia.idioma">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -46,7 +46,7 @@
                               <FontIcon iconColor="#00b7ff" iconLiteral="fa-language" iconSize="20" />
                            </graphic>
                         </Label>
-                        <Label text="Tema:" GridPane.rowIndex="1">
+                        <Label text="%preferencias.apariencia.tema" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -54,8 +54,8 @@
                               <FontIcon iconColor="#4da6ff" iconLiteral="fa-paint-brush" iconSize="20" />
                            </graphic>
                         </Label>
-                        <ComboBox fx:id="cbIdioma" maxWidth="-Infinity" prefWidth="200.0" promptText="Seleccione un idioma" GridPane.columnIndex="1" />
-                        <ComboBox fx:id="cbTema" prefHeight="27.0" prefWidth="200.0" promptText="Seleccione un tema" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cbIdioma" maxWidth="-Infinity" prefWidth="200.0" promptText="%preferencias.apariencia.idioma.selector" GridPane.columnIndex="1" />
+                        <ComboBox fx:id="cbTema" prefHeight="27.0" prefWidth="200.0" promptText="%preferencias.apariencia.tema.selector" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <ImageView fx:id="ivTema" fitHeight="50.0" fitWidth="141.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
@@ -65,11 +65,11 @@
       </TitledPane>
       <HBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="5.0">
          <children>
-            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar">
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="%preferencias.btn.cancelar">
                <graphic>
                   <FontIcon iconColor="RED" iconLiteral="fa-times" iconSize="20" />
                </graphic></Button>
-            <Button defaultButton="true" mnemonicParsing="false" onAction="#onGuardarAction" styleClass="bt-aceptar" text="Guardar Cambios">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onGuardarAction" styleClass="bt-aceptar" text="%preferencias.btn.guardar">
                <graphic>
                   <FontIcon iconColor="#05c629" iconLiteral="fa-check" iconSize="20" />
                </graphic></Button>

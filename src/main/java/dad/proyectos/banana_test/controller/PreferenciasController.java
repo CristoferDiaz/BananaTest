@@ -36,7 +36,7 @@ public class PreferenciasController implements Initializable {
     private ImageView ivTema;
 
 	public PreferenciasController(Stage stage) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PreferenciasView.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PreferenciasView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 		temaOriginal = Preferencias.getTema();
