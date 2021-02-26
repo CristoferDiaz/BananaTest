@@ -21,6 +21,8 @@ public class PreferenciasController implements Initializable {
 	
 	private Preferencias.TEMAS temaOriginal;
 	private Preferencias.TEMAS temaNuevo;
+	private Preferencias.IDIOMAS idiomaOriginal;
+	private Preferencias.IDIOMAS idiomaNuevo;
 	private Stage stage;
 
 	@FXML
@@ -39,16 +41,26 @@ public class PreferenciasController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PreferenciasView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
+		idiomaOriginal = Preferencias.getIdioma();
 		temaOriginal = Preferencias.getTema();
+		idiomaNuevo = idiomaOriginal;
+		temaNuevo = temaOriginal;
 		this.stage = stage;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		cbIdioma.getItems().addAll(Preferencias.IDIOMAS.getAll());
 		cbTema.getItems().addAll(Preferencias.TEMAS.getAll());
+		
+		cbIdioma.getSelectionModel().selectedIndexProperty().addListener((o, ov, nv) -> actualizarIdioma(o, ov, nv));
 		cbTema.getSelectionModel().selectedIndexProperty().addListener((o, ov, nv) -> actualizarTema(o, ov, nv));
 		
 		ivTema.setImage(new Image(getClass().getResource("/images/previewTemas/" + Preferencias.getTema().toString() + ".png").toExternalForm()));
+	}
+	
+	private void actualizarIdioma(ObservableValue<? extends Number> o, Number ov, Number nv) {
+		idiomaNuevo = Preferencias.IDIOMAS.values()[nv.intValue()];
 	}
 
 	private void actualizarTema(ObservableValue<? extends Number> o, Number ov, Number nv) {
@@ -58,12 +70,14 @@ public class PreferenciasController implements Initializable {
 	
 	@FXML
     void onCancelarAction(ActionEvent event) {
+		Preferencias.setIdioma(idiomaOriginal);
 		Preferencias.setTema(temaOriginal);
 		stage.close();
     }
 	
 	@FXML
     void onGuardarAction(ActionEvent event) {
+		Preferencias.setIdioma(idiomaNuevo);
 		Preferencias.setTema(temaNuevo);
 		stage.close();
 		App.primaryStage.getScene().getStylesheets().clear();

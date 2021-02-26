@@ -8,7 +8,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
+
+import dad.proyectos.banana_test.App;
 
 /**
  * Clase gestora de las preferencias del usuario
@@ -30,8 +34,45 @@ public abstract class Preferencias {
 	 * en la aplicación.
 	 */
 	public static enum IDIOMAS {
-		ES,
-		EN
+		ES("Spanish", new Locale("es")),
+		EN("English", Locale.ENGLISH);
+		
+		private final String name;
+		private final Locale locale;
+		
+		/**
+		 * Constructor del Enum de tal forma
+		 * que cada tema tenga asociado su nombre
+		 * en formato String.
+		 *
+		 * @param string El nombre del tema
+		 */
+		private IDIOMAS(String string, Locale locale) {
+			this.name = string;
+			this.locale = locale;
+		}
+		
+		@Override
+		public String toString() {
+			return this.name;
+		}
+		
+		public Locale getLocale() {
+			return this.locale;
+		}
+		
+		/**
+		 * Método encargado de devolver todos
+		 * los idiomas como string.
+		 *
+		 * @return List de String con los idiomas.
+		 */
+		public static List<String> getAll() {
+			List<String> listado = new ArrayList<String>();
+			for (IDIOMAS idioma : IDIOMAS.values())
+				listado.add(idioma.name);
+			return listado;
+		}
 	}
 	
 	/**
@@ -100,7 +141,11 @@ public abstract class Preferencias {
 			crearConfiguracionInicial(file);
 		}
 		
-		Preferencias.properties.load(new FileInputStream(file));
+		properties.load(new FileInputStream(file));
+		IDIOMAS idioma = getIdioma(); 
+		if (idioma != IDIOMAS.ES)
+			Locale.setDefault(idioma.getLocale());
+		App.resourceBundle = ResourceBundle.getBundle("i18n/traduccion");
 	}
 	
 	/**
@@ -121,7 +166,7 @@ public abstract class Preferencias {
 		BufferedWriter bWriter = new BufferedWriter(new FileWriter(file));
 		String configuracionInicial = "";
 		
-		configuracionInicial += "idioma=es\n";
+		configuracionInicial += "idioma=" + IDIOMAS.ES + "\n";
 		configuracionInicial += "tema=default\n";
 		
 		bWriter.write(configuracionInicial);
@@ -154,7 +199,7 @@ public abstract class Preferencias {
 	 * Método encargado de retornar el tema actualmente
 	 * escogido por el usuario en base a sus preferencias.
 	 *
-	 * @return the tema
+	 * @return El tema escogido
 	 */
 	public static TEMAS getTema() {
 		String tema = properties.getProperty("tema").toUpperCase();
@@ -175,9 +220,9 @@ public abstract class Preferencias {
 	}
 	
 	/**
-	 * Sets the tema.
+	 * Cambia la property del tema actual.
 	 *
-	 * @param tema the new tema
+	 * @param tema El nuevo tema
 	 */
 	public static void setTema(TEMAS tema) {
 		properties.setProperty("tema", tema.name.toLowerCase());
@@ -186,10 +231,43 @@ public abstract class Preferencias {
 	/**
 	 * Cargar tema.
 	 *
-	 * @return the string
+	 * @return recurso del tema css a cargar
 	 */
 	public static String cargarTema() {
 		return Preferencias.class.getResource("/css/" + properties.getProperty("tema") + ".css").toExternalForm();
+	}
+	
+	/**
+	 * Método encargado de retornar el idioma actualmente
+	 * escogido por el usuario en base a sus preferencias.
+	 *
+	 * @return idioma escogido
+	 */
+	public static IDIOMAS getIdioma() {
+		String idioma = properties.getProperty("idioma");
+		IDIOMAS[] listado = IDIOMAS.values();
+		int i = 0;
+		
+		while (i < listado.length && !idioma.equals(listado[i].name))
+			i++;
+		
+		if (i < listado.length)
+			return listado[i];
+		else {
+			// Si se ha manipulado la preferencia de tema a uno no válido
+			// se cambiará al tema por defecto
+			properties.setProperty("idioma", IDIOMAS.ES.toString());
+			return IDIOMAS.ES;
+		}
+	}
+	
+	/**
+	 * Cambia la property del idioma actual.
+	 *
+	 * @param idioma El nuevo idioma
+	 */
+	public static void setIdioma(IDIOMAS idioma) {
+		properties.setProperty("idioma", idioma.name);
 	}
 
 }

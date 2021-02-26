@@ -36,7 +36,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		App.resourceBundle = ResourceBundle.getBundle("i18n/traduccion");
 		if (gestionarLogin()) {
 			mainController = new MainController();
 					
