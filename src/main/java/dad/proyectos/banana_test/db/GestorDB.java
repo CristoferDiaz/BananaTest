@@ -15,22 +15,20 @@ import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.Pregunta.TIPO_PREGUNTA;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.beans.property.StringProperty;
 
-public abstract class Intermedio {
+public abstract class GestorDB {
 
 	/**
 	 * Clase abstracta intermedia entre el proyecto y la base de datos donde se
 	 * haran operaciones basicas como crear, eliminar, modificar y visualizar tanto
 	 * la tabla bt_examenes como la tabla bt_preguntas
 	 * 
-	 * 
-	 * 
 	 * @author SamirElKharrat
 	 */
 
 	static Connection conexion = null;
-	static Scanner sc = new Scanner(System.in);
 	public static String driver = "com.mysql.cj.jdbc.Driver";
 
 	// Funcion para conectarse a la base de datos que estamos usando
@@ -38,12 +36,53 @@ public abstract class Intermedio {
 
 		try {
 			Class.forName(driver);
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/bananatest", "root", "");
+			conexion = DriverManager.getConnection(
+					"jdbc:mysql://" + Preferencias.properties.getProperty("direccion_servidor") + "/bananatest",
+					Preferencias.usuarioServidor, 
+					Preferencias.passwordServidor
+			);
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return conexion;
 
+	}
+	
+	/**
+	 * Método encargado de comprobar si el usuario dado existe en la BD
+	 * y puede loggearse en la aplicación con los datos dados.
+	 * 
+	 * @param connection Parametro que realiza la conexion
+	 * @param usuario    String del codUsuario
+	 * @param passwd     String de la contraseña de dicho usuario
+	 * @param error      String[] donde se gaurdaran los errores
+	 * @return login int que retornara -1 si el login falló y el id del usuario en
+	 *         caso de login válido
+	 */
+	public static int comprobarLogin(Connection connection, String usuario, String passwd, String[] error) {
+		int login = -1;
+
+		try {
+			PreparedStatement stmt;
+			stmt = connection.prepareStatement(
+					"SELECT id FROM bt_usuarios where codUsuario = ? and passwd = ?");
+			stmt.setString(1, usuario);
+			stmt.setString(2, passwd);
+
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				login = rs.getInt("id");
+			} else {
+				error[0] = "El par usuario-contraseña dado no es válido";
+			}
+			
+			connection.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return login;
 	}
 
 	// Preguntas
@@ -162,7 +201,7 @@ public abstract class Intermedio {
 		String tipoSimple = "SIMP";
 		String tipoMultiple = "MULT";
 		StringProperty[] respuestas = pregunta.obtenerRespuestas();
-        Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
+		Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
 		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
 
 		try {
@@ -172,7 +211,7 @@ public abstract class Intermedio {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoMultiple);
 				stmt.setString(2, pregunta.getPregunta());
-				stmt.setInt(3, pregunta.setCreador());
+				// stmt.setInt(3, pregunta.setCreador());
 
 				stmt.executeUpdate();
 
@@ -203,7 +242,7 @@ public abstract class Intermedio {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoSimple);
 				stmt.setString(2, pregunta.getPregunta());
-				stmt.setInt(3, pregunta.setCreador());
+				// stmt.setInt(3, pregunta.setCreador());
 
 				stmt.executeUpdate();
 
@@ -465,50 +504,6 @@ public abstract class Intermedio {
 		}
 
 		return resultado;
-	}
-
-	// Usuario
-
-	/**
-	 * 
-	 * @param connection Parametro que realiza la conexion
-	 * @param usuario    String del codUsuario
-	 * @param passwd     String de la contraseña de dicho usuario
-	 * @param error      String[] donde se gaurdaran los errores
-	 * @return login int que retornara -1 si el login falló y el id del usuario en
-	 *         caso de login válido
-	 */
-	public static int comprobarLogin(Connection connection, String usuario, String passwd, String[] error) {
-		int login = 0;
-		connection = conectarmysql();
-
-		try {
-			PreparedStatement stmt;
-			stmt = connection.prepareStatement(
-					"SELECT id, codUsuario, passwd FROM bt_usuarios where codUsuario = ? and passwd = ?");
-			stmt.setString(1, usuario);
-			stmt.setString(2, passwd);
-
-			ResultSet rs = stmt.executeQuery();
-			login = rs.getInt("id");
-
-			if (usuario != rs.getString("usuario")) {
-				error[0] = "El usuario indicado no  existe";
-				login = -1;
-			} else if (usuario == rs.getString("usuario") && passwd != rs.getString("passwd")) {
-				error[0] = "La contraseña no es válida";
-				login = -1;
-			}
-
-			stmt.execute();
-			rs.close();
-			connection.close();
-
-		} catch (SQLException e) {
-			error[0] = e.getLocalizedMessage();
-		}
-
-		return login;
 	}
 
 	// Respuestas

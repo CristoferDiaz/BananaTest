@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
+import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -81,6 +83,7 @@ public class LoginController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tfIPServer.setText(Preferencias.properties.getProperty("direccion_servidor"));
 		serverIP.bind(tfIPServer.textProperty());
 		dbUser.bind(tfUsuServer.textProperty());
 		dbPassword.bind(tfPasswordServer.textProperty());
@@ -105,16 +108,28 @@ public class LoginController implements Initializable {
 
 			@Override
 			protected Void call() throws Exception {
-				// TODO: Cambiar esto para que haga la conexión verdadera
-				setValidado(true); // Quitar esta línea cuando ya no haga falta
-				funcional.set(false);
-//				Connection conexion = Intermedio.conectarmysql();
-//				if (conexion == null) {					
-//					mensajeWarning.set("El servidor indicado no está disponible.");
-//				} else {
-//					setValidado(true);
-//					conexion.close();
-//				}
+				String[] error = {""};
+				Preferencias.properties.setProperty("direccion_servidor", tfIPServer.getText());
+				Preferencias.usuarioServidor = tfUsuServer.getText();
+				Preferencias.passwordServidor = tfPasswordServer.getText();
+				try {
+					Preferencias.usuarioApp = generarSha1(tfUsuarioApp.getText());
+					Preferencias.passwordApp = generarSha1(tfPasswordApp.getText());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				Connection conexion = GestorDB.conectarmysql();
+				if (conexion == null) {					
+					error[0] = "El servidor indicado no está disponible.";
+				} else if (GestorDB.comprobarLogin(conexion, Preferencias.usuarioApp, Preferencias.passwordApp, error) != -1) {
+					funcional.set(false);
+					setValidado(true);
+					conexion.close();
+				}
+				
+				if (!error[0].equals("")) {
+					mensajeWarning.set(error[0]);
+				}
 				return null;
 			}
 			
@@ -124,16 +139,7 @@ public class LoginController implements Initializable {
 			vbContent.setDisable(false);
 			hbBotonesControl.setDisable(false);
 			progressIndicator.setVisible(false);
-			lbMensajeWarning.setText(mensajeWarning.get());
-			Preferencias.properties.setProperty("direccion_servidor", tfIPServer.getText());
-			Preferencias.usuarioServidor = tfUsuServer.getText();
-			Preferencias.passwordServidor = tfPasswordServer.getText();
-			try {
-				Preferencias.usuarioApp = generarSha1(tfUsuarioApp.getText());
-				Preferencias.passwordApp = generarSha1(tfPasswordApp.getText());
-			} catch (Exception exception) {
-				exception.printStackTrace();
-			}
+			lbMensajeWarning.setText(mensajeWarning.get());			
 			if (!funcional.get())
 				stage.close();
 		});
