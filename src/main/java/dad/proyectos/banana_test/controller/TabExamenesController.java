@@ -418,7 +418,14 @@ public class TabExamenesController implements Initializable {
 	 */
 	@FXML
 	void onRefrescarAction(ActionEvent event) {
-		// TODO: Actualizar puntuación de la pregunta en la BD
+		int peso = Integer.valueOf(txPuntuacion.getText());
+		String[] error = {""};
+		if (GestorDB.actualizarPesoPregunta(examenSeleccionado.get().getIdExamen(), preguntaSeleccionada.get().getIdPregunta(), peso, error)) {
+			// TODO: Mostrar diálogo de éxito
+		} else {
+			// TODO: Mostrar en diálogo
+			System.out.println("[ACTUALIZAR PESO]" + error[0]);
+		}
 	}
 	
 	/**

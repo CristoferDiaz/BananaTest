@@ -545,9 +545,7 @@ public abstract class GestorDB {
 			stmt.setInt(1, peso);
 			stmt.setInt(2, idExamen);
 			stmt.setInt(3, idPregunta);
-
-			stmt.executeUpdate();
-			resultado = true;
+			resultado = (stmt.executeUpdate() > 0);
 			con.close();
 
 		} catch (SQLException e) {
