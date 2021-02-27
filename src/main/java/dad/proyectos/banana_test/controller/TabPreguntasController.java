@@ -226,8 +226,13 @@ public class TabPreguntasController implements Initializable {
 		Optional<Boolean> result = dialog.showAndWait();
 		
 		if (result.isPresent()) {
-			// TODO: Borrar pregunta de la BD y rescatar de nuevo el listado
-			listadoPreguntas.remove(preguntaSeleccionada.get());
+			String[] error = {""};
+			if (GestorDB.eliminarPregunta(preguntaSeleccionada.get(), error)) {
+				cargarListadoPreguntas();
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[BORRAR PREGUNTA]" + error[0]);
+			}
 		}
     }
 	

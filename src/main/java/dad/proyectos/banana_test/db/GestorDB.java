@@ -213,75 +213,6 @@ public abstract class GestorDB {
 				
 			}
 			con.close();
-			/*PreparedStatement stmt;
-
-			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
-				Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
-				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-				stmt.setString(1, tipoMultiple);
-				stmt.setString(2, pregunta.getPregunta());
-				stmt.setInt(3, pregunta.getCreador());
-
-				stmt.executeUpdate();
-
-				ResultSet rs = stmt.getGeneratedKeys();
-
-				int id;
-				if (rs.next()) {
-					id = rs.getInt(1);
-					pregunta.setIdPregunta(id);
-				}
-
-				stmt = con
-						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
-				int row = 4;
-				for (int i = 0; i < row; i++) {
-					for (int j = 0; j < respuestas.length; j++) {
-						stmt.setString(1, respuestas[j].get());
-					}
-					for (int j = 0; j < valido.length; j++) {
-						stmt.setBoolean(2, valido[j]);
-					}
-					stmt.setInt(3, pregunta.getIdPregunta());
-					stmt.addBatch();
-				}
-				stmt.executeBatch();
-
-			} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
-				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-				stmt.setString(1, tipoSimple);
-				stmt.setString(2, pregunta.getPregunta());
-				stmt.setInt(3, pregunta.getCreador());
-
-				stmt.executeUpdate();
-
-				ResultSet rs = stmt.getGeneratedKeys();
-				int id;
-				if (rs.next()) {
-					id = rs.getInt(1);
-					pregunta.setIdPregunta(id);
-				}
-
-				stmt = con
-						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
-				int row = 4;
-				pregunta.setCorrecta(true);
-				for (int i = 0; i < row; i++) {
-					for (int j = 0; j < respuestas.length; j++) {
-						stmt.setString(1, respuestas[j].get());
-					}
-					stmt.setBoolean(2, pregunta.esCorrecta());
-					stmt.setInt(3, pregunta.getIdPregunta());
-					pregunta.setCorrecta(false);
-					stmt.addBatch();
-				}
-				stmt.executeBatch();
-
-			}
-
-			resultado = true;
-			con.close();*/
-
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
@@ -332,15 +263,22 @@ public abstract class GestorDB {
 		try {
 			PreparedStatement stmt;
 			stmt = con.prepareStatement("DELETE FROM bt_contiene where idPregunta = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+			stmt.executeUpdate();
+			
 			stmt = con.prepareStatement("DELETE FROM bt_pertenece where idPregunta = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+			stmt.executeUpdate();
+			
 			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
+			stmt.setInt(1, pregunta.getIdPregunta());
+			stmt.executeUpdate();
+			
 			stmt = con.prepareStatement("DELETE FROM bt_preguntas where id = ?");
-
+			stmt.setInt(1, pregunta.getIdPregunta());
 			stmt.setInt(1, pregunta.getIdPregunta());
 
-			stmt.executeUpdate();
-
-			resultado = true;
+			resultado = (stmt.executeUpdate() > 0);
 			con.close();
 
 		} catch (SQLException e) {
