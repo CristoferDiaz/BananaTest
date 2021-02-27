@@ -38,19 +38,17 @@ public abstract class GestorDB {
 			Class.forName(driver);
 			conexion = DriverManager.getConnection(
 					"jdbc:mysql://" + Preferencias.properties.getProperty("direccion_servidor") + "/bananatest",
-					Preferencias.usuarioServidor, 
-					Preferencias.passwordServidor
-			);
+					Preferencias.usuarioServidor, Preferencias.passwordServidor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return conexion;
 
 	}
-	
+
 	/**
-	 * Método encargado de comprobar si el usuario dado existe en la BD
-	 * y puede loggearse en la aplicación con los datos dados.
+	 * Método encargado de comprobar si el usuario dado existe en la BD y puede
+	 * loggearse en la aplicación con los datos dados.
 	 * 
 	 * @param connection Parametro que realiza la conexion
 	 * @param usuario    String del codUsuario
@@ -64,8 +62,7 @@ public abstract class GestorDB {
 
 		try {
 			PreparedStatement stmt;
-			stmt = connection.prepareStatement(
-					"SELECT id FROM bt_usuarios where codUsuario = ? and passwd = ?");
+			stmt = connection.prepareStatement("SELECT id FROM bt_usuarios where codUsuario = ? and passwd = ?");
 			stmt.setString(1, usuario);
 			stmt.setString(2, passwd);
 
@@ -75,7 +72,7 @@ public abstract class GestorDB {
 			} else {
 				error[0] = "El par usuario-contraseña dado no es válido";
 			}
-			
+
 			connection.close();
 
 		} catch (SQLException e) {
@@ -354,8 +351,7 @@ public abstract class GestorDB {
 		ArrayList<Examen> listadoExamenes = new ArrayList<Examen>();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE creador = ?"
-			);
+					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE creador = ?");
 			stmt.setInt(1, creador);
 			ResultSet rs = stmt.executeQuery();
 
@@ -364,44 +360,42 @@ public abstract class GestorDB {
 				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"),
 						rs.getInt("creador"));
 
-				PreparedStatement stmtExamen = con.prepareStatement(
-						"SELECT idPregunta, peso, tipoPregunta, contenido, creador FROM bt_contiene"
-						+ " INNER JOIN bt_preguntas ON bt_contiene.idPregunta = bt_preguntas.id"
-						+ " WHERE idExamen = ?"
-				);
+				PreparedStatement stmtExamen = con
+						.prepareStatement("SELECT idPregunta, peso, tipoPregunta, contenido, creador FROM bt_contiene"
+								+ " INNER JOIN bt_preguntas ON bt_contiene.idPregunta = bt_preguntas.id"
+								+ " WHERE idExamen = ?");
 				stmtExamen.setInt(1, examen.getIdExamen());
 				ResultSet rsPreguntas = stmtExamen.executeQuery();
-				
+
 				while (rsPreguntas.next()) {
 					Pregunta p;
-					
+
 					PreparedStatement stmtRespuestas = con.prepareStatement(
-							"SELECT descripcion, valida FROM bt_respuestas WHERE idPregunta = ? ORDER BY id ASC"
-					);
+							"SELECT descripcion, valida FROM bt_respuestas WHERE idPregunta = ? ORDER BY id ASC");
 					stmtRespuestas.setInt(1, rsPreguntas.getInt("idPregunta"));
 					ResultSet rsRespuestas = stmtRespuestas.executeQuery();
 					String[] listaRespuestas = new String[4];
 					boolean[] listaValidas = new boolean[listaRespuestas.length];
 					int i = 0;
-					
+
 					while (rsRespuestas.next()) {
 						listaRespuestas[i] = rsRespuestas.getString("descripcion");
 						listaValidas[i] = rsRespuestas.getBoolean("valida");
 						i++;
 					}
-					
+
 					if (rsPreguntas.getString("tipoPregunta").equals("PSIMP")) {
 						p = new PreguntaTestSimple(rsPreguntas.getString("contenido"), listaRespuestas);
 					} else {
 						p = new PreguntaTestMultiple(rsPreguntas.getString("contenido"), listaRespuestas, listaValidas);
 					}
-					
+
 					p.setIdPregunta(rsPreguntas.getInt("idPregunta"));
 					p.setPeso(rsPreguntas.getInt("peso"));
 					p.setCreador(rsPreguntas.getInt("creador"));
 					examen.getPreguntas().add(p);
 				}
-				
+
 				listadoExamenes.add(examen);
 
 			}
@@ -469,6 +463,7 @@ public abstract class GestorDB {
 			stmt = con.prepareStatement("UPDATE bt_examenes SET nombre=?, descripcionGeneral=? " + "WHERE id = ?");
 			stmt.setString(1, examen.getNombre());
 			stmt.setString(2, examen.getDescripcion());
+			stmt.setInt(3, examen.getIdExamen());
 
 			stmt.executeUpdate();
 			resultado = true;

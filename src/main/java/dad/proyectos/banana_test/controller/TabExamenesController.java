@@ -10,8 +10,6 @@ import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.Preferencias;
 import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoAgregarPregunta;
@@ -22,6 +20,8 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -105,6 +105,7 @@ public class TabExamenesController implements Initializable {
 	// Lista de examenes
 	private ListProperty<Examen> listadoExamenes = new SimpleListProperty<Examen>(FXCollections.observableArrayList());
 	private ObjectProperty<Examen> examenSeleccionado = new SimpleObjectProperty<Examen>();
+	private ChangeListener<String> listenerFiltro;
 
 	// Lista de preguntas
 	private ListProperty<Pregunta> listadoPreguntas = new SimpleListProperty<Pregunta>(FXCollections.observableArrayList());
@@ -124,8 +125,6 @@ public class TabExamenesController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cargarExamenes();
-
-		crearFiltroBuscador();
 
 		// MOSTRAR OBJETO COMO STRING EN UN LISTVIEW (LISTA DE EXAMENES)
 		lvExamenes.setCellFactory(v -> new ListCell<Examen>() {
@@ -227,11 +226,14 @@ public class TabExamenesController implements Initializable {
 
 	private void cargarExamenes() {
 		String[] error = {""};
-		listadoExamenes.clear();
-		listadoExamenes.addAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
+		
+		// Si no borramos el listener, a la hora de borrar o modificar
+		// un examen varias veces, empieza a segregar errores uno tras otro
+		if (listenerFiltro != null)
+			tfBuscador.textProperty().removeListener(listenerFiltro);
+		listadoExamenes.setAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
 		if (!error[0].equals(""))
-			System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar
-		lvExamenes.setItems(listadoExamenes);
+			System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar		
 		crearFiltroBuscador();
 	}
 	
@@ -240,16 +242,22 @@ public class TabExamenesController implements Initializable {
 	 */
 	private void crearFiltroBuscador() {
 		FilteredList<Examen> filteredData = new FilteredList<Examen>(listadoExamenes, s -> true);
-		tfBuscador.textProperty().addListener((o, ov, nv) -> {
-			String filtro = tfBuscador.getText();
+		
+		listenerFiltro = new ChangeListener<String>() {
 
-			if (filtro == null || filtro.length() == 0) {
-				filteredData.setPredicate(s -> true);
-			} else {
-				filteredData.setPredicate(s -> s.getNombre().contains(filtro));
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				String filtro = tfBuscador.getText();
+
+				if (filtro == null || filtro.length() == 0) {
+					filteredData.setPredicate(s -> true);
+				} else {
+					filteredData.setPredicate(s -> s.getNombre().contains(filtro));
+				}
 			}
-
-		});
+			
+		};
+		tfBuscador.textProperty().addListener(listenerFiltro);
 
 		lvExamenes.setItems(filteredData);
 	}
@@ -346,6 +354,13 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			examenSeleccionado.get().setNombre(result.get().getKey());
 			examenSeleccionado.get().setDescripcion(result.get().getValue());
+			String[] error = {""};
+			if (GestorDB.modificarExamen(examenSeleccionado.get(), error)) {
+				cargarExamenes();
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[MODIFICAR EXAMEN]" + error[0]);
+			}
 		}
 
 	}
@@ -368,7 +383,6 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			String[] error = {""};
 			if (GestorDB.eliminarExamen(examenSeleccionado.get(), error)) {
-				listadoExamenes.remove(examenSeleccionado.get()); // ELIMINAMOS EL EXAMEN SELECCIONADO
 				cargarExamenes();
 			} else {
 				// TODO: Mostrar en diálogo
