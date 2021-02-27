@@ -444,7 +444,6 @@ public abstract class GestorDB {
 		}
 
 		return resultado;
-
 	}
 
 	/**
@@ -509,6 +508,69 @@ public abstract class GestorDB {
 	}
 
 	/**
+	 * Función con la que poder asignar una pregunta a un examen.
+	 * 
+	 * @param examen Objeto de la clase Examen
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
+	public static boolean asignarPreguntaExamen(Examen examen, Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		PreparedStatement stmt;
+		boolean resultado = false;
+		String query = "INSERT INTO bt_contiene (idExamen, idPregunta, peso) VALUES (?,?,?)";
+		try {
+			stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, examen.getIdExamen());
+			stmt.setInt(2, pregunta.getIdPregunta());
+			stmt.setInt(3, 0);
+			
+			resultado = (stmt.executeUpdate() > 0);
+			con.close();
+
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		}
+
+		return resultado;
+	}
+	
+	/**
+	 * Función con la que poder quitar una pregunta a un examen.
+	 * 
+	 * @param examen Objeto de la clase Examen
+	 * @param pregunta Objeto de la clase Pregunta
+	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @return resultado que retornara true si la operacion se hace y false si no se
+	 *         cumple
+	 */
+	public static boolean eliminarPreguntaExamen(Examen examen, Pregunta pregunta, String[] error) {
+		Connection con = conectarmysql();
+		boolean resultado = false;
+		try {
+			PreparedStatement stmt;
+			stmt = con.prepareStatement("DELETE FROM bt_contiene WHERE idExamen=? AND idPregunta=?");
+			stmt.setInt(1, examen.getIdExamen());
+			stmt.setInt(2, pregunta.getIdPregunta());
+			stmt.execute();
+			resultado = (stmt.executeUpdate() > 0);
+		} catch (SQLException e) {
+			error[0] = e.getLocalizedMessage();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return resultado;
+	}
+	
+	/**
+	 * Función encargada de cambiar el peso de una pregunta para el examen dado.
 	 * 
 	 * @param idExamen   id de la tabla bt_examenes
 	 * @param idPregunta id de la tabla bt_preguntas

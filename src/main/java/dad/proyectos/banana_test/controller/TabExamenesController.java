@@ -124,7 +124,7 @@ public class TabExamenesController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		cargarExamenes();
+		cargarListadoExamenes();
 
 		// MOSTRAR OBJETO COMO STRING EN UN LISTVIEW (LISTA DE EXAMENES)
 		lvExamenes.setCellFactory(v -> new ListCell<Examen>() {
@@ -224,7 +224,11 @@ public class TabExamenesController implements Initializable {
 		btActPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
 
-	private void cargarExamenes() {
+	/**
+	 * Método encargado de descargar el listado de
+	 * exámenes de la base de datos.
+	 */
+	private void cargarListadoExamenes() {
 		String[] error = {""};
 		
 		// Si no borramos el listener, a la hora de borrar o modificar
@@ -292,8 +296,16 @@ public class TabExamenesController implements Initializable {
 	 */
 	@FXML
 	void onQuitarAction(ActionEvent event) {
-		int seleccionado = lvPreguntas.getSelectionModel().getSelectedIndex();
-		lvPreguntas.getItems().remove(seleccionado);
+		//int seleccionado = lvPreguntas.getSelectionModel().getSelectedIndex();
+		//lvPreguntas.getItems().remove(seleccionado);
+		String[] error = {""};
+		Pregunta preguntaSeleccionada = lvPreguntas.getSelectionModel().getSelectedItem();
+		if (GestorDB.eliminarPreguntaExamen(examenSeleccionado.get(), preguntaSeleccionada, error)) {
+			examenSeleccionado.get().preguntasProperty().remove(preguntaSeleccionada);
+		} else {
+			// TODO: Mostrar en diálogo
+			System.out.println("[QUITAR PREGUNTA A EXAMEN]" + error[0]);
+		}
 	}
 	
 	/**
@@ -305,9 +317,15 @@ public class TabExamenesController implements Initializable {
 		DialogoAgregarPregunta diag_agregar = new DialogoAgregarPregunta("Agregar pregunta", "Aceptar", "Cancelar");
 		Optional<Pregunta> result = diag_agregar.showAndWait();
 		if (result.isPresent()) {
-			Pregunta preguntaSeleccionada;
-			preguntaSeleccionada = result.get();
-			examenSeleccionado.get().getPreguntas().add(preguntaSeleccionada);
+			String[] error = {""};
+			Pregunta preguntaSeleccionada = result.get();			
+			if (GestorDB.asignarPreguntaExamen(examenSeleccionado.get(), preguntaSeleccionada, error)) {
+				examenSeleccionado.get().getPreguntas().add(preguntaSeleccionada);
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[AÑADIR PREGUNTA A EXAMEN]" + error[0]);
+			}
+			
 		}
 
 	}
@@ -330,7 +348,7 @@ public class TabExamenesController implements Initializable {
 			examen.setCreador(Preferencias.idUsuario);
 			
 			if (GestorDB.crearExamen(examen, error)) {
-				cargarExamenes();
+				cargarListadoExamenes();
 			} else {
 				// TODO: Mostrar en diálogo
 				System.out.println("[CREAR EXAMEN]" + error[0]);
@@ -356,7 +374,7 @@ public class TabExamenesController implements Initializable {
 			examenSeleccionado.get().setDescripcion(result.get().getValue());
 			String[] error = {""};
 			if (GestorDB.modificarExamen(examenSeleccionado.get(), error)) {
-				cargarExamenes();
+				cargarListadoExamenes();
 			} else {
 				// TODO: Mostrar en diálogo
 				System.out.println("[MODIFICAR EXAMEN]" + error[0]);
@@ -383,7 +401,7 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			String[] error = {""};
 			if (GestorDB.eliminarExamen(examenSeleccionado.get(), error)) {
-				cargarExamenes();
+				cargarListadoExamenes();
 			} else {
 				// TODO: Mostrar en diálogo
 				System.out.println("[BORRAR EXAMEN]" + error[0]);
