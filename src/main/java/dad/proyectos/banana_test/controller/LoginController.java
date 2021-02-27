@@ -108,20 +108,24 @@ public class LoginController implements Initializable {
 
 			@Override
 			protected Void call() throws Exception {
+				int idUsuario = -1;
 				String[] error = {""};
+				String usuarioApp = "";
+				String passwordApp = "";
 				Preferencias.properties.setProperty("direccion_servidor", tfIPServer.getText());
 				Preferencias.usuarioServidor = tfUsuServer.getText();
 				Preferencias.passwordServidor = tfPasswordServer.getText();
 				try {
-					Preferencias.usuarioApp = generarSha1(tfUsuarioApp.getText());
-					Preferencias.passwordApp = generarSha1(tfPasswordApp.getText());
+					usuarioApp = generarSha1(tfUsuarioApp.getText());
+					passwordApp = generarSha1(tfPasswordApp.getText());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				Connection conexion = GestorDB.conectarmysql();
 				if (conexion == null) {					
 					error[0] = "El servidor indicado no está disponible.";
-				} else if (GestorDB.comprobarLogin(conexion, Preferencias.usuarioApp, Preferencias.passwordApp, error) != -1) {
+				} else if ((idUsuario = GestorDB.comprobarLogin(conexion, usuarioApp, passwordApp, error)) != -1) {
+					Preferencias.idUsuario = idUsuario; 
 					funcional.set(false);
 					setValidado(true);
 					conexion.close();

@@ -7,10 +7,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
+import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.model.Examen;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.Preferencias;
 import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoAgregarPregunta;
 import dad.proyectos.banana_test.utils.dialogos.tab_examenes.DialogoCrearExamen;
@@ -121,23 +123,9 @@ public class TabExamenesController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO: Cargar Exámenes de la BD
-		Examen examen1 = new Examen("Examen 1", "Primer trimestre");
-		examen1.getPreguntas()
-				.addAll(new PreguntaTestSimple("Texto de la primera pregunta",
-						new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
-						new PreguntaTestSimple("Texto de la segunda pregunta",
-								new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
-						new PreguntaTestMultiple("Texto de la tercera pregunta",
-								new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-								new boolean[] { true, true, false, false }),
-						new PreguntaTestMultiple("Texto de la cuarta pregunta",
-								new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-								new boolean[] { true, true, false, false }));
-
-		Examen examen2 = new Examen("Examen 2", "Segundo Trimestre");
-
-		listadoExamenes.addAll(examen1, examen2);
+		String[] error = {""};
+		listadoExamenes.addAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
+		System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar
 		lvExamenes.setItems(listadoExamenes);
 
 		crearFiltroBuscador();
@@ -367,6 +355,7 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			// TODO: Borrar examen de la BD y rescatar de nuevo el listado
 			listadoExamenes.remove(examenSeleccionado.get()); // ELIMINAMOS EL EXAMEN SELECCIONADO
+			
 		}
 	}
 

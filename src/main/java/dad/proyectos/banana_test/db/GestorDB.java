@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
 import dad.proyectos.banana_test.model.Categoria;
 import dad.proyectos.banana_test.model.Examen;
@@ -198,8 +198,8 @@ public abstract class GestorDB {
 
 		Connection con = conectarmysql();
 		boolean resultado = false;
-		String tipoSimple = "SIMP";
-		String tipoMultiple = "MULT";
+		String tipoSimple = "PSIMP";
+		String tipoMultiple = "PMULT";
 		StringProperty[] respuestas = pregunta.obtenerRespuestas();
 		Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
 		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
@@ -352,31 +352,69 @@ public abstract class GestorDB {
 	public static ArrayList<Examen> visualizarExamenes(int creador, String[] error) {
 		Connection con = conectarmysql();
 		boolean resultado = false;
-		ArrayList<Examen> ex = new ArrayList<Examen>();
+		ArrayList<Examen> listadoExamenes = new ArrayList<Examen>();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE cerador = ?");
-			ResultSet rs = stmt.executeQuery();
+					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE creador = ?"
+			);
 			stmt.setInt(1, creador);
+			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
 
 				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"),
 						rs.getInt("creador"));
 
-				ex.add(examen);
+				PreparedStatement stmtExamen = con.prepareStatement(
+						"SELECT idPregunta, peso, tipoPregunta, contenido, creador FROM bt_contiene"
+						+ " INNER JOIN bt_preguntas ON bt_contiene.idPregunta = bt_preguntas.id"
+						+ " WHERE idExamen = ?"
+				);
+				stmtExamen.setInt(1, examen.getIdExamen());
+				ResultSet rsPreguntas = stmtExamen.executeQuery();
+				
+				while (rsPreguntas.next()) {
+					Pregunta p;
+					
+					PreparedStatement stmtRespuestas = con.prepareStatement(
+							"SELECT descripcion, valida FROM bt_respuestas WHERE idPregunta = ? ORDER BY id ASC"
+					);
+					stmtRespuestas.setInt(1, rsPreguntas.getInt("idPregunta"));
+					ResultSet rsRespuestas = stmtRespuestas.executeQuery();
+					String[] listaRespuestas = new String[4];
+					boolean[] listaValidas = new boolean[listaRespuestas.length];
+					int i = 0;
+					
+					while (rsRespuestas.next()) {
+						listaRespuestas[i] = rsRespuestas.getString("descripcion");
+						listaValidas[i] = rsRespuestas.getBoolean("valida");
+						i++;
+					}
+					
+					if (rsPreguntas.getString("tipoPregunta").equals("PSIMP")) {
+						p = new PreguntaTestSimple(rsPreguntas.getString("contenido"), listaRespuestas);
+					} else {
+						p = new PreguntaTestMultiple(rsPreguntas.getString("contenido"), listaRespuestas, listaValidas);
+					}
+					
+					p.setIdPregunta(rsPreguntas.getInt("idPregunta"));
+					p.setPeso(rsPreguntas.getInt("peso"));
+					p.setCreador(rsPreguntas.getInt("creador"));
+					examen.getPreguntas().add(p);
+				}
+				
+				listadoExamenes.add(examen);
 
 			}
 
 			resultado = true;
 			con.close();
-			rs.close();
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return ex;
+		return listadoExamenes;
 	}
 
 	/**

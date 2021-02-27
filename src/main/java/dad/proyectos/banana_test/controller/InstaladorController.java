@@ -125,7 +125,7 @@ public class InstaladorController implements Initializable {
 					Class.forName(driver);
 					Connection conexion = DriverManager.getConnection(urlConexion, user, password);
 					ScriptRunner scriptRunner = new ScriptRunner(conexion);
-					Reader reader = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("script_crear_db.sql")));
+					Reader reader = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("bd/script_crear_db.sql")));
 					scriptRunner.runScript(reader);
 					conexion.close();
 					Preferencias.properties.setProperty("direccion_servidor", tfDireccion.getText());

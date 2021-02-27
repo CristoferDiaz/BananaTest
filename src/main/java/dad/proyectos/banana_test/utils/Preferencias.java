@@ -120,8 +120,7 @@ public abstract class Preferencias {
 	
 	public static String usuarioServidor = "";
 	public static String passwordServidor = "";
-	public static String usuarioApp = "";
-	public static String passwordApp = "";
+	public static int idUsuario = -1;
 	
 	public static Properties properties = new Properties();
 	
