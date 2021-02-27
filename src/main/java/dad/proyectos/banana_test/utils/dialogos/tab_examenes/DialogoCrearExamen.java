@@ -12,19 +12,18 @@ import javafx.util.Pair;
 
 /**
  * 
- * @author Daniel Pérez Pimienta
+ * Crea un diálogo que permite crear un examen, añadiendo su nombre y
+ * descripción y luego añadiendolo a la lista de examenes.
  * 
- * Crea un diálogo que permite crear un examen, añadiendo su nombre y descripción
- * y luego añadiendolo a la lista de examenes.
- *
+ * @author Daniel Pérez Pimienta
  */
-public class DialogoCrearExamen extends Dialogo<Pair<String, String>>{
-	
+public class DialogoCrearExamen extends Dialogo<Pair<String, String>> {
+
 	/**
 	 * Constructor principal de la clase.
 	 * 
-	 * @param titulo String que contiene el título de la ventana del diálogo
-	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
+	 * @param titulo   String que contiene el título de la ventana del diálogo
+	 * @param aceptar  String que contiene el título del botón de tipo OK_DONE
 	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
 	 */
 	public DialogoCrearExamen(String titulo, String aceptar, String cancelar) {
