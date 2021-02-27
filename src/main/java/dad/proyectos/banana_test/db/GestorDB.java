@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import dad.proyectos.banana_test.model.Categoria;
 import dad.proyectos.banana_test.model.Examen;
@@ -96,82 +95,47 @@ public abstract class GestorDB {
 	 */
 	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, String[] error) {
 		Connection con = conectarmysql();
-		ArrayList<Pregunta> pre = new ArrayList<Pregunta>();
+		ArrayList<Pregunta> listadoPreguntas = new ArrayList<Pregunta>();
 
-		String tipoSimple = "SIMP";
-		String tipoMultiple = "MULT";
-		String tipo, contenido, descripcion;
-		boolean valida;
-		int id;
 		try {
-			PreparedStatement stmt = con.prepareStatement(
+			PreparedStatement stmtPreguntas = con.prepareStatement(
 					"SELECT id, tipoPregunta, contenido, creador FROM bt_preguntas WHERE creador = ?");
-			stmt.setInt(1, creador);
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				if (categorias.length != 0) {
-					stmt = con.prepareStatement("SELECT idPregunta FROM bt_pertenece WHERE idCategoria = ?");
-					ResultSet rs2 = stmt.executeQuery();
-					for (int i = 0; i < categorias.length; i++) {
-						stmt.setInt(1, categorias[i]);
-					}
-					id = rs2.getInt("idPregunta");
+			stmtPreguntas.setInt(1, creador);
+			ResultSet rsPreguntas = stmtPreguntas.executeQuery();
+			while (rsPreguntas.next()) {
+				Pregunta pregunta;
+
+				PreparedStatement stmtRespuestas = con.prepareStatement(
+						"SELECT descripcion, valida FROM bt_respuestas WHERE idPregunta = ? ORDER BY id ASC");
+				stmtRespuestas.setInt(1, rsPreguntas.getInt("id"));
+				ResultSet rsRespuestas = stmtRespuestas.executeQuery();
+				String[] listaRespuestas = new String[4];
+				boolean[] listaValidas = new boolean[listaRespuestas.length];
+				int i = 0;
+
+				while (rsRespuestas.next()) {
+					listaRespuestas[i] = rsRespuestas.getString("descripcion");
+					listaValidas[i] = rsRespuestas.getBoolean("valida");
+					i++;
+				}
+
+				if (rsPreguntas.getString("tipoPregunta").equals("PSIMP")) {
+					pregunta = new PreguntaTestSimple(rsPreguntas.getString("contenido"), listaRespuestas);
 				} else {
-					id = rs.getInt("id");
-				}
-				tipo = rs.getString("tipoPregunta");
-				contenido = rs.getString("contenido");
-
-				stmt = con.prepareStatement(
-						"SELECT id, descripcion, valida, idPregunta FROM" + "bt_respuestas WHERE idPregunta = ?");
-				stmt.setInt(1, id);
-				ResultSet rs3 = stmt.executeQuery();
-				String[] respuestas = new String[4];
-				String[] textosRespuestas = new String[4];
-				boolean[] correctas = new boolean[4];
-				while (rs3.next()) {
-					rs3.getInt("id");
-					descripcion = rs3.getString("descripcion");
-					valida = rs3.getBoolean("valida");
-					if (valida == true) {
-						respuestas[0] = descripcion;
-					} else {
-						respuestas[1] = descripcion;
-						respuestas[2] = descripcion;
-						respuestas[3] = descripcion;
-					}
-
-					for (int i = 0; i < correctas.length; i++) {
-						correctas[i] = valida;
-					}
-
-					for (int i = 0; i < textosRespuestas.length; i++) {
-						textosRespuestas[i] = descripcion;
-					}
-
+					pregunta = new PreguntaTestMultiple(rsPreguntas.getString("contenido"), listaRespuestas,
+							listaValidas);
 				}
 
-				if (tipo == tipoSimple) {
-					PreguntaTestSimple preguntaSimple = new PreguntaTestSimple(contenido, respuestas);
-					preguntaSimple.setIdPregunta(id);
-					pre.add(preguntaSimple);
-				} else if (tipo == tipoMultiple) {
-					PreguntaTestMultiple preguntaMultiple = new PreguntaTestMultiple(contenido, textosRespuestas,
-							correctas);
-					preguntaMultiple.setIdPregunta(id);
-					pre.add(preguntaMultiple);
-				}
-
+				pregunta.setIdPregunta(rsPreguntas.getInt("id"));
+				pregunta.setCreador(rsPreguntas.getInt("creador"));
+				listadoPreguntas.add(pregunta);
 			}
-
 			con.close();
-			rs.close();
-
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return pre;
+		return listadoPreguntas;
 	}
 
 	/**
@@ -192,23 +156,46 @@ public abstract class GestorDB {
 	 *         cumple
 	 */
 	public static boolean crearPregunta(Pregunta pregunta, String[] error) {
-
 		Connection con = conectarmysql();
 		boolean resultado = false;
 		String tipoSimple = "PSIMP";
 		String tipoMultiple = "PMULT";
 		StringProperty[] respuestas = pregunta.obtenerRespuestas();
-		Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
-		String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
 
 		try {
-			PreparedStatement stmt;
+			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
+				String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
+				PreparedStatement stmtPregunta = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				stmtPregunta.setString(1, tipoSimple);
+				stmtPregunta.setString(2, pregunta.getPregunta());
+				stmtPregunta.setInt(3, pregunta.getCreador());
+				
+				stmtPregunta.executeUpdate();
+				
+				ResultSet rsPregunta = stmtPregunta.getGeneratedKeys();
+				if (rsPregunta.next()) {
+					pregunta.setIdPregunta(rsPregunta.getInt(1));
+				}
+				
+				query = "INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)";
+				for (int i = 0; i < respuestas.length; i++) {
+					PreparedStatement stmtRespuestas = con.prepareStatement(query);
+					stmtRespuestas.setString(1, respuestas[i].get());
+					stmtRespuestas.setBoolean(2,  (i == 0));
+					stmtRespuestas.setInt(3, pregunta.getIdPregunta());
+					
+					resultado = (stmtRespuestas.executeUpdate() > 0);
+				}
+			}
+			con.close();
+			/*PreparedStatement stmt;
 
 			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
+				Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoMultiple);
 				stmt.setString(2, pregunta.getPregunta());
-				// stmt.setInt(3, pregunta.setCreador());
+				stmt.setInt(3, pregunta.getCreador());
 
 				stmt.executeUpdate();
 
@@ -224,11 +211,11 @@ public abstract class GestorDB {
 						.prepareStatement("INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES(?,?,?)");
 				int row = 4;
 				for (int i = 0; i < row; i++) {
-					for (int a = 0; a < respuestas.length; a++) {
-						stmt.setString(1, respuestas[a].toString());
+					for (int j = 0; j < respuestas.length; j++) {
+						stmt.setString(1, respuestas[j].get());
 					}
-					for (int e = 0; e < valido.length; e++) {
-						stmt.setBoolean(2, valido[e]);
+					for (int j = 0; j < valido.length; j++) {
+						stmt.setBoolean(2, valido[j]);
 					}
 					stmt.setInt(3, pregunta.getIdPregunta());
 					stmt.addBatch();
@@ -239,7 +226,7 @@ public abstract class GestorDB {
 				stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, tipoSimple);
 				stmt.setString(2, pregunta.getPregunta());
-				// stmt.setInt(3, pregunta.setCreador());
+				stmt.setInt(3, pregunta.getCreador());
 
 				stmt.executeUpdate();
 
@@ -255,8 +242,8 @@ public abstract class GestorDB {
 				int row = 4;
 				pregunta.setCorrecta(true);
 				for (int i = 0; i < row; i++) {
-					for (int a = 0; a < respuestas.length; a++) {
-						stmt.setString(1, respuestas[a].toString());
+					for (int j = 0; j < respuestas.length; j++) {
+						stmt.setString(1, respuestas[j].get());
 					}
 					stmt.setBoolean(2, pregunta.esCorrecta());
 					stmt.setInt(3, pregunta.getIdPregunta());
@@ -268,7 +255,7 @@ public abstract class GestorDB {
 			}
 
 			resultado = true;
-			con.close();
+			con.close();*/
 
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
@@ -350,22 +337,22 @@ public abstract class GestorDB {
 		Connection con = conectarmysql();
 		ArrayList<Examen> listadoExamenes = new ArrayList<Examen>();
 		try {
-			PreparedStatement stmt = con.prepareStatement(
+			PreparedStatement stmtExamenes = con.prepareStatement(
 					"SELECT id, nombre, descripcionGeneral, creador FROM bt_examenes WHERE creador = ?");
-			stmt.setInt(1, creador);
-			ResultSet rs = stmt.executeQuery();
+			stmtExamenes.setInt(1, creador);
+			ResultSet rs = stmtExamenes.executeQuery();
 
 			while (rs.next()) {
 
 				Examen examen = new Examen(rs.getInt("id"), rs.getString("nombre"), rs.getString("descripcionGeneral"),
 						rs.getInt("creador"));
 
-				PreparedStatement stmtExamen = con
+				PreparedStatement stmtPreguntas = con
 						.prepareStatement("SELECT idPregunta, peso, tipoPregunta, contenido, creador FROM bt_contiene"
 								+ " INNER JOIN bt_preguntas ON bt_contiene.idPregunta = bt_preguntas.id"
 								+ " WHERE idExamen = ?");
-				stmtExamen.setInt(1, examen.getIdExamen());
-				ResultSet rsPreguntas = stmtExamen.executeQuery();
+				stmtPreguntas.setInt(1, examen.getIdExamen());
+				ResultSet rsPreguntas = stmtPreguntas.executeQuery();
 
 				while (rsPreguntas.next()) {
 					Pregunta p;
@@ -510,9 +497,9 @@ public abstract class GestorDB {
 	/**
 	 * Función con la que poder asignar una pregunta a un examen.
 	 * 
-	 * @param examen Objeto de la clase Examen
+	 * @param examen   Objeto de la clase Examen
 	 * @param pregunta Objeto de la clase Pregunta
-	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @param error    Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -526,7 +513,7 @@ public abstract class GestorDB {
 			stmt.setInt(1, examen.getIdExamen());
 			stmt.setInt(2, pregunta.getIdPregunta());
 			stmt.setInt(3, 0);
-			
+
 			resultado = (stmt.executeUpdate() > 0);
 			con.close();
 
@@ -536,13 +523,13 @@ public abstract class GestorDB {
 
 		return resultado;
 	}
-	
+
 	/**
 	 * Función con la que poder quitar una pregunta a un examen.
 	 * 
-	 * @param examen Objeto de la clase Examen
+	 * @param examen   Objeto de la clase Examen
 	 * @param pregunta Objeto de la clase Pregunta
-	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @param error    Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -568,7 +555,7 @@ public abstract class GestorDB {
 
 		return resultado;
 	}
-	
+
 	/**
 	 * Función encargada de cambiar el peso de una pregunta para el examen dado.
 	 * 

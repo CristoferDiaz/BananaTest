@@ -6,15 +6,18 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
+import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.model.Pregunta;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
 import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.Preferencias;
 import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
 import dad.proyectos.banana_test.utils.dialogos.tab_preguntas.DialogoPregunta;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -38,6 +41,7 @@ public class TabPreguntasController implements Initializable {
 	
 	private ListProperty<Pregunta> listadoPreguntas = new SimpleListProperty<Pregunta>(FXCollections.observableArrayList());
 	private ObjectProperty<Pregunta> preguntaSeleccionada = new SimpleObjectProperty<Pregunta>();
+	private ChangeListener<String> listenerFiltro;
 	
 	// view
 
@@ -126,6 +130,8 @@ public class TabPreguntasController implements Initializable {
 			
 		);
 		
+		cargarListadoPreguntas();
+		
 		crearFiltroBuscador();
 		
 		lvPreguntas.setCellFactory(v -> new ListCell<Pregunta>() {
@@ -143,6 +149,20 @@ public class TabPreguntasController implements Initializable {
 		preguntaSeleccionada.addListener((o, ov, nv) -> onSeleccionadaChanged(o, ov, nv));
 		btBorrar.disableProperty().bind(preguntaSeleccionada.isNull());
 		btAplicarCambios.disableProperty().bind(preguntaSeleccionada.isNull());
+	}
+	
+	private void cargarListadoPreguntas() {
+		String[] error = {""};
+		
+		// Si no borramos el listener, a la hora de borrar o modificar
+		// una pregunta varias veces, empieza a segregar errores uno tras otro
+		if (listenerFiltro != null)
+			tfBuscador.textProperty().removeListener(listenerFiltro);
+		listadoPreguntas.setAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, error));
+		if (!error[0].equals(""))
+			// TODO: Mostrar en diálogo
+			System.out.println("[CARGA DE PREGUNTAS] " + error[0]);		
+		crearFiltroBuscador();
 	}
 
 	private void crearFiltroBuscador() {
@@ -183,9 +203,15 @@ public class TabPreguntasController implements Initializable {
 		DialogoPregunta dialog = new DialogoPregunta();
 		Optional<Pregunta> result = dialog.showAndWait();
 		
-		if (result.isPresent()) {
-			// TODO: Añadir pregunta a la BD y rescatar de nuevo el listado
-			listadoPreguntas.add(result.get());
+		if (result.isPresent()) { 
+			String[] error = {""};
+			result.get().setCreador(Preferencias.idUsuario);
+			if (GestorDB.crearPregunta(result.get(), error)) {
+				cargarListadoPreguntas();
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[CREAR PREGUNTA]" + error[0]);
+			}
 		}
     }
 	

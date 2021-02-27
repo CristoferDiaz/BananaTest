@@ -237,7 +237,8 @@ public class TabExamenesController implements Initializable {
 			tfBuscador.textProperty().removeListener(listenerFiltro);
 		listadoExamenes.setAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
 		if (!error[0].equals(""))
-			System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar		
+			// TODO: Mostrar en diálogo
+			System.out.println("[CARGA DE EXÁMENES] " + error[0]);		
 		crearFiltroBuscador();
 	}
 	

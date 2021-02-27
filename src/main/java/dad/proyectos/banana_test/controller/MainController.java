@@ -61,7 +61,7 @@ public class MainController implements Initializable {
 			Examen examen = new Examen("Título del examen", "Descripción del examen");
 			String[] error = new String[] { "" };
 			CreadorPdf.generarPDF(examen, file, error);
-			// TODO: Mostrar diálogo de confirmación
+			
 			System.out.println(error[0]);
 		}
 

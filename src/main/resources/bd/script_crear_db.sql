@@ -116,8 +116,8 @@ CREATE TABLE `bt_tipopregunta` (
 --
 
 INSERT INTO `bt_tipopregunta` (`codTipo`, `nombre`, `descripcion`) VALUES
-('MULT', 'TestMultiple', 'Una pregunta con más de 1 respuesta posible'),
-('SIMP', 'TestSimple', 'Una pregunta con 1 respuestas posibles');
+('PMULT', 'TestMultiple', 'Una pregunta con más de 1 respuesta posible'),
+('PSIMP', 'TestSimple', 'Una pregunta con 1 respuestas posibles');
 
 -- --------------------------------------------------------
 

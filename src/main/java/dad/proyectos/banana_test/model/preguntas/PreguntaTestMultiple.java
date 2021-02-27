@@ -135,6 +135,8 @@ public class PreguntaTestMultiple extends Pregunta {
 		Label lbPregunta = new Label("Pregunta:");
 		TextArea taPregunta = new TextArea(pregunta.get());
 		
+		taPregunta.textProperty().bindBidirectional(pregunta);
+		
 		root.add(lbPregunta, 0, 0);
 		root.add(taPregunta, 0, 1, 3, 1);
 		
