@@ -222,7 +222,7 @@ public abstract class GestorDB {
 	}
 
 	/**
-	 * Funcion con la que poder modificar preugntas
+	 * Funcion con la que poder modificar preguntas.
 	 * 
 	 * @param pregunta Objeto de la clase Pregunta
 	 * @param error    Array encargada de la gestion de los errores o excepciones
@@ -238,10 +238,9 @@ public abstract class GestorDB {
 			stmt.setString(1, pregunta.getPregunta());
 			stmt.setInt(2, pregunta.getIdPregunta());
 
-			stmt.executeUpdate();
-			resultado = true;
+			resultado = (stmt.executeUpdate() > 0);
 			con.close();
-
+			resultado = actualizarRespuestas(pregunta, error);
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
 		}
@@ -561,56 +560,38 @@ public abstract class GestorDB {
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
-	public static boolean actualizarRespuestas(Pregunta pregunta, String[] error) {
+	private static boolean actualizarRespuestas(Pregunta pregunta, String[] error) {
 		boolean resultado = false;
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
-		StringProperty[] respuestas;
-		Boolean[] valido;
+		StringProperty[] respuestas = pregunta.obtenerRespuestas();
 		try {
-			pregunta.setCorrecta(true);
-			stmt = con.prepareStatement("SELECT id FROM bt_respuestas WHERE idPregunta = ?");
-			ResultSet rs = stmt.executeQuery();
-			stmt.setInt(1, pregunta.getIdPregunta());
-
+			
 			stmt = con.prepareStatement("DELETE FROM bt_respuestas where idPregunta = ?");
 			stmt.setInt(1, pregunta.getIdPregunta());
 			stmt.executeUpdate();
-
-			while (rs.next()) {
-				respuestas = pregunta.obtenerRespuestas();
-				if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
-
-					stmt = con.prepareStatement(
-							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)");
-					for (int i = 0; i < respuestas.length; i++) {
-						stmt.setString(1, respuestas[i].toString());
-					}
-					stmt.setBoolean(2, pregunta.esCorrecta());
-					stmt.setInt(3, pregunta.getIdPregunta());
-					pregunta.setCorrecta(false);
-					stmt.addBatch();
-
-				} else if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_MULTIPLE) {
-					valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
-					stmt = con.prepareStatement(
-							"INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)");
-					for (int i = 0; i < respuestas.length; i++) {
-						stmt.setString(1, respuestas[i].toString());
-					}
-					for (int i = 0; i < valido.length; i++) {
-						stmt.setBoolean(2, valido[i]);
-					}
-					stmt.setInt(3, pregunta.getIdPregunta());
-					stmt.addBatch();
-
-					stmt.executeBatch();
-
+			
+			String query = "INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)";
+			if (pregunta.getTipoPregunta() == TIPO_PREGUNTA.TEST_RESPUESTA_SIMPLE) {
+				for (int i = 0; i < respuestas.length; i++) {
+					PreparedStatement stmtRespuestas = con.prepareStatement(query);
+					stmtRespuestas.setString(1, respuestas[i].get());
+					stmtRespuestas.setBoolean(2,  (i == 0));
+					stmtRespuestas.setInt(3, pregunta.getIdPregunta());
+					
+					resultado = (stmtRespuestas.executeUpdate() > 0);
 				}
-
-				resultado = true;
-				stmt.close();
-
+			} else {
+				Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
+				
+				for (int i = 0; i < respuestas.length; i++) {
+					PreparedStatement stmtRespuestas = con.prepareStatement(query);
+					stmtRespuestas.setString(1, respuestas[i].get());
+					stmtRespuestas.setBoolean(2,  valido[i]);
+					stmtRespuestas.setInt(3, pregunta.getIdPregunta());
+					
+					resultado = (stmtRespuestas.executeUpdate() > 0);
+				}
 			}
 
 		} catch (SQLException e) {

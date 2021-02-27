@@ -8,8 +8,6 @@ import java.util.ResourceBundle;
 import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.model.Pregunta;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.Preferencias;
 import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
 import dad.proyectos.banana_test.utils.dialogos.tab_preguntas.DialogoPregunta;
@@ -77,59 +75,6 @@ public class TabPreguntasController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO: Cargar listado de preguntas de la bd
-		listadoPreguntas.addAll(
-			new PreguntaTestSimple(
-				"Texto de la primera pregunta",
-				new String[] {
-						"Respuesta válida 1",
-						"Respuesta 2",
-						"Respuesta 3",
-						"Respuesta 4"
-				}
-			),
-			new PreguntaTestSimple(
-				"Texto de la segunda pregunta",
-				new String[] {
-						"Respuesta válida 1",
-						"Respuesta 2",
-						"Respuesta 3",
-						"Respuesta 4"
-				}
-			),
-			new PreguntaTestMultiple(
-					"Texto de la tercera pregunta",
-					new String[] {
-							"Respuesta 1",
-							"Respuesta 2",
-							"Respuesta 3",
-							"Respuesta 4"
-					},
-					new boolean[] {
-							true,
-							true,
-							false,
-							false
-					}
-			),
-			new PreguntaTestMultiple(
-					"Texto de la cuarta pregunta",
-					new String[] {
-							"Respuesta 1",
-							"Respuesta 2",
-							"Respuesta 3",
-							"Respuesta 4"
-					},
-					new boolean[] {
-							true,
-							true,
-							false,
-							false
-					}
-			)
-			
-		);
-		
 		cargarListadoPreguntas();
 		
 		crearFiltroBuscador();
@@ -159,6 +104,7 @@ public class TabPreguntasController implements Initializable {
 		if (listenerFiltro != null)
 			tfBuscador.textProperty().removeListener(listenerFiltro);
 		listadoPreguntas.setAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, error));
+		
 		if (!error[0].equals(""))
 			// TODO: Mostrar en diálogo
 			System.out.println("[CARGA DE PREGUNTAS] " + error[0]);		
@@ -238,7 +184,13 @@ public class TabPreguntasController implements Initializable {
 	
 	@FXML
     void onAplicarCambios(ActionEvent event) {
-		// TODO: Actualizar la pregunta en la BD y rescatar de nuevo el listado
+		String[] error = {""};
+		if (GestorDB.modificarPregunta(preguntaSeleccionada.get(), error)) {
+			cargarListadoPreguntas();
+		} else {
+			// TODO: Mostrar en diálogo
+			System.out.println("[MODIFICAR PREGUNTA]" + error[0]);
+		}
     }
 
 	public HBox getView() {
