@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
+import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -124,6 +125,15 @@ public class LoginController implements Initializable {
 			hbBotonesControl.setDisable(false);
 			progressIndicator.setVisible(false);
 			lbMensajeWarning.setText(mensajeWarning.get());
+			Preferencias.properties.setProperty("direccion_servidor", tfIPServer.getText());
+			Preferencias.usuarioServidor = tfUsuServer.getText();
+			Preferencias.passwordServidor = tfPasswordServer.getText();
+			try {
+				Preferencias.usuarioApp = generarSha1(tfUsuarioApp.getText());
+				Preferencias.passwordApp = generarSha1(tfPasswordApp.getText());
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
 			if (!funcional.get())
 				stage.close();
 		});
