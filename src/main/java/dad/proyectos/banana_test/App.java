@@ -25,16 +25,28 @@ public class App extends Application {
 	public static HostServices hostServices;
 	public static ResourceBundle resourceBundle;
 
+	/**
+	 * Método encargado de cargar las preferencias de
+	 * la aplicación cuando esta se inice.
+	 */
 	@Override
 	public void init() throws Exception {
 		Preferencias.cargarPreferencias();
 	}
 
+	/**
+	 * Método encargado de guardar las preferencias
+	 * de la aplicación cuando esta finalice.
+	 */
 	@Override
 	public void stop() throws Exception {
 		Preferencias.guardarPreferencias();
 	}
 
+	/**
+	 * Método encargado de llevar a cabo la ejecución
+	 * principal de la aplicación.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		if (Preferencias.esPrimerArranque()) {
@@ -63,6 +75,13 @@ public class App extends Application {
 		}
 	}
 
+	/**
+	 * Método encargado de gestionar el login del usuario
+	 * en el sistema de la aplicación.
+	 * 
+	 * @return true si se pudo hacer login
+	 * @throws IOException si alguno de los componentes JavaFX no pudo ser cargado
+	 */
 	private static boolean gestionarLogin() throws IOException {
 		Stage stage = new Stage();
 		LoginController loginController = new LoginController(stage);
@@ -79,6 +98,13 @@ public class App extends Application {
 		return (loginController.isValidado());
 	}
 
+	/**
+	 * Método encargado de gestionar el primer arranque de la
+	 * aplicación. Con esto, conseguimos que se cree
+	 * la base de datos de la aplicación.
+	 * 
+	 * @throws IOException si alguno de los componentes JavaFX no pudo ser cargado
+	 */
 	private static void gestionarPrimerArranque() throws IOException {
 		Preferencias.cambiarPrimerArranque();
 		Stage stage = new Stage();
@@ -95,6 +121,11 @@ public class App extends Application {
 		stage.showAndWait();
 	}
 
+	/**
+	 * Método main encargado de iniciar los componentes
+	 * de JavaFX y su hilo correspondiente
+	 * @param args Array de String con los parámetros de entrada
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

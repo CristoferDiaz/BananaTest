@@ -121,7 +121,6 @@ public abstract class Preferencias {
 	public static String usuarioServidor = "";
 	public static String passwordServidor = "";
 	public static int idUsuario = -1;
-	
 	public static Properties properties = new Properties();
 	
 	/**
@@ -236,7 +235,7 @@ public abstract class Preferencias {
 	}
 	
 	/**
-	 * Cargar tema.
+	 * Cargar el tema actual y lo retorna como una ruta de recurso.
 	 *
 	 * @return recurso del tema css a cargar
 	 */
@@ -277,10 +276,20 @@ public abstract class Preferencias {
 		properties.setProperty("idioma", idioma.name);
 	}
 	
+	/**
+	 * Método encargado de indicar si es la primera vez
+	 * que el usuario ejecuta la aplicación. Todo esto
+	 * se tendrá en cuenta en base a la propiedad "primer_arranque".
+	 * @return true si es el primer arranque
+	 */
 	public static boolean esPrimerArranque() {
 		return Boolean.parseBoolean(properties.getProperty("primer_arranque"));
 	}
 	
+	/**
+	 * Método encargado de cambiar la propiedad "primer_arranque"
+	 * a false indicando que ya se ejecutó por primera vez la aplicación.
+	 */
 	public static void cambiarPrimerArranque() {
 		properties.setProperty("primer_arranque", "false");
 	}
