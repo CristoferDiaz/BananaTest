@@ -89,18 +89,27 @@ public abstract class GestorDB {
 	 * 
 	 * @param creador    INT id del usuario
 	 * @param categorias array donde estan las id de las categorias
+	 * @param idExamen	 int asociado a un examen si se quieren filtrar las preguntas o -1 en caso contrario
 	 * @param error      Array encargada de la gestion de los errores o excepciones
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
-	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, String[] error) {
+	public static ArrayList<Pregunta> visualizarPreguntas(int creador, int[] categorias, int idExamen, String[] error) {
 		Connection con = conectarmysql();
 		ArrayList<Pregunta> listadoPreguntas = new ArrayList<Pregunta>();
 
 		try {
-			PreparedStatement stmtPreguntas = con.prepareStatement(
-					"SELECT id, tipoPregunta, contenido, creador FROM bt_preguntas WHERE creador = ?");
+			String query = "SELECT id, tipoPregunta, contenido, creador FROM bt_preguntas WHERE creador = ?";
+			
+			if (idExamen != -1) {
+				query = query + " AND id NOT IN (SELECT idPregunta FROM bt_contiene WHERE idExamen = ?)";
+			}
+			
+			PreparedStatement stmtPreguntas = con.prepareStatement(query);
 			stmtPreguntas.setInt(1, creador);
+			if (idExamen != -1) {
+				stmtPreguntas.setInt(2, idExamen);
+			}
 			ResultSet rsPreguntas = stmtPreguntas.executeQuery();
 			while (rsPreguntas.next()) {
 				Pregunta pregunta;

@@ -103,7 +103,7 @@ public class TabPreguntasController implements Initializable {
 		// una pregunta varias veces, empieza a segregar errores uno tras otro
 		if (listenerFiltro != null)
 			tfBuscador.textProperty().removeListener(listenerFiltro);
-		listadoPreguntas.setAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, error));
+		listadoPreguntas.setAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, -1, error));
 		
 		if (!error[0].equals(""))
 			// TODO: Mostrar en diálogo

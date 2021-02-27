@@ -1,8 +1,8 @@
 package dad.proyectos.banana_test.utils.dialogos.tab_examenes;
 
+import dad.proyectos.banana_test.db.GestorDB;
 import dad.proyectos.banana_test.model.Pregunta;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
+import dad.proyectos.banana_test.utils.Preferencias;
 import dad.proyectos.banana_test.utils.dialogos.Dialogo;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -21,7 +22,10 @@ import javafx.scene.layout.VBox;
  * @author Daniel Pérez Pimienta
  * 
  * La clase DialogoAgregarPregunta se encarga de crear un diálogo que contiene una lista con todas las preguntas disponibles de la base de datos,
- * de las cuales podemos elegir una para añadir al examen seleccionado
+ * de las cuales podemos elegir una para añadir al examen seleccionado.
+ * 
+ * Las preguntas vendrán filtradas de tal manera que no se incluirán aquellas que ya formen
+ * parte del examen a editar.
  *
  */
 public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
@@ -38,12 +42,12 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 	/**
 	 * Constructor principal de la clase.
 	 *
-	 *
 	 * @param titulo String que contiene el título de la ventana del diálogo
 	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
 	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
+	 * @param idExamen Int asociado al id de un examen
 	 */
-	public DialogoAgregarPregunta(String titulo, String aceptar, String cancelar) {
+	public DialogoAgregarPregunta(String titulo, String aceptar, String cancelar, int idExamen) {
 		super(titulo, aceptar, cancelar);
 
 		txBuscador.setPromptText("Buscador de preguntas...");
@@ -63,23 +67,9 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 		getDialogPane().setContent(root);
 
 		// Preguntas
-		// TODO: Cargar preguntas de la BD
-		Pregunta[] array_preguntas = {
-				new PreguntaTestSimple("Texto de la primera pregunta",
-						new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
-				new PreguntaTestMultiple("Texto de la tercera pregunta",
-						new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-						new boolean[] { true, true, false, false }),
-				new PreguntaTestMultiple("Texto de la cuarta pregunta",
-						new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-						new boolean[] { true, true, false, false }),
-				new PreguntaTestSimple("Texto de la quinta pregunta",
-						new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }) };
-
-		for (int i = 0; i < array_preguntas.length; i++) {
-			listaProperty.add(array_preguntas[i]);
-		}
-
+		String[] error = {""};
+		listaProperty.addAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, idExamen, error));
+				
 		lista.setItems(listaProperty);
 		crearFiltroBuscador();
 
@@ -95,7 +85,12 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 					setText(item.getPregunta());
 			}
 		});
-
+		
+		Node nodeBtAceptar = getDialogPane().lookupButton(btAceptar);
+		nodeBtAceptar.setDisable(true);
+		
+		nodeBtAceptar.disableProperty().bind(lista.getSelectionModel().selectedItemProperty().isNull());
+		
 		setResultConverter(dialogButton -> {
 			if (dialogButton == btAceptar) {
 				Pregunta preguntaSeleccionada = lista.getSelectionModel().getSelectedItem();

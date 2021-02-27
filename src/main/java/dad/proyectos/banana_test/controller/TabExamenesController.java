@@ -315,7 +315,7 @@ public class TabExamenesController implements Initializable {
 	 */
 	@FXML
 	void onAgregarAction(ActionEvent event) {
-		DialogoAgregarPregunta diag_agregar = new DialogoAgregarPregunta("Agregar pregunta", "Aceptar", "Cancelar");
+		DialogoAgregarPregunta diag_agregar = new DialogoAgregarPregunta("Agregar pregunta", "Aceptar", "Cancelar", examenSeleccionado.get().getIdExamen());
 		Optional<Pregunta> result = diag_agregar.showAndWait();
 		if (result.isPresent()) {
 			String[] error = {""};
