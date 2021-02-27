@@ -351,7 +351,6 @@ public abstract class GestorDB {
 	 */
 	public static ArrayList<Examen> visualizarExamenes(int creador, String[] error) {
 		Connection con = conectarmysql();
-		boolean resultado = false;
 		ArrayList<Examen> listadoExamenes = new ArrayList<Examen>();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
@@ -406,8 +405,6 @@ public abstract class GestorDB {
 				listadoExamenes.add(examen);
 
 			}
-
-			resultado = true;
 			con.close();
 
 		} catch (SQLException e) {
@@ -497,17 +494,20 @@ public abstract class GestorDB {
 		boolean resultado = false;
 		try {
 			PreparedStatement stmt;
-			stmt = con.prepareStatement("DELETE FROM bt_contiene where idExamen=?");
-			stmt = con.prepareStatement("DELETE FROM bt_examenes where id=?");
-
+			stmt = con.prepareStatement("DELETE FROM bt_contiene WHERE idExamen=?");
 			stmt.setInt(1, examen.getIdExamen());
-
-			stmt.executeUpdate();
-			resultado = true;
-			con.close();
-
+			stmt.execute();
+			stmt = con.prepareStatement("DELETE FROM bt_examenes where id=?");
+			stmt.setInt(1, examen.getIdExamen());
+			resultado = (stmt.executeUpdate() > 0);
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return resultado;

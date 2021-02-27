@@ -123,10 +123,7 @@ public class TabExamenesController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		String[] error = {""};
-		listadoExamenes.addAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
-		System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar
-		lvExamenes.setItems(listadoExamenes);
+		cargarExamenes();
 
 		crearFiltroBuscador();
 
@@ -227,6 +224,16 @@ public class TabExamenesController implements Initializable {
 		txPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 		btActPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
+
+	private void cargarExamenes() {
+		String[] error = {""};
+		listadoExamenes.clear();
+		listadoExamenes.addAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
+		if (!error[0].equals(""))
+			System.out.println("[CARGA DE EXÁMENES] " + error[0]); // TODO: Borrar
+		lvExamenes.setItems(listadoExamenes);
+		crearFiltroBuscador();
+	}
 	
 	/**
 	 * Método encargado de la creación de un filtro de texto para los buscadores de la aplicación.
@@ -310,6 +317,7 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			Pair<String, String> pair;
 			pair = result.get();
+			// TODO: Revisar insercion examen
 			Examen examen = new Examen(pair.getKey(), pair.getValue());
 			listadoExamenes.add(examen);
 			lvExamenes.setItems(listadoExamenes);
@@ -353,9 +361,14 @@ public class TabExamenesController implements Initializable {
 		Optional<Boolean> result = dialog.showAndWait();
 		
 		if (result.isPresent()) {
-			// TODO: Borrar examen de la BD y rescatar de nuevo el listado
-			listadoExamenes.remove(examenSeleccionado.get()); // ELIMINAMOS EL EXAMEN SELECCIONADO
-			
+			String[] error = {""};
+			if (GestorDB.eliminarExamen(examenSeleccionado.get(), error)) {
+				listadoExamenes.remove(examenSeleccionado.get()); // ELIMINAMOS EL EXAMEN SELECCIONADO
+				cargarExamenes();
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[BORRAR EXAMEN]" + error[0]);
+			}
 		}
 	}
 
