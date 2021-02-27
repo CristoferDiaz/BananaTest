@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="plantillaexamen" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cf18990-8f36-4060-8c5d-988f23e78ef5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="owo"/>
+	<parameter name="descripcion" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="texto" class="java.lang.String">
+		<fieldDescription><![CDATA[texto]]></fieldDescription>
+	</field>
+	<field name="respuesta1" class="java.lang.String">
+		<fieldDescription><![CDATA[respuesta1]]></fieldDescription>
+	</field>
+	<field name="respuesta2" class="java.lang.String">
+		<fieldDescription><![CDATA[respuesta2]]></fieldDescription>
+	</field>
+	<field name="respuesta3" class="java.lang.String">
+		<fieldDescription><![CDATA[respuesta3]]></fieldDescription>
+	</field>
+	<field name="respuesta4" class="java.lang.String">
+		<fieldDescription><![CDATA[respuesta4]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="230" y="10" width="100" height="30" uuid="6f672b37-aa1e-4fac-a4aa-f6bb257b863a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="43" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="263" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="54" width="100" height="30" uuid="2e206d50-93df-4ff6-9761-a7b65c6c0017">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2e974354-c06f-4ef6-a351-ee335cc309c6"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{respuesta1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="100" height="30" uuid="1ea33034-6dc8-4573-bd69-c9aa2e898137">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="765e6085-66e1-4ad7-a4ca-a86f9dd6178c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{texto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="94" width="100" height="30" uuid="590ccc0c-b0e8-4d8f-bf81-f3f90cc7fbda">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9fe1ca6-8c44-4a03-94dc-aa82204a77a7"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{respuesta2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="134" width="100" height="30" uuid="079b7948-6cf4-4f1e-bf15-693d78aa99bd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="578d0969-7e8f-4140-ae55-fc5a5cfade69"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{respuesta3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="173" width="100" height="30" uuid="75c56aaf-b12e-4d58-9b07-0763951637d3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="801e7b57-7b75-4454-ada7-fb8bc49b3235"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{respuesta4}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="54" width="100" height="30" uuid="90244b85-e7a4-4af5-bcea-75e63f8825c9"/>
+				<text><![CDATA[A)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="94" width="100" height="30" uuid="05cd92ed-ee0d-407e-8e82-9d31455f12f9"/>
+				<text><![CDATA[B)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="134" width="100" height="30" uuid="aa499ec6-50ba-48d1-ba9d-d34f1fbd7292"/>
+				<text><![CDATA[C)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="173" width="100" height="30" uuid="31f39149-436d-4e15-8b92-a45a6af66712"/>
+				<text><![CDATA[D)]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
