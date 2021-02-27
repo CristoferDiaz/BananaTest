@@ -7,8 +7,6 @@ import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.model.Examen;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
-import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.CreadorPdf;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Platform;
@@ -27,6 +25,9 @@ import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 
+	// model
+	private TabExamenesController tabExamenesController;
+	
 	// view
 	@FXML
 	private BorderPane view;
@@ -43,7 +44,8 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
-			tbExamen.setContent(new TabExamenesController().getView());
+			tabExamenesController = new TabExamenesController();
+			tbExamen.setContent(tabExamenesController.getView());
 			tbPregun.setContent(new TabPreguntasController().getView());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -59,24 +61,10 @@ public class MainController implements Initializable {
     	File file = fileChooser.showSaveDialog(App.primaryStage);
     	
     	if (file != null) {
-    		// TODO: Mandar el fichero al exportador de PDF
-    		//Examen examen = new Examen("Título del examen", "Descripción del examen");
-    		
-    		Examen examen1 = new Examen("Examen 1", "Primer trimestre");
-            examen1.getPreguntas()
-                    .addAll(new PreguntaTestSimple("Texto de la primera pregunta",
-                            new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
-                            new PreguntaTestSimple("Texto de la segunda pregunta",
-                                    new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
-                            new PreguntaTestMultiple("Texto de la tercera pregunta",
-                                    new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-                                    new boolean[] { true, true, false, false }),
-                            new PreguntaTestMultiple("Texto de la cuarta pregunta",
-                                    new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
-                                    new boolean[] { true, true, false, false }));
+    		Examen examen = tabExamenesController.getExamenSeleccionado();
     		
     		String[] error = new String[] {""};
-    		CreadorPdf.generarPDF(examen1, file, error);
+    		CreadorPdf.generarPDF(examen, file, error);
     		// TODO: Mostrar diálogo de confirmación
     		System.out.println(error[0]);
     	}

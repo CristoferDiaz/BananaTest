@@ -10,8 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-/**
- * 
+/** 
  * Crea un diálogo que permite crear un examen, añadiendo su nombre y
  * descripción y luego añadiendolo a la lista de examenes.
  * 

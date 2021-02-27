@@ -8,8 +8,21 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+/**
+ * Clase gestora de diálogos de confirmación.
+ * 
+ * @author Crmprograming
+ *
+ */
 public class DialogoConfirmar extends Dialogo<Boolean> {
 
+	/**
+	 * Constructor principal de la clase.
+	 * @param titulo String con el título de la ventana
+	 * @param contenido String con el contenido de la ventana
+	 * @param aceptar String para el botón de aceptar
+	 * @param cancelar String para el botón de cancelar
+	 */
 	public DialogoConfirmar(String titulo, String contenido, String aceptar, String cancelar) {
 		super(titulo, aceptar, cancelar);
 		

@@ -18,15 +18,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- * 
- * @author Daniel Pérez Pimienta
- * 
  * La clase DialogoAgregarPregunta se encarga de crear un diálogo que contiene una lista con todas las preguntas disponibles de la base de datos,
  * de las cuales podemos elegir una para añadir al examen seleccionado.
  * 
  * Las preguntas vendrán filtradas de tal manera que no se incluirán aquellas que ya formen
  * parte del examen a editar.
- *
+ * 
+ * @author Daniel Pérez Pimienta
+ * 
  */
 public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 	// Filtro Buscador

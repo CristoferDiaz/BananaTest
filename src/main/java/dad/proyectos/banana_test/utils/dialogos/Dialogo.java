@@ -7,11 +7,25 @@ import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Clase plantilla de diálogos basándose en
+ * la clase de JavaFX Dialog.
+ * 
+ * @author Crmprograming
+ *
+ * @param <T> Tipo de dato genérico para los diálogos
+ */
 public abstract class Dialogo<T> extends Dialog<T> {
 	
 	protected ButtonType btAceptar;
 	protected ButtonType btCancelar;
 
+	/**
+	 * Constructor principal de la clase.
+	 * @param titulo String con el título de la ventana
+	 * @param aceptar String para el botón de aceptar
+	 * @param cancelar String para el botón de cancelar
+	 */
 	public Dialogo(String titulo, String aceptar, String cancelar) {
 		setTitle(titulo);
 		

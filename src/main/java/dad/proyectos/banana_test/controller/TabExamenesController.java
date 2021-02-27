@@ -436,4 +436,13 @@ public class TabExamenesController implements Initializable {
 		return ViewExamen;
 	}
 
+	/**
+	 * Método encargado de devolver el examen actualmente seleccionado
+	 * sólo para manejar, no para editar.
+	 * @return Instancia de la clase Examen seleccionado
+	 */
+	public final Examen getExamenSeleccionado() {
+		return examenSeleccionado.get();
+	}
+
 }

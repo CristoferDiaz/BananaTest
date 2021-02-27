@@ -12,12 +12,10 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 /**
- * 
- * @author Daniel Pérez Pimienta
- * 
  * Crea un diálogo al que se le pasa el nombre y descripción del examen seleccionado en ese
  * momento, para que puedan ser modificados por el usuario.
- *
+ * 
+ * @author Daniel Pérez Pimienta
  */
 public class DialogoModificarExamen extends Dialogo<Pair<String, String>> {
 	
