@@ -512,7 +512,6 @@ public abstract class GestorDB {
 			stmt = con.prepareStatement("DELETE FROM bt_contiene WHERE idExamen=? AND idPregunta=?");
 			stmt.setInt(1, examen.getIdExamen());
 			stmt.setInt(2, pregunta.getIdPregunta());
-			stmt.execute();
 			resultado = (stmt.executeUpdate() > 0);
 		} catch (SQLException e) {
 			error[0] = e.getLocalizedMessage();
