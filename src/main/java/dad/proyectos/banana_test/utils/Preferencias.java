@@ -118,6 +118,11 @@ public abstract class Preferencias {
 		
 	}
 	
+	public static String usuarioServidor = "";
+	public static String passwordServidor = "";
+	public static String usuarioApp = "";
+	public static String passwordApp = "";
+	
 	public static Properties properties = new Properties();
 	
 	/**
@@ -168,6 +173,9 @@ public abstract class Preferencias {
 		
 		configuracionInicial += "idioma=" + IDIOMAS.ES + "\n";
 		configuracionInicial += "tema=default\n";
+		configuracionInicial += "primer_arranque=true\n";
+		configuracionInicial += "direccion_servidor=localhost:3306\n";
+		configuracionInicial += "bd=bananatest\n";
 		
 		bWriter.write(configuracionInicial);
 		bWriter.close();
@@ -268,6 +276,14 @@ public abstract class Preferencias {
 	 */
 	public static void setIdioma(IDIOMAS idioma) {
 		properties.setProperty("idioma", idioma.name);
+	}
+	
+	public static boolean esPrimerArranque() {
+		return Boolean.parseBoolean(properties.getProperty("primer_arranque"));
+	}
+	
+	public static void cambiarPrimerArranque() {
+		properties.setProperty("primer_arranque", "false");
 	}
 
 }

@@ -3,6 +3,7 @@ package dad.proyectos.banana_test;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import dad.proyectos.banana_test.controller.InstaladorController;
 import dad.proyectos.banana_test.controller.LoginController;
 import dad.proyectos.banana_test.controller.MainController;
 import dad.proyectos.banana_test.utils.Preferencias;
@@ -18,33 +19,37 @@ import javafx.stage.Stage;
  * @author Crmprograming
  */
 public class App extends Application {
-	
+
 	private MainController mainController;
 	public static Stage primaryStage;
 	public static HostServices hostServices;
 	public static ResourceBundle resourceBundle;
-	
+
 	@Override
 	public void init() throws Exception {
 		Preferencias.cargarPreferencias();
-	}	
-	
+	}
+
 	@Override
 	public void stop() throws Exception {
 		Preferencias.guardarPreferencias();
-	}	
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		if (Preferencias.esPrimerArranque()) {
+			gestionarPrimerArranque();
+		}
+
 		if (gestionarLogin()) {
 			mainController = new MainController();
-					
+
 			Scene escena = new Scene(mainController.getView());
-			
+
 			// Cargamos el tema css escogido por el usuario
 			if (Preferencias.getTema() != Preferencias.TEMAS.DEFAULT)
 				escena.getStylesheets().add(Preferencias.cargarTema());
-			
+
 			primaryStage.setScene(escena);
 			primaryStage.setTitle("BananaTest");
 			primaryStage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
@@ -57,12 +62,12 @@ public class App extends Application {
 			App.hostServices = getHostServices();
 		}
 	}
-	
+
 	private static boolean gestionarLogin() throws IOException {
 		Stage stage = new Stage();
 		LoginController loginController = new LoginController(stage);
 		Scene escena = new Scene(loginController.getView());
-		
+
 		stage.setScene(escena);
 		stage.setTitle("BananaTest");
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
@@ -70,8 +75,24 @@ public class App extends Application {
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
 		stage.setResizable(false);
 		stage.showAndWait();
-		
+
 		return (loginController.isValidado());
+	}
+
+	private static void gestionarPrimerArranque() throws IOException {
+		Preferencias.cambiarPrimerArranque();
+		Stage stage = new Stage();
+		InstaladorController instaladorController = new InstaladorController(stage);
+
+		Scene escena = new Scene(instaladorController.getView());
+
+		stage.setScene(escena);
+		stage.setTitle("BananaTest");
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+		stage.setResizable(false);
+		stage.showAndWait();
 	}
 
 	public static void main(String[] args) {

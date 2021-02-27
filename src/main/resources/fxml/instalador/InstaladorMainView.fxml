@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label text="¡Bienvenido a BananaTest!" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <HBox fx:id="hbBotonesControl" alignment="CENTER_RIGHT" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnCancelar" cancelButton="true" mnemonicParsing="false" onAction="#onCancelarAction" text="Cancelar" />
+            <Button fx:id="btnSiguiente" defaultButton="true" mnemonicParsing="false" onAction="#onSiguienteAction" text="Siguiente" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+   <center>
+      <StackPane fx:id="spContenedor" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="vbPresentacion" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+               <children>
+                  <Label text="Hemos detectado que es la primera vez que utilizas BananaTest. ¡Bienvenido!&#10;Antes de continuar con la aplicación, necesitamos crear la base de datos que utilizará la aplicación.&#10;&#10;Por favor indica a continuación los datos asociados a tu servidor y nos ocuparemos del resto:" />
+                  <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="300.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Dirección del servidor:">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi-dns" iconSize="20" />
+                           </graphic>
+                        </Label>
+                        <TextField fx:id="tfDireccion" GridPane.columnIndex="1" />
+                        <Label text="Usuario de la BD:" GridPane.rowIndex="1">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi-account" iconSize="20" />
+                           </graphic>
+                        </Label>
+                        <Label text="Password del usuario:" GridPane.rowIndex="2">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi-lock" iconSize="20" />
+                           </graphic>
+                        </Label>
+                        <TextField fx:id="tfUsuarioBD" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <PasswordField fx:id="pfPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </VBox>
+            <ProgressIndicator fx:id="progressIndicator" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" visible="false" />
+            <VBox fx:id="vbFinalizado" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" visible="false">
+               <children>
+                  <FontIcon iconColor="#3bae24" iconLiteral="fa-check" iconSize="200" />
+                  <Label text="¡Configuración de la base de datos realizada con éxito!">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Ya puedes empezar a utilizar BananaTest con el usuario creado por defecto:" />
+                  <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Usuario:">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi-account" iconSize="20" />
+                           </graphic>
+                        </Label>
+                        <Label text="Password:" GridPane.rowIndex="1">
+                           <graphic>
+                              <FontIcon iconLiteral="mdi-lock" iconSize="20" />
+                           </graphic>
+                        </Label>
+                        <Label text="profesor" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="roseforp" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
