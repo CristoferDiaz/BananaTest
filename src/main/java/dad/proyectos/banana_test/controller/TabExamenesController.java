@@ -37,6 +37,14 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import javafx.util.converter.NumberStringConverter;
 
+/**
+ * 
+ * @author Daniel Perez Pimienta
+ * 
+ * La clase TabExamenesController se encarga de controlar todas las funcionalidades 
+ * de la pestaña Examenes, además de cargar la vista de la misma.
+ *
+ */
 public class TabExamenesController implements Initializable {
 
 	@FXML
@@ -100,13 +108,17 @@ public class TabExamenesController implements Initializable {
 	private ListProperty<Pregunta> listadoPreguntas = new SimpleListProperty<Pregunta>(FXCollections.observableArrayList());
 	private ObjectProperty<Pregunta> preguntaSeleccionada = new SimpleObjectProperty<Pregunta>();
 
-	// CONSTRUCTOR
+	/**
+	 * Constructor de la clase.
+	 * 
+	 * @throws IOException si el archivo no existe o no esta disponible
+	 */
 	public TabExamenesController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/examenes/TabExamenesView.fxml"), App.resourceBundle);
 		loader.setController(this);
 		loader.load();
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO: Cargar Exámenes de la BD
@@ -227,8 +239,10 @@ public class TabExamenesController implements Initializable {
 		txPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 		btActPuntuacion.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
-
-	// FILTRADOR DE TEXTFIELD A UN LISTVIEW
+	
+	/**
+	 * Método encargado de la creación de un filtro de texto para los buscadores de la aplicación.
+	 */
 	private void crearFiltroBuscador() {
 		FilteredList<Examen> filteredData = new FilteredList<Examen>(listadoExamenes, s -> true);
 		tfBuscador.textProperty().addListener((o, ov, nv) -> {
@@ -246,24 +260,43 @@ public class TabExamenesController implements Initializable {
 	}
 
 	// BOTONES DEL PANEL CENTRAL
+	
+	/**
+	 * Método encargado de modificar la posición de la pregunta seleccionada. En este caso,
+	 * la pregunta se trasladará a la posición posterior.
+	 * @param event La acción de hacer click en el botón marcado con una flecha apuntando hacia abajo
+	 */
 	@FXML
 	void onAbajoAction(ActionEvent event) {
 		int actual = lvPreguntas.getSelectionModel().getSelectedIndex();
 		Collections.swap(listadoPreguntas, actual, actual + 1);
 	}
-
+	
+	/**
+	 * Método encargado de modificar la posición de la pregunta seleccionada. En este caso,
+	 * la pregunta se trasladará a la posición anterior.
+	 * @param event La acción de hacer click en el botón marcado con una flecha apuntando hacia arriba
+	 */
 	@FXML
 	void onArribaAction(ActionEvent event) {
 		int actual = lvPreguntas.getSelectionModel().getSelectedIndex();
 		Collections.swap(listadoPreguntas, actual, actual - 1);
 	}
-
+	
+	/**
+	 * Método encargado de eliminar la pregunta seleccionada de la lista de preguntas
+	 * @param event La acción de hacer click en el botón marcado con una equis
+	 */
 	@FXML
 	void onQuitarAction(ActionEvent event) {
 		int seleccionado = lvPreguntas.getSelectionModel().getSelectedIndex();
 		lvPreguntas.getItems().remove(seleccionado);
 	}
-
+	
+	/**
+	 * Método encargado de añadir una nueva pregunta al listado de preguntas.
+	 * @param event La acción de hacer click en el botón agregar pregunta
+	 */
 	@FXML
 	void onAgregarAction(ActionEvent event) {
 		DialogoAgregarPregunta diag_agregar = new DialogoAgregarPregunta("Agregar pregunta", "Aceptar", "Cancelar");
@@ -277,7 +310,11 @@ public class TabExamenesController implements Initializable {
 	}
 
 	// PANEL IZQUIERDO
-
+	
+	/**
+	 * Método encargado de crear un nuevo examen.
+	 * @param event La acción de hacer click en el botón crear.
+	 */
 	@FXML
 	void onCrearAction(ActionEvent event) {
 		DialogoCrearExamen diag_crear = new DialogoCrearExamen("Crear nuevo examen", "Aceptar", "Cancelar");
@@ -291,7 +328,11 @@ public class TabExamenesController implements Initializable {
 			crearFiltroBuscador();
 		}
 	}
-
+	
+	/**
+	 * Método encargado de modificar el examen que este seleccionado en ese momento.
+	 * @param event La acción de hacer click en el botón modificar.
+	 */
 	@FXML
 	void onModificarAction(ActionEvent event) {
 		// Creamos un objectproperty donde metemos el examen a modificar seleccionado
@@ -307,7 +348,11 @@ public class TabExamenesController implements Initializable {
 		}
 
 	}
-
+	
+	/**
+	 * Método encargado de borrar el examen que este seleccionado en ese momento.
+	 * @param event La acción de hacer click en el botón de borrar.
+	 */
 	@FXML
 	void onBorrarAction(ActionEvent event) {
 		DialogoConfirmar dialog = new DialogoConfirmar(
@@ -326,11 +371,20 @@ public class TabExamenesController implements Initializable {
 	}
 
 	// PANEL DERECHO
+	
+	/**
+	 * Método que refresca el puntaje que contiene la pregunta seleccionada.
+	 * @param event La acción de hacer click en el botón de refrescar.
+	 */
 	@FXML
 	void onRefrescarAction(ActionEvent event) {
 		// TODO: Actualizar puntuación de la pregunta en la BD
 	}
-
+	
+	/**
+	 * Método que devuelve la vista dentro del tab Examenes.
+	 * @return Objeto SplitPane que contiene la vista de toda la tab Examenes.
+	 */
 	public SplitPane getView() {
 		return ViewExamen;
 	}
