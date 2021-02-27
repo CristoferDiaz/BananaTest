@@ -183,10 +183,18 @@ public class PreguntaTestMultiple extends Pregunta {
 		return lista;
 	}
 	
+	/**
+	 * Método getter del atributo view.
+	 * @return instancia del BorderPane asociado
+	 */
 	public BorderPane getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view.
+	 * @param view instancia del BorderPane asociado
+	 */
 	public void setView(BorderPane view) {
 		this.view = view;
 	}

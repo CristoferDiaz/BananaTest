@@ -67,62 +67,122 @@ public class Examen {
 			preguntas.get().addAll(listaPreguntas);
 	}
 
+	/**
+	 * Método getter del property asociado a idExamen.
+	 * @return instancia de IntegerProperty asociada
+	 */
 	public final IntegerProperty idExamenProperty() {
 		return this.idExamen;
 	}
 
+	/**
+	 * Método getter del atributo idExamen.
+	 * @return int con el id del examen asociado
+	 */
 	public final int getIdExamen() {
 		return this.idExamenProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo idExamen.
+	 * @param idExamen nuevo valor del atributo idExamen
+	 */
 	public final void setIdExamen(final int idExamen) {
 		this.idExamenProperty().set(idExamen);
 	}
 
+	/**
+	 * Método getter del property asociado a nombre.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty nombreProperty() {
 		return this.nombre;
 	}
 
+	/**
+	 * Método getter del atributo nombre.
+	 * @return String con el nombre del examen asociado
+	 */
 	public final String getNombre() {
 		return this.nombreProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo nombre.
+	 * @param nombre nuevo valor del atributo nombre
+	 */
 	public final void setNombre(final String nombre) {
 		this.nombreProperty().set(nombre);
 	}
 
+	/**
+	 * Método getter del property asociado a descripcion.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty descripcionProperty() {
 		return this.descripcion;
 	}
 
+	/**
+	 * Método getter del atributo descripcion.
+	 * @return String con la descripción del examen asociado
+	 */
 	public final String getDescripcion() {
 		return this.descripcionProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo descripcion.
+	 * @param descripcion nuevo valor del atributo descripcion
+	 */
 	public final void setDescripcion(final String descripcion) {
 		this.descripcionProperty().set(descripcion);
 	}
 
+	/**
+	 * Método getter del property asociado a creador.
+	 * @return instancia de IntegerProperty asociada
+	 */
 	public final IntegerProperty creadorProperty() {
 		return this.creador;
 	}
 
+	/**
+	 * Método getter del atributo creador.
+	 * @return int con el id del creador del examen asociado
+	 */
 	public final int getCreador() {
 		return this.creadorProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo creador.
+	 * @param creador nuevo valor del atributo creador
+	 */
 	public final void setCreador(final int creador) {
 		this.creadorProperty().set(creador);
 	}
 
+	/**
+	 * Método getter del property asociado a preguntas.
+	 * @return instancia de ListProperty asociada
+	 */
 	public final ListProperty<Pregunta> preguntasProperty() {
 		return this.preguntas;
 	}
 
+	/**
+	 * Método getter del atributo preguntas.
+	 * @return ObservableList con el listado de preguntas del examen asociado
+	 */
 	public final ObservableList<Pregunta> getPreguntas() {
 		return this.preguntasProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo preguntas.
+	 * @param preguntas nuevo valor del atributo preguntas
+	 */
 	public final void setPreguntas(final ObservableList<Pregunta> preguntas) {
 		this.preguntasProperty().set(preguntas);
 	}

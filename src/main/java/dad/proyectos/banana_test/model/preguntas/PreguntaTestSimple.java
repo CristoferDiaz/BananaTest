@@ -179,58 +179,114 @@ public class PreguntaTestSimple extends Pregunta {
 		return root;
 	}
 
+	/**
+	 * Método getter del atributo view.
+	 * @return instancia de BorderPane asociado
+	 */
 	public BorderPane getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view
+	 * @param view Instancia de BorderPane asociado
+	 */
 	public void setView(BorderPane view) {
 		this.view = view;
 	}
 
+	/**
+	 * Método getter del property asociado a respuestaValida.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty respuestaValidaProperty() {
 		return this.respuestaValida;
 	}
 
+	/**
+	 * Método getter del atributo respuestaValida.
+	 * @return instancia de String asociada
+	 */
 	public final String getRespuestaValida() {
 		return this.respuestaValidaProperty().get();
 	}
 
+	/**
+	 * Método setter del atributo respuestaValida.
+	 * @param respuestaValida Instancia de String asociado
+	 */
 	public final void setRespuestaValida(final String respuestaValida) {
 		this.respuestaValidaProperty().set(respuestaValida);
 	}
 
+	/**
+	 * Método getter del property asociado a respuesta2.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty respuesta2Property() {
 		return this.respuesta2;
 	}
 
+	/**
+	 * Método getter del atributo respuesta2.
+	 * @return instancia de String asociada
+	 */
 	public final String getRespuesta2() {
 		return this.respuesta2Property().get();
 	}
 
+	/**
+	 * Método setter del atributo respuesta2.
+	 * @param respuesta2 Instancia de String asociado
+	 */
 	public final void setRespuesta2(final String respuesta2) {
 		this.respuesta2Property().set(respuesta2);
 	}
 
+	/**
+	 * Método getter del property asociado a respuesta3.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty respuesta3Property() {
 		return this.respuesta3;
 	}
 
+	/**
+	 * Método getter del atributo respuesta3.
+	 * @return instancia de String asociada
+	 */
 	public final String getRespuesta3() {
 		return this.respuesta3Property().get();
 	}
 
+	/**
+	 * Método setter del atributo respuesta3.
+	 * @param respuesta3 Instancia de String asociado
+	 */
 	public final void setRespuesta3(final String respuesta3) {
 		this.respuesta3Property().set(respuesta3);
 	}
 
+	/**
+	 * Método getter del property asociado a respuesta4.
+	 * @return instancia de StringProperty asociada
+	 */
 	public final StringProperty respuesta4Property() {
 		return this.respuesta4;
 	}
 
+	/**
+	 * Método getter del atributo respuesta4.
+	 * @return instancia de String asociada
+	 */
 	public final String getRespuesta4() {
 		return this.respuesta4Property().get();
 	}
 
+	/**
+	 * Método setter del atributo respuesta4.
+	 * @param respuesta4 Instancia de String asociado
+	 */
 	public final void setRespuesta4(final String respuesta4) {
 		this.respuesta4Property().set(respuesta4);
 	}
