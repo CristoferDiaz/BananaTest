@@ -317,11 +317,16 @@ public class TabExamenesController implements Initializable {
 		if (result.isPresent()) {
 			Pair<String, String> pair;
 			pair = result.get();
-			// TODO: Revisar insercion examen
 			Examen examen = new Examen(pair.getKey(), pair.getValue());
-			listadoExamenes.add(examen);
-			lvExamenes.setItems(listadoExamenes);
-			crearFiltroBuscador();
+			String[] error = {""};
+			examen.setCreador(Preferencias.idUsuario);
+			
+			if (GestorDB.crearExamen(examen, error)) {
+				cargarExamenes();
+			} else {
+				// TODO: Mostrar en diálogo
+				System.out.println("[CREAR EXAMEN]" + error[0]);
+			}
 		}
 	}
 	

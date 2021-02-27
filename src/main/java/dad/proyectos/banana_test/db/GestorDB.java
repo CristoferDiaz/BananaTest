@@ -427,7 +427,7 @@ public abstract class GestorDB {
 		Connection con = conectarmysql();
 		PreparedStatement stmt;
 		boolean resultado = false;
-		String query = "INSERT INTO bt_examenes (nombre, descripcionGeneral, creador) VALUES (?,?,?)";
+		String query = "INSERT INTO bt_examenes (nombre, descripcionGeneral, clave, creador) VALUES (?,?,'',?)";
 		try {
 			stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, examen.getNombre());
@@ -449,7 +449,7 @@ public abstract class GestorDB {
 			error[0] = e.getLocalizedMessage();
 		}
 
-		return false;
+		return resultado;
 
 	}
 
