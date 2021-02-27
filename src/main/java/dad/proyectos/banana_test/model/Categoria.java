@@ -35,5 +35,4 @@ public class Categoria {
 	public void setCreador(int creador) {
 		this.creador = creador;
 	}
-
 }
