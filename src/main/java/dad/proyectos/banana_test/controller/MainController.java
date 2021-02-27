@@ -23,6 +23,12 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Clase gestora del controlador principal de la aplicación.
+ * 
+ * @author Crmprograming
+ *
+ */
 public class MainController implements Initializable {
 
 	// model
@@ -35,6 +41,11 @@ public class MainController implements Initializable {
 	@FXML
 	private Tab tbExamen, tbPregun;
 
+	/**
+	 * Constructor por defecto de la clase.
+	 * 
+	 * @throws IOException si se produce un error al cargar la plantilla de la vista
+	 */
 	public MainController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"), App.resourceBundle);
 		loader.setController(this);
@@ -52,8 +63,16 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de exportar el examen seleccionado
+	 * a un fichero PDF.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
 	void onExportarPDFAction(ActionEvent event) {
+		// TODO: Comprobar que algún examen esté seleccionado
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Guardar examen en un pdf");
 		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF (*.pdf)", "*.pdf"));
@@ -70,6 +89,12 @@ public class MainController implements Initializable {
     	}
     }
 
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de mostrar la ventana de preferencias.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
 	void onEditarPreferenciasAction(ActionEvent event) {
 		try {
@@ -92,11 +117,23 @@ public class MainController implements Initializable {
 		}
 	}
 
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de cerrar la aplicación.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
 	void onSalirAction(ActionEvent event) {
 		Platform.exit();
 	}
 	
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de mostrar la ventana de acerca de.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
     void onAcercaDeAction(ActionEvent event) {
 		try {
@@ -118,20 +155,42 @@ public class MainController implements Initializable {
 		}
     }
 	
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de mostrar la página del proyecto
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
     void onVisitarWebAction(ActionEvent event) {
 		App.hostServices.showDocument("https://github.com/dam-dad/BananaTest");
     }
 	
+	/**
+	 * Método asociado al evento del menú con la
+	 * finalidad de mostrar la página de la wiki.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento disparador
+	 */
 	@FXML
     void onVerAyudaAction(ActionEvent event) {
 		App.hostServices.showDocument("https://github.com/dam-dad/BananaTest/wiki");
     }
 
+	/**
+	 * Método getter del atributo view.
+	 * 
+	 * @return Instancia del BorderPane asociado
+	 */
 	public BorderPane getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view.
+	 * 
+	 * @param view Instancia del BorderPane asociado
+	 */
 	public void setView(BorderPane view) {
 		this.view = view;
 	}

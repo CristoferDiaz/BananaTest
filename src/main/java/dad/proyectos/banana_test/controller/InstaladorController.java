@@ -31,6 +31,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Clase gestora de la ventana de instalador.
+ * Sólo se mostrará la primera vez que
+ * se ejecute la aplicación.
+ * 
+ * @author Crmprograming
+ *
+ */
 public class InstaladorController implements Initializable {
 
 	private Stage stage;
@@ -76,6 +84,12 @@ public class InstaladorController implements Initializable {
 	@FXML
 	private VBox vbFinalizado;
 
+	/**
+	 * Constructor por defecto de la clase.
+	 * 
+	 * @param stage Referencia del Stage contenedor de este componente
+	 * @throws IOException si se produce un error al cargar la plantilla de la vista
+	 */
 	public InstaladorController(Stage stage) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/instalador/InstaladorMainView.fxml"));
 		loader.setController(this);

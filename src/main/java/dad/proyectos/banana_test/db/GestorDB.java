@@ -17,20 +17,22 @@ import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Clase abstracta intermedia entre el proyecto y la base de datos donde se
+ * haran operaciones basicas como crear, eliminar, modificar y visualizar tanto
+ * la tabla bt_examenes como la tabla bt_preguntas
+ * 
+ * @author SamirElKharrat
+ */
 public abstract class GestorDB {
-
-	/**
-	 * Clase abstracta intermedia entre el proyecto y la base de datos donde se
-	 * haran operaciones basicas como crear, eliminar, modificar y visualizar tanto
-	 * la tabla bt_examenes como la tabla bt_preguntas
-	 * 
-	 * @author SamirElKharrat
-	 */
 
 	static Connection conexion = null;
 	public static String driver = "com.mysql.cj.jdbc.Driver";
 
-	// Funcion para conectarse a la base de datos que estamos usando
+	/**
+	 * Método encargado de establecer conexión con la base de datos.
+	 * @return instancia de Conecction con la conexión establecida
+	 */
 	public static Connection conectarmysql() {
 
 		try {
@@ -39,7 +41,7 @@ public abstract class GestorDB {
 					"jdbc:mysql://" + Preferencias.properties.getProperty("direccion_servidor") + "/bananatest",
 					Preferencias.usuarioServidor, Preferencias.passwordServidor);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 		return conexion;
 

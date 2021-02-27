@@ -33,6 +33,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Clase gestora del panel de preguntas.
+ * 
+ * @author Crmprograming
+ *
+ */
 public class TabPreguntasController implements Initializable {
 
 	// model
@@ -67,6 +73,11 @@ public class TabPreguntasController implements Initializable {
 	@FXML
     private VBox vbVistaPrevia;
 
+	/**
+	 * Constructor principal de la clase.
+	 * 
+	 * @throws IOException si falla a la hora de cargar la vista del fichero fxml
+	 */
 	public TabPreguntasController() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/preguntas/TabPreguntasView.fxml"), App.resourceBundle);
 		loader.setController(this);
@@ -96,6 +107,10 @@ public class TabPreguntasController implements Initializable {
 		btAplicarCambios.disableProperty().bind(preguntaSeleccionada.isNull());
 	}
 	
+	/**
+	 * Método encargado de cargar el listado de preguntas y volcarlo
+	 * en el ListView correspondiente.
+	 */
 	private void cargarListadoPreguntas() {
 		String[] error = {""};
 		
@@ -111,6 +126,10 @@ public class TabPreguntasController implements Initializable {
 		crearFiltroBuscador();
 	}
 
+	/**
+	 * Método encargado de crear el filtro de búsqueda
+	 * de preguntas para el TextField asociado.
+	 */
 	private void crearFiltroBuscador() {
 		FilteredList<Pregunta> filteredData = new FilteredList<Pregunta>(listadoPreguntas, s -> true);
 		tfBuscador.textProperty().addListener((o, ov, nv) -> {
@@ -127,6 +146,12 @@ public class TabPreguntasController implements Initializable {
 		lvPreguntas.setItems(filteredData);
 	}
 
+	/**
+	 * Método listener asociado al cambio de la pregunta seleccionada.
+	 * @param o instancia del valor observable
+	 * @param ov instancia del anterior valor observado
+	 * @param nv instancia del nuevo valor observado
+	 */
 	private void onSeleccionadaChanged(ObservableValue<? extends Pregunta> o, Pregunta ov, Pregunta nv) {
 		if (ov != null) {
 			bpEditarPregunta.setCenter(null);
@@ -193,10 +218,18 @@ public class TabPreguntasController implements Initializable {
 		}
     }
 
+	/**
+	 * Método getter del atributo view.
+	 * @return instancia de HBox del atributo asociado
+	 */
 	public HBox getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view.
+	 * @param view instancia de HBox asociada
+	 */
 	public void setView(HBox view) {
 		this.view = view;
 	}
