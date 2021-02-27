@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.model.Examen;
+import dad.proyectos.banana_test.model.preguntas.PreguntaTestMultiple;
+import dad.proyectos.banana_test.model.preguntas.PreguntaTestSimple;
 import dad.proyectos.banana_test.utils.CreadorPdf;
 import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Platform;
@@ -59,9 +61,23 @@ public class MainController implements Initializable {
     	
     	if (file != null) {
     		// TODO: Mandar el fichero al exportador de PDF
-    		Examen examen = new Examen("Título del examen", "Descripción del examen");
+    		//Examen examen = new Examen("Título del examen", "Descripción del examen");
+    		
+    		Examen examen1 = new Examen("Examen 1", "Primer trimestre");
+            examen1.getPreguntas()
+                    .addAll(new PreguntaTestSimple("Texto de la primera pregunta",
+                            new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
+                            new PreguntaTestSimple("Texto de la segunda pregunta",
+                                    new String[] { "Respuesta válida 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" }),
+                            new PreguntaTestMultiple("Texto de la tercera pregunta",
+                                    new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
+                                    new boolean[] { true, true, false, false }),
+                            new PreguntaTestMultiple("Texto de la cuarta pregunta",
+                                    new String[] { "Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4" },
+                                    new boolean[] { true, true, false, false }));
+    		
     		String[] error = new String[] {""};
-    		CreadorPdf.generarPDF(examen, file, error);
+    		CreadorPdf.generarPDF(examen1, file, error);
     		// TODO: Mostrar diálogo de confirmación
     		System.out.println(error[0]);
     	}
