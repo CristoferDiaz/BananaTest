@@ -1,13 +1,14 @@
+![bananatest_logo_general](https://user-images.githubusercontent.com/35785741/109390777-746f8980-790b-11eb-9926-5101c77f1300.png)
 # BananaTest:banana:
 Una aplicación de escritorio que sirve como herramienta para crear y generar examenes.
 
 ## Pre-requisitos :clipboard:
 
-No se necesita tener instalado nada en específico con anterioridad para poder usar este software
+* Tener un servidor MySQL disponible sobre el que trabajará la aplicación. La aplicación guardará los exámenes y sus respectivas preguntas en una base de datos única para cada usuario.
 
 ## Instalación :wrench:
 
-Simplemente, dirijase a la página principal del [repositorio](https://github.com/dam-dad/BananaTest) y descargue la versión deseada del programa desde el panel Releases.
+Simplemente, dirijase a la página principal del repositorio y descargue la versión deseada del programa desde el panel [Releases](https://github.com/dam-dad/BananaTest/releases).
 
 ## Construido con :hammer:
 
