@@ -186,6 +186,31 @@ public abstract class GestorDB {
 					
 					resultado = (stmtRespuestas.executeUpdate() > 0);
 				}
+			} else {
+				String query = "INSERT INTO bt_preguntas (tipoPregunta, contenido, creador) VALUES (?,?,?)";
+				PreparedStatement stmtPregunta = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				stmtPregunta.setString(1, tipoMultiple);
+				stmtPregunta.setString(2, pregunta.getPregunta());
+				stmtPregunta.setInt(3, pregunta.getCreador());
+				
+				stmtPregunta.executeUpdate();
+				
+				ResultSet rsPregunta = stmtPregunta.getGeneratedKeys();
+				if (rsPregunta.next()) {
+					pregunta.setIdPregunta(rsPregunta.getInt(1));
+				}
+				
+				Boolean[] valido = ((PreguntaTestMultiple) pregunta).obtenerValidez();
+				query = "INSERT INTO bt_respuestas (descripcion, valida, idPregunta) VALUES (?,?,?)";
+				for (int i = 0; i < respuestas.length; i++) {
+					PreparedStatement stmtRespuestas = con.prepareStatement(query);
+					stmtRespuestas.setString(1, respuestas[i].get());
+					stmtRespuestas.setBoolean(2,  valido[i]);
+					stmtRespuestas.setInt(3, pregunta.getIdPregunta());
+					
+					resultado = (stmtRespuestas.executeUpdate() > 0);
+				}
+				
 			}
 			con.close();
 			/*PreparedStatement stmt;
