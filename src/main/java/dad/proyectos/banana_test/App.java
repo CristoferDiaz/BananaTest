@@ -10,6 +10,8 @@ import dad.proyectos.banana_test.utils.Preferencias;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -119,6 +121,49 @@ public class App extends Application {
 		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
 		stage.setResizable(false);
 		stage.showAndWait();
+	}
+	
+	/**
+	 * Método encargado de mostrar una ventana de diálogo
+	 * informando de un procedimiento exitoso.
+	 * 
+	 * @param titulo String con el título de la ventana
+	 * @param contenido String con el contenido de la ventana
+	 */
+	public static void mostrarMensajeExito(String titulo, String contenido) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(titulo);
+		alert.setHeaderText(null);
+		alert.setContentText(contenido);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+		
+		alert.showAndWait();
+	}
+	
+	/**
+	 * Método encargado de mostrar una ventana de diálogo
+	 * informando de un procedimiento fallido.
+	 * 
+	 * @param titulo String con el título de la ventana
+	 * @param cabecera String con el texto de la cabecera
+	 * @param error Array con el posible conjunto de valores
+	 */
+	public static void mostrarMensajeError(String titulo, String cabecera, String[] error) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(titulo);
+		alert.setHeaderText(cabecera);
+		alert.setContentText(error[0]);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_16.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_32.png"));
+		stage.getIcons().add(new Image("/images/logo/bananatest_logo_64.png"));
+		
+		alert.showAndWait();
 	}
 
 	/**

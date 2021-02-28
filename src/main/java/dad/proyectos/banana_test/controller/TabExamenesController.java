@@ -237,8 +237,11 @@ public class TabExamenesController implements Initializable {
 			tfBuscador.textProperty().removeListener(listenerFiltro);
 		listadoExamenes.setAll(GestorDB.visualizarExamenes(Preferencias.idUsuario, error));
 		if (!error[0].equals(""))
-			// TODO: Mostrar en diálogo
-			System.out.println("[CARGA DE EXÁMENES] " + error[0]);		
+			App.mostrarMensajeError(
+					"BananaTest - Actualización del listado de exámenes",
+					"Se ha producido un error",
+					error
+			);		
 		crearFiltroBuscador();
 	}
 	
@@ -304,8 +307,11 @@ public class TabExamenesController implements Initializable {
 		if (GestorDB.eliminarPreguntaExamen(examenSeleccionado.get(), preguntaSeleccionada, error)) {
 			examenSeleccionado.get().preguntasProperty().remove(preguntaSeleccionada);
 		} else {
-			// TODO: Mostrar en diálogo
-			System.out.println("[QUITAR PREGUNTA A EXAMEN]" + error[0]);
+			App.mostrarMensajeError(
+					"BananaTest - Quitar pregunta a examen",
+					"Se ha producido un error",
+					error
+			);
 		}
 	}
 	
@@ -323,8 +329,11 @@ public class TabExamenesController implements Initializable {
 			if (GestorDB.asignarPreguntaExamen(examenSeleccionado.get(), preguntaSeleccionada, error)) {
 				examenSeleccionado.get().getPreguntas().add(preguntaSeleccionada);
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[AÑADIR PREGUNTA A EXAMEN]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Añadir pregunta a examen",
+						"Se ha producido un error",
+						error
+				);
 			}
 			
 		}
@@ -351,8 +360,11 @@ public class TabExamenesController implements Initializable {
 			if (GestorDB.crearExamen(examen, error)) {
 				cargarListadoExamenes();
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[CREAR EXAMEN]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Crear nuevo examen",
+						"Se ha producido un error",
+						error
+				);
 			}
 		}
 	}
@@ -377,8 +389,11 @@ public class TabExamenesController implements Initializable {
 			if (GestorDB.modificarExamen(examenSeleccionado.get(), error)) {
 				cargarListadoExamenes();
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[MODIFICAR EXAMEN]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Modificar examen existente",
+						"Se ha producido un error",
+						error
+				);
 			}
 		}
 
@@ -404,8 +419,11 @@ public class TabExamenesController implements Initializable {
 			if (GestorDB.eliminarExamen(examenSeleccionado.get(), error)) {
 				cargarListadoExamenes();
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[BORRAR EXAMEN]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Borrar examen existente",
+						"Se ha producido un error",
+						error
+				);
 			}
 		}
 	}
@@ -421,10 +439,16 @@ public class TabExamenesController implements Initializable {
 		int peso = Integer.valueOf(txPuntuacion.getText());
 		String[] error = {""};
 		if (GestorDB.actualizarPesoPregunta(examenSeleccionado.get().getIdExamen(), preguntaSeleccionada.get().getIdPregunta(), peso, error)) {
-			// TODO: Mostrar diálogo de éxito
+			App.mostrarMensajeExito(
+					"BananaTest - Actualización del peso de la pregunta",
+					"Puntuación de la pregunta actualizado con éxito."
+			);
 		} else {
-			// TODO: Mostrar en diálogo
-			System.out.println("[ACTUALIZAR PESO]" + error[0]);
+			App.mostrarMensajeError(
+					"BananaTest - Actualización del peso de la pregunta",
+					"Se ha producido un error.",
+					error
+			);
 		}
 	}
 	

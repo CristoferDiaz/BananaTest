@@ -121,8 +121,11 @@ public class TabPreguntasController implements Initializable {
 		listadoPreguntas.setAll(GestorDB.visualizarPreguntas(Preferencias.idUsuario, new int[] {}, -1, error));
 		
 		if (!error[0].equals(""))
-			// TODO: Mostrar en diálogo
-			System.out.println("[CARGA DE PREGUNTAS] " + error[0]);		
+			App.mostrarMensajeError(
+					"BananaTest - Actualizar listado de preguntas",
+					"Se ha producido un error",
+					error
+			);		
 		crearFiltroBuscador();
 	}
 
@@ -180,8 +183,11 @@ public class TabPreguntasController implements Initializable {
 			if (GestorDB.crearPregunta(result.get(), error)) {
 				cargarListadoPreguntas();
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[CREAR PREGUNTA]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Crear nueva pregunta",
+						"Se ha producido un error",
+						error
+				);
 			}
 		}
     }
@@ -201,8 +207,11 @@ public class TabPreguntasController implements Initializable {
 			if (GestorDB.eliminarPregunta(preguntaSeleccionada.get(), error)) {
 				cargarListadoPreguntas();
 			} else {
-				// TODO: Mostrar en diálogo
-				System.out.println("[BORRAR PREGUNTA]" + error[0]);
+				App.mostrarMensajeError(
+						"BananaTest - Borrar pregunta existente",
+						"Se ha producido un error",
+						error
+				);
 			}
 		}
     }
@@ -213,8 +222,11 @@ public class TabPreguntasController implements Initializable {
 		if (GestorDB.modificarPregunta(preguntaSeleccionada.get(), error)) {
 			cargarListadoPreguntas();
 		} else {
-			// TODO: Mostrar en diálogo
-			System.out.println("[MODIFICAR PREGUNTA]" + error[0]);
+			App.mostrarMensajeError(
+					"BananaTest - Modificar pregunta existente",
+					"Se ha producido un error",
+					error
+			);
 		}
     }
 

@@ -93,9 +93,16 @@ public class MainController implements Initializable {
 					error[0] = "No se pudo guardar el fichero PDF. Asegúrese de tener los permisos necesarios.";
 				}
 	    		if (error[0].equals("")) {
-	    			System.out.println("PDF Creado con éxito");
+	    			App.mostrarMensajeExito(
+	    					"BananaTest - Creación del PDF",
+	    					"PDF creado con éxito en la ruta indicada."
+	    			);
 	    		} else {
-	    			System.out.println(error[0]);
+	    			App.mostrarMensajeError(
+	    					"BananaTest - Creación del PDF",
+	    					"Se ha producido un error.",
+	    					error
+	    			);
 	    		}
 	    	}
 		} else {
