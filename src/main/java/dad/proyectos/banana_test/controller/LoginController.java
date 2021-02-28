@@ -28,6 +28,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Clase gestora de la ventana de login en el
+ * sistema. La ventana al iniciarse
+ * mostrará los valores guardados por defecto 
+ * del usuario tales como la dirección IP
+ * del servidor.
+ * 
+ * @author Crmprograming
+ *
+ */
 public class LoginController implements Initializable {
 	
 	private Stage stage;
@@ -74,6 +84,12 @@ public class LoginController implements Initializable {
 	@FXML
 	private ProgressIndicator progressIndicator;
 
+	/**
+	 * Constructor principal de la clase.
+	 * 
+	 * @param stage Referencia al Stage contenedor de esta vista
+	 * @throws IOException si falla al cargar la plantilla de la vista
+	 */
 	public LoginController(Stage stage) throws IOException {
 		this.stage = stage;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"), App.resourceBundle);
@@ -91,11 +107,27 @@ public class LoginController implements Initializable {
 		usuarioPassword.bind(tfPasswordApp.textProperty());
 	}
 
+	/**
+	 * Método asociado al evento de pulsar el botón de cancelar.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
 	void onCancelarAction(ActionEvent event) {
 		stage.close();
 	}
 
+	/**
+	 * Método asociado al evento de pulsar el botón de conectarse.
+	 * El proceso de login se hace en segundo plano, de modo que
+	 * al darle al botón deshabilita toda interfaz y deja a la vista
+	 * un ProgressIndicator.
+	 * 
+	 * En caso de fallar la operación, actualizará el label de mensaje
+	 * de error con el error producido.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
 	void onConectarseAction(ActionEvent event) {
 		mensajeWarning.set("");
@@ -151,6 +183,17 @@ public class LoginController implements Initializable {
 		new Thread(task).start();
 	}
 	
+	/**
+	 * Método encargado de cifrar un String pasado
+	 * por parámetro utilizando el algoritmo de cifrado SHA1.
+	 * 
+	 * Este método se utiliza para cifrar los datos de
+	 * usuario en el sistema.
+	 * 
+	 * @param cadena String a cifrar
+	 * @return String ya cifrado con el algoritmo
+	 * @throws Exception si no encuentra el algoritmo indicado
+	 */
 	private String generarSha1(String cadena) throws Exception {
 		MessageDigest digest = MessageDigest.getInstance("SHA-1");
 		digest.reset();
@@ -158,24 +201,51 @@ public class LoginController implements Initializable {
 		return String.format("%040x", new BigInteger(1, digest.digest()));
 	}
 
+	/**
+	 * Método getter del atributo view de la clase.
+	 * 
+	 * @return Instancia del BorderPane asociado
+	 */
 	public BorderPane getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view de la clase.
+	 * 
+	 * 
+	 * @param view Nuevo BorderPane asociado
+	 */
 	public void setView(BorderPane view) {
 		this.view = view;
 	}
 
+	/**
+	 * Método getter de la property
+	 * asociada al atributo validado.
+	 * 
+	 * @return Instancia de BooleanProperty asociado
+	 */
 	public final BooleanProperty validadoProperty() {
 		return this.validado;
 	}
 	
 
+	/**
+	 * Método getter del atributo validado de la clase.
+	 * 
+	 * @return boolean que indica si está validado el login o no
+	 */
 	public final boolean isValidado() {
 		return this.validadoProperty().get();
 	}
 	
 
+	/**
+	 * Método setter del atributo validado de la clase.
+	 * 
+	 * @param validado Nuevo valor booleano para el atributo validado
+	 */
 	public final void setValidado(final boolean validado) {
 		this.validadoProperty().set(validado);
 	}

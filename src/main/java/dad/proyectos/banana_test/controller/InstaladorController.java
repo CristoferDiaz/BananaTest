@@ -107,11 +107,27 @@ public class InstaladorController implements Initializable {
 		);
 	}
 
+	/**
+	 * Método asociado al evento de pulsar el botón de cancelar.
+	 * Si el usuario lo pulsa, entendemos que se quiere saltar
+	 * la configuración de la base de datos porque esta
+	 * ya está configurada en el servidor.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
 	void onCancelarAction(ActionEvent event) {
 		stage.close();
 	}
 
+	/**
+	 * Método asociado al evento de pulsar el botón de siguiente.
+	 * La primera vez que se pulse, deshabilita toda la interfaz y
+	 * comienza el proceso de instalación.
+	 * La segunda vez, cierra la ventana y da comienzo la aplicación.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
 	void onSiguienteAction(ActionEvent event) {
 		if (modo == 0) {
@@ -119,14 +135,22 @@ public class InstaladorController implements Initializable {
 			vbPresentacion.setDisable(true);
 			hbBotonesControl.setDisable(true);
 			progressIndicator.setVisible(true);
+			btnCancelar.disabledProperty();
 			generarConfiguracion();
 		} else if (modo == 1) {
-			
 			stage.close();
 		}
 		
 	}
 	
+	/**
+	 * Método encargado de generar la configuración
+	 * en la base de datos para el correcto funcionamiento
+	 * de la aplicación.
+	 * 
+	 * Este proceso se realiza en segundo plano ejecutando
+	 * el script de instalación.
+	 */
 	private void generarConfiguracion() {
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -161,10 +185,18 @@ public class InstaladorController implements Initializable {
 		new Thread(task).start();
 	}
 
+	/**
+	 * Método getter del atributo view de la clase.
+	 * @return Instancia del BorderPane asociado
+	 */
 	public BorderPane getView() {
 		return view;
 	}
 
+	/**
+	 * Método setter del atributo view de la clase.
+	 * @param view Nueva instancia del BorderPane asociado
+	 */
 	public void setView(BorderPane view) {
 		this.view = view;
 	}
