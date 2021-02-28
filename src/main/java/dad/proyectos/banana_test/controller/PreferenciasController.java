@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -69,7 +68,7 @@ public class PreferenciasController implements Initializable {
 		cbIdioma.getSelectionModel().selectedIndexProperty().addListener((o, ov, nv) -> actualizarIdioma(o, ov, nv));
 		cbTema.getSelectionModel().selectedIndexProperty().addListener((o, ov, nv) -> actualizarTema(o, ov, nv));
 		
-		ivTema.setImage(new Image(getClass().getResource("/images/previewTemas/" + Preferencias.getTema().toString() + ".png").toExternalForm()));
+		//ivTema.setImage(new Image(getClass().getResource("/images/previewTemas/" + Preferencias.getTema().toString() + ".png").toExternalForm()));
 	}
 	
 	/**
@@ -92,7 +91,7 @@ public class PreferenciasController implements Initializable {
 	 */
 	private void actualizarTema(ObservableValue<? extends Number> o, Number ov, Number nv) {
 		temaNuevo = Preferencias.TEMAS.values()[nv.intValue()];
-		ivTema.setImage(new Image(getClass().getResource("/images/previewTemas/" + Preferencias.TEMAS.values()[nv.intValue()] + ".png").toExternalForm()));
+		//ivTema.setImage(new Image(getClass().getResource("/images/previewTemas/" + Preferencias.TEMAS.values()[nv.intValue()] + ".png").toExternalForm()));
 	}
 	
 	/**

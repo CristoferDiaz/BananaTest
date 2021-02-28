@@ -42,6 +42,7 @@ public class CreadorPdf {
 		// mapa de parámetros para el informe
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("descripcion", examen.getDescripcion());
+		parameters.put("imagesDir", CreadorPdf.class.getResource("/images/logo/bananatest_logo_transparente.png").toExternalForm());
 
 		// generamos el informe (combinamos el informe compilado con los datos)
 		JasperPrint print = JasperFillManager.fillReport(report, parameters,

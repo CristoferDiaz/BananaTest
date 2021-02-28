@@ -3,6 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="plantillaexamen" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9cf18990-8f36-4060-8c5d-988f23e78ef5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="owo"/>
 	<parameter name="descripcion" class="java.lang.String"/>
+	<parameter name="imagesDir" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -33,10 +34,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="500" y="-10" width="50" height="50" uuid="ac473d2d-f40a-4104-a8c6-921bf4382273"/>
-				<imageExpression><![CDATA["/src/main/resources/images/logo/bananatest_logo_transparente.png"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement x="0" y="0" width="100" height="20" uuid="cfd34bff-e9f1-41d1-ac5e-50809974bcef"/>
 				<textElement>
@@ -58,6 +55,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Fecha:"]]></textFieldExpression>
 			</textField>
+			<image isLazy="true">
+				<reportElement x="502" y="0" width="50" height="40" uuid="7e03b55b-5238-40bd-ba58-bc83b62b00aa"/>
+				<imageExpression><![CDATA[$P{imagesDir}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>

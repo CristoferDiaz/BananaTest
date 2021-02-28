@@ -2,6 +2,8 @@ package dad.proyectos.banana_test.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -16,9 +18,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
@@ -126,6 +134,7 @@ public class MainController implements Initializable {
 	@FXML
 	void onEditarPreferenciasAction(ActionEvent event) {
 		try {
+			
 			Stage stage = new Stage();
 			PreferenciasController preferenciasController = new PreferenciasController(stage);
 			Scene escena = new Scene(preferenciasController.getView());
@@ -140,8 +149,38 @@ public class MainController implements Initializable {
 				escena.getStylesheets().add(Preferencias.cargarTema());
 
 			stage.showAndWait();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Exception Dialog");
+			alert.setHeaderText("Look, an Exception Dialog");
+			alert.setContentText("Could not find file blabla.txt!");
+
+			// Create expandable Exception.
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String exceptionText = sw.toString();
+
+			Label label = new Label("The exception stacktrace was:");
+
+			TextArea textArea = new TextArea(exceptionText);
+			textArea.setEditable(false);
+			textArea.setWrapText(true);
+
+			textArea.setMaxWidth(Double.MAX_VALUE);
+			textArea.setMaxHeight(Double.MAX_VALUE);
+			GridPane.setVgrow(textArea, Priority.ALWAYS);
+			GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+			GridPane expContent = new GridPane();
+			expContent.setMaxWidth(Double.MAX_VALUE);
+			expContent.add(label, 0, 0);
+			expContent.add(textArea, 0, 1);
+
+			// Set expandable Exception into the dialog pane.
+			alert.getDialogPane().setExpandableContent(expContent);
+
+			alert.showAndWait();
 		}
 	}
 
