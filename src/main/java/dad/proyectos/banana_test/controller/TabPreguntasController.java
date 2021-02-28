@@ -172,6 +172,14 @@ public class TabPreguntasController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Método asociado al botón de crear nueva
+	 * pregunta. Al darle, intentará crear
+	 * una nueva pregunta y almacenarla
+	 * en la base de datos.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
     void onCrearNuevaAction(ActionEvent event) {
 		DialogoPregunta dialog = new DialogoPregunta();
@@ -192,6 +200,14 @@ public class TabPreguntasController implements Initializable {
 		}
     }
 	
+	/**
+	 * Método asociado al botón de borrar una
+	 * pregunta. Al darle, intentará borrar
+	 * la pregunta de la base de datos y
+	 * actualizar el listado de preguntas.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
     void onBorrarAction(ActionEvent event) {
 		DialogoConfirmar dialog = new DialogoConfirmar(
@@ -216,6 +232,14 @@ public class TabPreguntasController implements Initializable {
 		}
     }
 	
+	/**
+	 * Método asociado al botón de aplicar cambios a una
+	 * pregunta. Al darle, intentará modificar
+	 * la pregunta y guardar los cambios
+	 * en la base de datos.
+	 * 
+	 * @param event Instancia de ActionEvent asociada al evento de hacer click
+	 */
 	@FXML
     void onAplicarCambios(ActionEvent event) {
 		String[] error = {""};
