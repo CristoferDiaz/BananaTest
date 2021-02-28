@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>dad.proyectos.banana_test</groupId>
 	<artifactId>BananaTest</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>BananaTest</name>
 
 	<properties>
