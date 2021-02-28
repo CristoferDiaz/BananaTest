@@ -1,0 +1,10 @@
+dad.proyectos.banana_test
+dad.proyectos.banana_test.controller
+dad.proyectos.banana_test.db
+dad.proyectos.banana_test.model
+dad.proyectos.banana_test.model.preguntas
+dad.proyectos.banana_test.utils
+dad.proyectos.banana_test.utils.dialogos
+dad.proyectos.banana_test.utils.dialogos.tab_examenes
+dad.proyectos.banana_test.utils.dialogos.tab_preguntas
+dad.proyectos.banana_test.utils.reports
