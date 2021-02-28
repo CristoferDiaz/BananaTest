@@ -14,7 +14,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -57,6 +59,15 @@ public class DialogoAgregarPregunta extends Dialogo<Pregunta> {
 		grid.add(lista, 0, 1);
 		grid.setVgap(8);
 		grid.setHgap(10);
+		
+		ColumnConstraints[] cols = {
+				new ColumnConstraints()
+		};
+		
+		cols[0].setHgrow(Priority.ALWAYS);
+		cols[0].setFillWidth(true);
+		
+		grid.getColumnConstraints().setAll(cols);
 
 		root.setPadding(new Insets(10, 10, 10, 10));
 		root.setSpacing(5);
