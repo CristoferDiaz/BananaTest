@@ -7,8 +7,9 @@ import java.util.ResourceBundle;
 
 import dad.proyectos.banana_test.App;
 import dad.proyectos.banana_test.model.Examen;
-import dad.proyectos.banana_test.utils.CreadorPdf;
 import dad.proyectos.banana_test.utils.Preferencias;
+import dad.proyectos.banana_test.utils.dialogos.DialogoConfirmar;
+import dad.proyectos.banana_test.utils.reports.CreadorPdf;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  * Clase gestora del controlador principal de la aplicación.
@@ -72,21 +74,40 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	void onExportarPDFAction(ActionEvent event) {
-		// TODO: Comprobar que algún examen esté seleccionado
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Guardar examen en un pdf");
-		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF (*.pdf)", "*.pdf"));
-    	fileChooser.getExtensionFilters().add(new ExtensionFilter("Todos los archivos (*.*)", "*.*"));
-    	File file = fileChooser.showSaveDialog(App.primaryStage);
-    	
-    	if (file != null) {
-    		Examen examen = tabExamenesController.getExamenSeleccionado();
-    		
-    		String[] error = new String[] {""};
-    		CreadorPdf.generarPDF(examen, file, error);
-    		// TODO: Mostrar diálogo de confirmación
-    		System.out.println(error[0]);
-    	}
+		if (tabExamenesController.getExamenSeleccionado() != null) {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Guardar examen en un pdf");
+			fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF (*.pdf)", "*.pdf"));
+	    	fileChooser.getExtensionFilters().add(new ExtensionFilter("Todos los archivos (*.*)", "*.*"));
+	    	File file = fileChooser.showSaveDialog(App.primaryStage);
+	    	
+	    	if (file != null) {
+	    		Examen examen = tabExamenesController.getExamenSeleccionado();
+	    		
+	    		String[] error = new String[] {""};
+	    		try {
+					CreadorPdf.generarPdf(examen, file.getAbsolutePath());
+				} catch (JRException e) {
+					error[0] = "El fichero plantilla está dañado o no es válido.";
+				} catch (IOException e) {
+					error[0] = "No se pudo guardar el fichero PDF. Asegúrese de tener los permisos necesarios.";
+				}
+	    		if (error[0].equals("")) {
+	    			System.out.println("PDF Creado con éxito");
+	    		} else {
+	    			System.out.println(error[0]);
+	    		}
+	    	}
+		} else {
+			DialogoConfirmar dialog = new DialogoConfirmar(
+					"BananaTest - Crear PDF",
+					"Antes de intentar generar un fichero PDF, asegúrese de seleccionar un examen de la lista.",
+					"Ok",
+					"Cancelar"
+			);
+			
+			dialog.showAndWait();
+		}
     }
 
 	/**

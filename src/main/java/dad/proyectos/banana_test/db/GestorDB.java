@@ -154,15 +154,7 @@ public abstract class GestorDB {
 	 * 
 	 * @param pregunta     Objeto de la clase Pregunta
 	 * @param error        Array encargada de la gestion de los errores o
-	 *                     excepciones
-	 * @param tipoSimple   String que contiene el id de bt_tipopregunta para las
-	 *                     PreguntasTestSimple
-	 * @param tipoMultiple String que contiene el id de bt_tipopregunta para las
-	 *                     PreguntasTestMultiple
-	 * @param id           Int donde se guardara la id de la pregunta creada para
-	 *                     poder crear las respuestas adecuadas
-	 * @param row          Numero total de respuestas que hay
-	 * 
+	 *                     excepciones 
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */
@@ -304,7 +296,9 @@ public abstract class GestorDB {
 	 * Funcion con la que poder visualizar todos los examenes de la tabla
 	 * bt_examenes
 	 * 
-	 * @param resultado Boolean para comprobar si se pudo hacer o no la operación
+	 * @param creador Int identificador del usuario creador de los exámenes
+	 * @param error Array encargada de la gestion de los errores o excepciones
+	 * @return resultado Boolean para comprobar si se pudo hacer o no la operación
 	 */
 	public static ArrayList<Examen> visualizarExamenes(int creador, String[] error) {
 		Connection con = conectarmysql();
@@ -373,7 +367,6 @@ public abstract class GestorDB {
 	 * 
 	 * @param examen Objeto de la clase Examen
 	 * @param error  Array encargada de la gestion de los errores o excepciones
-	 * @param id     Int donde se guardara la id del examen creado
 	 * @return resultado que retornara true si la operacion se hace y false si no se
 	 *         cumple
 	 */

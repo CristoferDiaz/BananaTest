@@ -1,4 +1,4 @@
-package dad.proyectos.banana_test.utilities;
+package dad.proyectos.banana_test.utils.reports;
 
 /**
  * Constructor del texto y las respuestas de las preguntas

@@ -26,6 +26,7 @@ public class DialogoModificarExamen extends Dialogo<Pair<String, String>> {
 	 * @param titulo String que contiene el título de la ventana del diálogo
 	 * @param aceptar String que contiene el título del botón de tipo OK_DONE
 	 * @param cancelar String que contiene el título del botón de tipo CANCEL_CLOSE
+	 * @param examen Instancia del examen a modificar
 	 */
 	public DialogoModificarExamen(String titulo, String aceptar, String cancelar, Examen examen) {
 		super(titulo, aceptar, cancelar);
