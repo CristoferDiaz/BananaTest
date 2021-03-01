@@ -29,6 +29,11 @@
 	-fx-background-color: -fx-fondo-3;
 }
 
+/* CSS LIST-VIEW */
+.list-view {
+	-fx-background-color: -fx-fondo-2;
+}
+
 /* CSS TAB-PANE */
 
 .tab-pane {
